@@ -1,0 +1,159 @@
+{
+    "current_version": "0.0",
+    "webhook_url": "https://webhookipa//yourwebhookid....",
+    "ui_key": "\\",
+    "obby": {
+        "enabled": "0"
+    },
+    "chalice": {
+        "enabled": "0"
+    },
+    "auto_equip": {
+        "enabled": "0",
+        "aura": "yuh",
+        "special_aura": "1"
+    },
+    "item_collecting": {
+        "enabled": "1",
+        "spot1": "1",
+        "spot2": "1",
+        "spot3": "1",
+        "spot4": "1",
+        "spot5": "1",
+        "spot6": "1",
+        "spot7": "1",
+        "spot8": "1",
+        "spot9": "0"
+    },
+    "item_crafting": {
+        "enabled": "0"
+    },
+    "cycle_auto_add": {
+        "enabled": "0"
+    },
+    "aura_recording": {
+        "enabled": "0",
+        "minimum": "10000",
+        "keybind": "t"
+    },
+    "settings": {
+        "vip_mode": "1",
+        "vip+_mode": "0",
+        "azerty_mode": "0",
+        "sleep": "0.05"
+    },
+    "potion_crafting": {
+        "interval": "20",
+        "temporary_auto_add": "1",
+        "current_temporary_auto_add": "Heavenly Potion II",
+        "enabled": "0",
+        "options": {
+            "Fortune Potion I": {
+                "enabled": "1",
+                "index": "1",
+                "max_ingredient": "5",
+                "ingredients": [
+                    "5",
+                    "1",
+                    "5",
+                    "1"
+                ]
+            },
+            "Fortune Potion II": {
+                "enabled": "1",
+                "index": "2",
+                "max_ingredient": "10",
+                "ingredients": [
+                    "1",
+                    "10",
+                    "5",
+                    "10",
+                    "2"
+                ]
+            },
+            "Fortune Potion III": {
+                "enabled": "0",
+                "index": "3",
+                "max_ingredient": "15",
+                "ingredients": [
+                    "1",
+                    "15",
+                    "10",
+                    "15",
+                    "5"
+                ]
+            },
+            "Haste Potion I": {
+                "enabled": "0",
+                "index": "4",
+                "max_ingredient": "10",
+                "ingredients": [
+                    "10",
+                    "5",
+                    "10",
+                    "1"
+                ]
+            },
+            "Haste Potion II": {
+                "enabled": "0",
+                "index": "5",
+                "max_ingredient": "15",
+                "ingredients": [
+                    "1",
+                    "10",
+                    "10",
+                    "15",
+                    "2"
+                ]
+            },
+            "Haste Potion III": {
+                "enabled": "0",
+                "index": "6",
+                "max_ingredient": "25",
+                "ingredients": [
+                    "1",
+                    "20",
+                    "15",
+                    "25",
+                    "4"
+                ]
+            },
+            "Heavenly Potion I": {
+                "enabled": "0",
+                "index": "7",
+                "max_ingredient": "100",
+                "ingredients": [
+                    "100",
+                    "50",
+                    "20",
+                    "1"
+                ]
+            },
+            "Heavenly Potion II": {
+                "enabled": "1",
+                "index": "8",
+                "max_ingredient": "125",
+                "ingredients": [
+                    "2",
+                    "125",
+                    "75",
+                    "50",
+                    "1"
+                ]
+            },
+            "Warp Potion": {
+                "enabled": "0",
+                "index": "9",
+                "max_ingredient": "1000",
+                "ingredients": [
+                    "1",
+                    "5",
+                    "7",
+                    "100",
+                    "200",
+                    "1000"
+                ]
+            }
+        }
+    }
+}
