@@ -3,15 +3,15 @@
     "webhook_url": "https://webhookipa//yourwebhookid....",
     "ui_key": "\\",
     "obby": {
-        "enabled": "0"
+        "enabled": "1"
     },
     "chalice": {
-        "enabled": "0"
+        "enabled": "1"
     },
     "auto_equip": {
-        "enabled": "0",
-        "aura": "yuh",
-        "special_aura": "1"
+        "enabled": "1",
+        "aura": "Emerald",
+        "special_aura": "0"
     },
     "item_collecting": {
         "enabled": "1",
@@ -154,6 +154,18 @@
                     "1000"
                 ]
             }
+        }
+    },
+    "discord": {
+        "webhook": {
+            "enabled": "0",
+            "url": "",
+            "ping_id": ""
+        },
+        "bot": {
+            "enabled": "0",
+            "token": "",
+            "channel_id": ""
         }
     }
 }
