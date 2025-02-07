@@ -15,21 +15,15 @@ deactivate_automatic_dpi_awareness()
 VERSION = config.get_current_version()
 
 class MainWindow(CTk):
-    def __init__(self, config_key=None, callback=None):
+    def __init__(self):
         super().__init__()
         self.title(f"Golden's Sol's Macro v{VERSION}")
         self.geometry("630x315x200x200")
-        self.resizable(False, False)
+        self.resizable(False, False) # change back to false false when finished bugfixing
         self.grid_columnconfigure(0, weight=1)
-        self.grid_columnconfigure(1, weight=1)
-        self.snipping_window = None
-        self.begin_x = None
-        self.begin_y = None
-        self.end_x = None
-        self.end_y = None
-        self.config_key = config_key
-        self.callback = callback
-        # Set Tabs
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0) # ensures start/stop frame is on bottom of window
+
         self.tab_control = CTkTabview(master=self, fg_color=["gray86", "gray17"], height=265, corner_radius=10, border_width=2)
         main_tab = self.tab_control.add("Main")
         discord_tab = self.tab_control.add("Discord")
@@ -37,7 +31,12 @@ class MainWindow(CTk):
         settings_tab = self.tab_control.add("Settings")
         credits_tab = self.tab_control.add("Credits")
 
-        self.tab_control.grid(padx=10)
+        self.discord_tab_control = CTkTabview(master=discord_tab, fg_color=["gray86", "gray17"], height=100, corner_radius=10, border_width=2)
+        webhook_subtab = self.discord_tab_control.add("Webhook")
+        bot_subtab = self.discord_tab_control.add("Bot")
+        self.discord_tab_control.grid(row=0, column=0, sticky="n", padx=10, pady=(5, 10))
+
+        self.tab_control.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
         #self.tab_control.set("Credits")
         self.tk_var_list = config.generate_tk_list()
 
@@ -85,6 +84,62 @@ class MainWindow(CTk):
 
         assign_clicks = CTkButton(master=item_collection_frame, text="Assign Clicks", command=self.assign_clicks_gui).grid(row=1, sticky="w", padx=5, pady=5)
 
+        webhook_frame = CTkFrame(master=webhook_subtab, fg_color=["gray81", "gray23"])
+        webhook_frame.grid(row=0, column=0, sticky="news", padx=5, pady=5)
+        
+        webhook_title = CTkLabel(master=webhook_frame, text="Webhook", font=("Segoe UI Semibold", 20, "bold"))
+        webhook_title.grid(row=0, column=0, padx=5, pady=5)
+        
+        webhook_enable = CTkCheckBox(master=webhook_frame, text="Enable Webhook", 
+            variable=self.tk_var_list['discord']['webhook']['enabled'],
+            onvalue="1", offvalue="0")
+        webhook_enable.grid(row=0, column=1, padx=5, pady=2, sticky="w")
+        
+        webhook_url = CTkEntry(master=webhook_frame, width=250,
+            textvariable=self.tk_var_list['discord']['webhook']['url'],
+            placeholder_text="Webhook URL")
+        webhook_url.grid(row=2, column=1, padx=5, pady=2)
+        
+        ping_id = CTkEntry(master=webhook_frame, width=250,
+            textvariable=self.tk_var_list['discord']['webhook']['ping_id'],
+            placeholder_text="User/Role ID to ping")
+        ping_id.grid(row=4, column=1, padx=5, pady=2)
+        
+        # Bot Frame
+
+        bot_frame = CTkFrame(master=bot_subtab, fg_color=["gray81", "gray23"])
+        bot_frame.grid(row=0, column=0, sticky="news", padx=5, pady=5)
+        
+        bot_title = CTkLabel(master=bot_frame, text="Bot", font=("Segoe UI Semibold", 20, "bold"))
+        bot_title.grid(row=0, column=0, padx=5, pady=5)
+        
+        bot_enable = CTkCheckBox(master=bot_frame, text="Enable Bot",
+            variable=self.tk_var_list['discord']['bot']['enabled'],
+            onvalue="1", offvalue="0")
+        bot_enable.grid(row=0, column=1, padx=5, pady=2, sticky="w")
+
+        webhook_url_label = CTkLabel(master=webhook_frame, text="Webhook URL")
+        webhook_url_label.grid(row=2, column=0, padx=5, pady=2, sticky="w")
+
+        ping_id_label = CTkLabel(master=webhook_frame, text="User/Role ID to ping")
+        ping_id_label.grid(row=4, column=0, padx=5, pady=2, sticky="w")
+
+        bot_token_label = CTkLabel(master=bot_frame, text="Bot Token")
+        bot_token_label.grid(row=2, column=0, padx=5, pady=2, sticky="w")
+
+        channel_id_label = CTkLabel(master=bot_frame, text="Channel ID")
+        channel_id_label.grid(row=3, column=0, padx=5, pady=2, sticky="w")
+        
+        bot_token = CTkEntry(master=bot_frame, width=250,
+            textvariable=self.tk_var_list['discord']['bot']['token'],
+            placeholder_text="Bot Token")
+        bot_token.grid(row=2, column=1, padx=5, pady=2)
+        
+        channel_id = CTkEntry(master=bot_frame, width=250,
+            textvariable=self.tk_var_list['discord']['bot']['channel_id'],
+            placeholder_text="Channel ID")
+        channel_id.grid(row=3, column=1, padx=5, pady=2)
+
     def auto_equip_window(self):
         self.auto_equip_window = CTkToplevel()
         self.auto_equip_window.title("Auto Equip")
@@ -103,17 +158,15 @@ class MainWindow(CTk):
     def submit(self):
         config.save_tk_list(self.tk_var_list)
         config.save_config(config.config_data)
+        self.auto_equip_window.destroy()
 
     def assign_clicks_gui(self):
         self.click_window = CTkToplevel()
         self.click_window.title("Assign Menu")
         self.click_window.geometry("400x300")
         label = CTkLabel(master=self.click_window, text="Assign Your Clicks!").grid(row=0, column=0, columnspan=2, padx=5, pady=5)
-        
-    def check_for_updates(self):
-        # Took from my fisch macro (sapphire)
-        pass
-
+        button_pos = CTkButton(master=self.click_window, text="pOS", command=self.start_snip).grid()
+    
     def start(self):
         config.save_tk_list(self.tk_var_list)
         config.save_config(config.config_data)
@@ -123,47 +176,3 @@ class MainWindow(CTk):
 
     def restart(self):
         os.execv(sys.executable, ['python', f'"{sys.argv[0]}"'])
-
-    # Took From Noteab Biome Macro 1.5.4 patch2.3 or sm like that
-
-    def start_snip(self):
-        self.snipping_window = ttk.Toplevel(self.root)
-        self.snipping_window.attributes('-fullscreen', True)
-        self.snipping_window.attributes('-alpha', 0.3)
-        self.snipping_window.configure(bg="lightblue")
-        
-        self.snipping_window.bind("<Button-1>", self.on_mouse_press)
-        self.snipping_window.bind("<B1-Motion>", self.on_mouse_drag)
-        self.snipping_window.bind("<ButtonRelease-1>", self.on_mouse_release)
-
-        self.canvas = ttk.Canvas(self.snipping_window, bg="lightblue", highlightthickness=0)
-        self.canvas.pack(fill=ttk.BOTH, expand=True)
-
-    def on_mouse_press(self, event):
-        self.begin_x = event.x
-        self.begin_y = event.y
-        self.canvas.delete("selection_rect")
-
-    def on_mouse_drag(self, event):
-        self.end_x, self.end_y = event.x, event.y
-        self.canvas.delete("selection_rect")
-        self.canvas.create_rectangle(self.begin_x, self.begin_y, self.end_x, self.end_y,
-                                      outline="white", width=2, tag="selection_rect")
-
-    def on_mouse_release(self, event):
-        self.end_x = event.x
-        self.end_y = event.y
-
-        x1, y1 = min(self.begin_x, self.end_x), min(self.begin_y, self.end_y)
-        x2, y2 = max(self.begin_x, self.end_x), max(self.begin_y, self.end_y)
-
-        self.capture_region(x1, y1, x2, y2)
-        self.snipping_window.destroy()
-
-    def capture_region(self, x1, y1, x2, y2):
-        if self.config_key:
-            region = [x1, y1, x2 - x1, y2 - y1]
-            print(f"Region for '{self.config_key}' set to {region}")
-            
-            if self.callback:
-                self.callback(region)
