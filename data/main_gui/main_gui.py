@@ -44,22 +44,27 @@ class MainWindow(CTk):
             button.configure(width=1000, height=35, corner_radius=10, border_width=2, font=("Segoe UI", 15, "bold"))
         
         buttons_frame = CTkFrame(master=self)
-        buttons_frame.grid(row=1, pady=(5, 8), padx=6, sticky="s")
+        buttons_frame.grid(row=1, pady=(5, 8), padx=6, sticky="sew")
+        buttons_frame.grid_columnconfigure(0, weight=1)
 
         start_button = CTkButton(master=buttons_frame, text="Start - F1", command=self.start, height=30, width=100)#, corner_radius=10, border_width=2)
-        start_button.grid(row=0, column=0, padx=4, pady=4)
+        start_button.grid(row=0, column=0, padx=4, pady=4, sticky="e")
 
         stop_button = CTkButton(master=buttons_frame, text="Stop - F2", command=self.stop, height=30, width=100)#, corner_radius=10, border_width=2)
-        stop_button.grid(row=0, column=1, padx=4, pady=4)
+        stop_button.grid(row=0, column=1, padx=4, pady=4, sticky="w")
         
         # TODO
         keyboard.add_hotkey("F1", self.start)
         keyboard.add_hotkey("F2", self.stop)
         keyboard.add_hotkey("F3", self.restart)
 
+
+
+        # Main Tab
+
         random_frame = CTkFrame(master=main_tab, fg_color=["gray81", "gray23"])
         random_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
-        miscalance_title = CTkLabel(master=random_frame, text="Miscalances", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, column=1)
+        miscellaneous_title = CTkLabel(master=random_frame, text="Miscellaneous", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, column=1)
 
         obby = CTkCheckBox(master=random_frame, text="Obby (30% Luck Boost Every loop or 4 Mins)", variable=self.tk_var_list['obby']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         chalice = CTkCheckBox(master=random_frame, text="Auto Chalice (Collected Biomes Items 30% Luck)", variable=self.tk_var_list['chalice']['enabled'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
@@ -72,7 +77,7 @@ class MainWindow(CTk):
 
         item_collection_frame = CTkFrame(master=main_tab, fg_color=["gray81", "gray23"])
         item_collection_frame.grid(row=1, pady=(6, 0), sticky="we", columnspan=2, column=0, padx=(1, 0))
-        item_collection_title = CTkLabel(master=item_collection_frame, text="Collect Items", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, padx=5, columnspan=2)
+        item_collection_title = CTkLabel(master=item_collection_frame, text="Collect Items", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, padx=5, pady=5, columnspan=2)
         enable_collect_items = CTkCheckBox(master=item_collection_frame, text="Enable Item Collection", variable=self.tk_var_list['item_collecting']['enabled'], onvalue="1", offvalue="0").grid(row=0, sticky="w", padx=5, pady=5)
         
         spot_collection_frame = CTkFrame(master=item_collection_frame, fg_color=["gray65", "gray28"])
@@ -83,6 +88,12 @@ class MainWindow(CTk):
             exec(f"CTkCheckBox(master=spot_collection_frame, text='{i + 1}', width=45, variable=self.tk_var_list['item_collecting']['spot{i + 1}'], onvalue='1', offvalue='0').grid(row=1, column={i}, sticky='e')")
 
         assign_clicks = CTkButton(master=item_collection_frame, text="Assign Clicks", command=self.assign_clicks_gui).grid(row=1, sticky="w", padx=5, pady=5)
+
+
+
+        # Discord Tab
+
+        # Webhook Frame
 
         webhook_frame = CTkFrame(master=webhook_subtab, fg_color=["gray81", "gray23"])
         webhook_frame.grid(row=0, column=0, sticky="news", padx=5, pady=5)
