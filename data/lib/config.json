@@ -2,27 +2,67 @@
     "current_version": "0.0",
     "webhook_url": "https://webhookipa//yourwebhookid....",
     "ui_key": "\\",
+    "send_min": "0",
+    "send_max": "0",
+    "enabled_dectection": "0",
     "obby": {
-        "enabled": "1"
+        "enabled": "0"
     },
     "chalice": {
-        "enabled": "1"
+        "enabled": "0"
     },
     "auto_equip": {
         "enabled": "1",
-        "aura": "Emerald",
+        "aura": "Divinus",
         "special_aura": "0"
     },
+    "claim_daily_quests": "0",
+    "clicks": {
+        "AuraStorageX": "35",
+        "AuraStorageY": "298",
+        "RegularAuraTabX": "674",
+        "RegularAuraTabY": "254",
+        "SpecialAuraTabX": "904",
+        "SpecialAuraTabY": "253",
+        "AuraSearchBarX": "583",
+        "AuraSearchBarY": "276",
+        "FirstAuraSlotX": "582",
+        "FirstAuraSlotY": "326",
+        "EquipButtonX": "440",
+        "EquipButtonY": "467",
+        "AligmentX": "30",
+        "AligmentY": "352",
+        "ExitButtonX": "271",
+        "ExitButtonY": "124",
+        "InvoX": "29",
+        "InvoY": "398",
+        "ItemsTabX": "274",
+        "ItemsTabY": "125",
+        "ItemsBarX": "585",
+        "ItemsBarY": "274",
+        "QuanityBarX": "402",
+        "QuanityBarY": "421",
+        "UseX": "483",
+        "UseY": "423",
+        "QuestX": "34",
+        "QuestY": "444",
+        "DailyX": "901",
+        "DailyY": "254",
+        "SlotX": "781",
+        "SlotY": "405",
+        "ClaimX": "453",
+        "ClaimY": "565"
+    },
     "item_collecting": {
-        "enabled": "1",
-        "spot1": "1",
-        "spot2": "1",
-        "spot3": "1",
-        "spot4": "1",
-        "spot5": "1",
-        "spot6": "1",
-        "spot7": "1",
-        "spot8": "1",
+        "enabled": "0",
+        "spot1": "0",
+        "spot2": "0",
+        "spot3": "0",
+        "spot4": "0",
+        "spot5": "0",
+        "spot6": "0",
+        "spot7": "0",
+        "spot8": "0",
         "spot9": "0"
     },
     "item_crafting": {
@@ -37,7 +77,7 @@
         "keybind": "t"
     },
     "settings": {
-        "vip_mode": "1",
+        "vip_mode": "0",
         "vip+_mode": "0",
         "azerty_mode": "0",
         "sleep": "0.05"
@@ -167,5 +207,10 @@
             "token": "",
             "channel_id": ""
         }
-    }
+    },
+    "enable_items": "0",
+    "quantity": "10",
+    "auto_buy_items": "1",
+    "item_scheduler_item": "Fortune Spoid II",
+    "item_scheduler_quantity": "2"
 }
