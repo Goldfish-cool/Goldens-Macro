@@ -13,56 +13,50 @@
     },
     "auto_equip": {
         "enabled": "1",
-        "aura": "Divinus",
-        "special_aura": "0"
+        "aura": "Water",
+        "special_aura": "1"
     },
     "claim_daily_quests": "0",
     "clicks": {
         "AuraStorageX": "35",
-        "AuraStorageY": "298",
-        "RegularAuraTabX": "674",
-        "RegularAuraTabY": "254",
-        "SpecialAuraTabX": "904",
-        "SpecialAuraTabY": "253",
-        "AuraSearchBarX": "583",
-        "AuraSearchBarY": "276",
-        "FirstAuraSlotX": "582",
-        "FirstAuraSlotY": "326",
-        "EquipButtonX": "440",
-        "EquipButtonY": "467",
-        "AligmentX": "30",
-        "AligmentY": "352",
-        "ExitButtonX": "271",
-        "ExitButtonY": "124",
-        "InvoX": "29",
-        "InvoY": "398",
-        "ItemsTabX": "274",
-        "ItemsTabY": "125",
-        "ItemsBarX": "585",
-        "ItemsBarY": "274",
+        "AuraStorageY": "302",
+        "RegularAuraTabX": "664",
+        "RegularAuraTabY": "255",
+        "SpecialAuraTabX": "901",
+        "SpecialAuraTabY": "258",
+        "AuraSearchBarX": "605",
+        "AuraSearchBarY": "278",
+        "FirstAuraSlotX": "589",
+        "FirstAuraSlotY": "327",
+        "EquipButtonX": "444",
+        "EquipButtonY": "469",
+        "AligmentX": "36",
+        "AligmentY": "354",
+        "ExitButtonX": "272",
+        "ExitButtonY": "131",
+        "InvoX": "31",
+        "InvoY": "397",
+        "ItemsTabX": "902",
+        "ItemsTabY": "255",
+        "ItemsBarX": "602",
+        "ItemsBarY": "279",
+        "ItemsSlotX": "598",
+        "ItemsSlotY": "326",
         "QuanityBarX": "402",
-        "QuanityBarY": "421",
-        "UseX": "483",
-        "UseY": "423",
-        "QuestX": "34",
-        "QuestY": "444",
-        "DailyX": "901",
-        "DailyY": "254",
-        "SlotX": "781",
-        "SlotY": "405",
-        "ClaimX": "453",
-        "ClaimY": "565"
+        "QuanityBarY": "423",
+        "UseX": "482",
+        "UseY": "424"
     },
     "item_collecting": {
-        "enabled": "0",
-        "spot1": "0",
-        "spot2": "0",
-        "spot3": "0",
-        "spot4": "0",
-        "spot5": "0",
-        "spot6": "0",
-        "spot7": "0",
-        "spot8": "0",
+        "enabled": "1",
+        "spot1": "1",
+        "spot2": "1",
+        "spot3": "1",
+        "spot4": "1",
+        "spot5": "1",
+        "spot6": "1",
+        "spot7": "1",
+        "spot8": "1",
         "spot9": "0"
     },
     "item_crafting": {
@@ -84,122 +78,17 @@
     },
     "potion_crafting": {
         "interval": "20",
-        "temporary_auto_add": "1",
+        "temporary_auto_add": "0",
         "current_temporary_auto_add": "Heavenly Potion II",
         "enabled": "0",
-        "options": {
-            "Fortune Potion I": {
-                "enabled": "1",
-                "index": "1",
-                "max_ingredient": "5",
-                "ingredients": [
-                    "5",
-                    "1",
-                    "5",
-                    "1"
-                ]
-            },
-            "Fortune Potion II": {
-                "enabled": "1",
-                "index": "2",
-                "max_ingredient": "10",
-                "ingredients": [
-                    "1",
-                    "10",
-                    "5",
-                    "10",
-                    "2"
-                ]
-            },
-            "Fortune Potion III": {
-                "enabled": "0",
-                "index": "3",
-                "max_ingredient": "15",
-                "ingredients": [
-                    "1",
-                    "15",
-                    "10",
-                    "15",
-                    "5"
-                ]
-            },
-            "Haste Potion I": {
-                "enabled": "0",
-                "index": "4",
-                "max_ingredient": "10",
-                "ingredients": [
-                    "10",
-                    "5",
-                    "10",
-                    "1"
-                ]
-            },
-            "Haste Potion II": {
-                "enabled": "0",
-                "index": "5",
-                "max_ingredient": "15",
-                "ingredients": [
-                    "1",
-                    "10",
-                    "10",
-                    "15",
-                    "2"
-                ]
-            },
-            "Haste Potion III": {
-                "enabled": "0",
-                "index": "6",
-                "max_ingredient": "25",
-                "ingredients": [
-                    "1",
-                    "20",
-                    "15",
-                    "25",
-                    "4"
-                ]
-            },
-            "Heavenly Potion I": {
-                "enabled": "0",
-                "index": "7",
-                "max_ingredient": "100",
-                "ingredients": [
-                    "100",
-                    "50",
-                    "20",
-                    "1"
-                ]
-            },
-            "Heavenly Potion II": {
-                "enabled": "1",
-                "index": "8",
-                "max_ingredient": "125",
-                "ingredients": [
-                    "2",
-                    "125",
-                    "75",
-                    "50",
-                    "1"
-                ]
-            },
-            "Warp Potion": {
-                "enabled": "0",
-                "index": "9",
-                "max_ingredient": "1000",
-                "ingredients": [
-                    "1",
-                    "5",
-                    "7",
-                    "100",
-                    "200",
-                    "1000"
-                ]
-            }
-        }
+        "item_1": "Fortune I",
+        "item_2": "Fortune II",
+        "item_3": "Fortune III"
     },
     "discord": {
         "webhook": {
-            "enabled": "0",
-            "url": "",
+            "enabled": "1",
+            "url": "https://discord.com/api/webhooks/1335458879366107186/4XFy5QWbtj5-qaXPH4sGVF9aavpBsif7iXKSPN56muf3eT7WvbNX-CE4xdLH0zfK89fm",
             "ping_id": ""
         },
         "bot": {
@@ -208,9 +97,9 @@
             "channel_id": ""
         }
     },
-    "enable_items": "0",
+    "enable_items": "1",
     "quantity": "10",
     "auto_buy_items": "1",
-    "item_scheduler_item": "Fortune Spoid II",
+    "item_scheduler_item": "Merchant Tracker",
     "item_scheduler_quantity": "2"
 }
