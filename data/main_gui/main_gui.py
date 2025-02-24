@@ -4,7 +4,6 @@ from pynput.mouse import Button, Controller
 import threading
 import keyboard
 from data.main_loop import main_loop
-from data.lib.snipping import SnippingWidget
 try:
     from data.lib import config
 except ImportError:
@@ -155,9 +154,9 @@ class MainWindow(CTk):
         crafting_title = CTkLabel(master=crafting_frame, text="Crafting", font=h1).grid(row=0, column=1, columnspan=2)
         crafting_enabled = CTkCheckBox(state="disabled", master=crafting_frame, text="Enable Potion Crafting", variable=self.tk_var_list['potion_crafting']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         list = ['None', 'Fortune I', 'Fortune II', 'Fortune III', 'Speed Potion I', 'Speed Potion II', 'Speed Potion III', 'Lucky Potion I', 'Lucky Potion II', 'Lucky Potion III', 'Heavenly I', 'Heavenly II', 'Warp Potion']
-        option1 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list).grid(row=3, column=1, padx=5, pady=5, stick="w")
-        option2 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list).grid(row=4, column=1, padx=5, pady=5, stick="w")
-        option3 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list).grid(row=5, column=1, padx=5, pady=5, stick="w")
+        option1 = CTkOptionMenu(master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_1']).grid(row=3, column=1, padx=5, pady=5, stick="w")
+        option2 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_2']).grid(row=4, column=1, padx=5, pady=5, stick="w")
+        option3 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_3']).grid(row=5, column=1, padx=5, pady=5, stick="w")
         auto_add = CTkSwitch(state="disabled", master=crafting_frame, text="Auto Add Swicher", variable=self.tk_var_list['potion_crafting']['temporary_auto_add'], onvalue="1", offvalue="0").grid(row=2, column=2, padx=5, pady=5, stick="w")
         crafting_clicks = CTkButton(state="disabled", master=crafting_frame, text="Assign Crafting").grid(row=5, column=2, padx=5, pady=5, stick="w")
     
@@ -168,7 +167,7 @@ class MainWindow(CTk):
         vip_settings = CTkCheckBox(master=settings_frame, text="VIP Game Pass", variable=self.tk_var_list['settings']['vip_mode'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         vip_mode = CTkCheckBox(master=settings_frame, text="VIP+ Mode", variable=self.tk_var_list['settings']['vip+_mode'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
         azerty_layout = CTkCheckBox(master=settings_frame, text="Azerty Keyboard Layout", variable=self.tk_var_list['settings']['azerty_mode'], onvalue="1", offvalue="0").grid(row=4, column=1, padx=5, pady=5, stick="w")
-        claim_quests = CTkCheckBox(master=settings_frame, text="Auto Claim Quest (30 mins)", variable=self.tk_var_list['claim_daily_quests'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
+        claim_quests = CTkCheckBox(state="disabled", master=settings_frame, text="Auto Claim Quest (30 mins)", variable=self.tk_var_list['claim_daily_quests'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
 
         aura_settings = CTkFrame(master=settings_tab, fg_color=["gray81", "gray23"])
         aura_settings.grid(row=0, column=1, sticky="n", padx=(5, 0))
@@ -240,7 +239,7 @@ class MainWindow(CTk):
     def assign_clicks_gui(self):
         self.assign_clicks_gui = CTkToplevel()
         self.assign_clicks_gui.title("Assign Clicks")
-        self.assign_clicks_gui.geometry("400x570")
+        self.assign_clicks_gui.geometry("400x540")
         self.assign_clicks_gui.resizable(False, False)
         self.assign_clicks_gui.attributes("-topmost", True)
         aura_equip_frame = CTkFrame(master=self.assign_clicks_gui, fg_color=["gray81", "gray23"])
@@ -378,77 +377,41 @@ class MainWindow(CTk):
         assign_button11 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_searchx, items_searchy))
         assign_button11.grid(row=11, column=3, padx=5, pady=2)
 
-        invo_bar = CTkLabel(master=aura_equip_frame, text="Quanity Bar:")
+        invo_bar = CTkLabel(master=aura_equip_frame, text="Items First Slot:")
         invo_bar.grid(row=12, column=0, padx=5, pady=2, sticky="w")
 
+        items_slotx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsSlotX'])
+        items_slotx.grid(row=12, column=1, padx=5, pady=2, sticky="w")
+
+        items_sloty = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsSlotY'])
+        items_sloty.grid(row=12, column=2, padx=5, pady=2, sticky="w")
+
+        assign_button12 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_slotx, items_sloty))
+        assign_button12.grid(row=12, column=3, padx=5, pady=2)
+        
+        invo_bar = CTkLabel(master=aura_equip_frame, text="Quanity Bar:")
+        invo_bar.grid(row=13, column=0, padx=5, pady=2, sticky="w")
+
         quanityx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuanityBarX'])
-        quanityx.grid(row=12, column=1, padx=5, pady=2, sticky="w")
+        quanityx.grid(row=13, column=1, padx=5, pady=2, sticky="w")
 
         quanityy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuanityBarY'])
-        quanityy.grid(row=12, column=2, padx=5, pady=2, sticky="w")
+        quanityy.grid(row=13, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button12 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, quanityx, quanityy))
-        assign_button12.grid(row=12, column=3, padx=5, pady=2)
-
-        invo_button = CTkLabel(master=aura_equip_frame, text="Use Button:")
-        invo_button.grid(row=13, column=0, padx=5, pady=2, sticky="w")
-
-        usex = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseX'])
-        usex.grid(row=13, column=1, padx=5, pady=2, sticky="w")
-
-        usey = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseY'])
-        usey.grid(row=13, column=2, padx=5, pady=2, sticky="w")
-
-        assign_button13 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, usex, usey))
+        assign_button13 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, quanityx, quanityy))
         assign_button13.grid(row=13, column=3, padx=5, pady=2)
 
-        quest_menu = CTkLabel(master=aura_equip_frame, text="Daily Quest Menu")
-        quest_menu.grid(row=14, column=0, padx=5, pady=2, sticky="w")
+        invo_button = CTkLabel(master=aura_equip_frame, text="Use Button:")
+        invo_button.grid(row=14, column=0, padx=5, pady=2, sticky="w")
 
-        quest_menux = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuestX'])
-        quest_menux.grid(row=14, column=1, padx=5, pady=2, sticky="w")
+        usex = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseX'])
+        usex.grid(row=14, column=1, padx=5, pady=2, sticky="w")
 
-        quest_menuy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuestY'])
-        quest_menuy.grid(row=14, column=2, padx=5, pady=2, sticky="w")
+        usey = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseY'])
+        usey.grid(row=14, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button14 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, quest_menux, quest_menuy))
+        assign_button14 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, usex, usey))
         assign_button14.grid(row=14, column=3, padx=5, pady=2)
-
-        daily_tab = CTkLabel(master=aura_equip_frame, text="Daily Tab:")
-        daily_tab.grid(row=15, column=0, padx=5, pady=2, sticky="w")
-
-        daily_tabx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['DailyX'])
-        daily_tabx.grid(row=15, column=1, padx=5, pady=2, sticky="w")
-
-        daily_taby = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['DailyY'])
-        daily_taby.grid(row=15, column=2, padx=5, pady=2, sticky="w")
-
-        assign_button15 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, daily_tabx, daily_taby))
-        assign_button15.grid(row=15, column=3, padx=5, pady=2)
-
-        slot = CTkLabel(master=aura_equip_frame, text="First Slot:")
-        slot.grid(row=16, column=0, padx=5, pady=2, sticky="w")
-
-        slotx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['SlotX'])
-        slotx.grid(row=16, column=1, padx=5, pady=2, sticky="w")
-
-        sloty = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['SlotY'])
-        sloty.grid(row=16, column=2, padx=5, pady=2, sticky="w")
-
-        assign_button16 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, slotx, sloty))
-        assign_button16.grid(row=16, column=3, padx=5, pady=2)
-
-        claim = CTkLabel(master=aura_equip_frame, text="Claim Button:")
-        claim.grid(row=17, column=0, padx=5, pady=2, sticky="w")
-
-        claimx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ClaimX'])
-        claimx.grid(row=17, column=1, padx=5, pady=2, sticky="w")
-
-        claimy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ClaimY'])
-        claimy.grid(row=17, column=2, padx=5, pady=2, sticky="w")
-
-        assign_button17 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, claimx, claimy))
-        assign_button17.grid(row=17, column=3, padx=5, pady=2)
     
     def crafting_clicks(self):
         self.crafting_clicks = CTkToplevel()
@@ -471,7 +434,7 @@ class MainWindow(CTk):
         self.capture_window.title("Capture Window")
         self.capture_window.attributes("-fullscreen", True)
         self.capture_window.attributes("-alpha", 0.3)
-        #self.capture_window.config(cursor="cross")
+        self.capture_window.config(cursor="cross")
 
         def on_click(event):
             x, y = event.x_root, event.y_root
@@ -482,5 +445,5 @@ class MainWindow(CTk):
             print(f"Captured coordinates for {config_key}: ({x}, {y})")
             self.capture_window.destroy()
             del self.capture_window
-        
+
         self.capture_window.bind("<Button-1>", on_click)
