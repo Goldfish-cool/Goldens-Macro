@@ -3,7 +3,7 @@
     "ui_key": "\\",
     "send_min": "0",
     "send_max": "0",
-    "enabled_dectection": "0",
+    "enabled_dectection": "1",
     "obby": {
         "enabled": "0"
     },
