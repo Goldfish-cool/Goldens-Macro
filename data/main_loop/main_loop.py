@@ -13,7 +13,10 @@ import requests
 from datetime import datetime, timedelta
 import os
 from pynput.mouse import Button, Controller
-
+import threading
+import time
+import json
+import re
 
 kc = keyboard.Controller()
 aura_storgeX = config.config_data['clicks']['AuraStorageX'] 
@@ -79,7 +82,7 @@ def walk_send(k, t):
         kc.release(k)
 
 def start():
-    send_discord("Starting", "Macro Has Been Started...", None, "0x5865F2", f"{datetime.datetime.now()}", "Golden's Sol's Macro v0.0")
+    send_discord("Starting", "Macro Has Been Started...", None, "0x5865F2", f"{datetime.now()}", "Golden's Sol's Macro v0.0")
     global running
     global main_process
     if running == True:
@@ -92,7 +95,6 @@ def start():
     main_process.start()
 
 def stop():
-
     global running
     if running == True:
         running = False
@@ -310,8 +312,10 @@ biome_data = {
     "Starfall": {"color": 0x011ab7, "duration": 600},
     "Corruption": {"color": 0x6d32a8, "duration": 660},
     "Null": {"color": 0x838383, "duration": 90},
-    "Glitched": {"color": 0xbfff00, "duration": 164}
+    "Glitched": {"color": 0xbfff00, "duration": 164},
+    "Dreamspace": {"color": 0xea9dda, "duration": 180}
 }
+
 def get_latest_log_file():
     files = [os.path.join(logs_dir, f) for f in os.listdir(logs_dir) if f.endswith('.log')]
     latest_file = max(files, key=os.path.getmtime)
@@ -339,9 +343,8 @@ def biome_check():
         print(f"Error in biome_check: {e}")
         return None
 
-
 def send_discord(title="", description="", thumbnail="", color=None, timestamp=None, footer=""):
-    current_time = datetime.datetime.now()
+    current_time = datetime.now()
     embed = {
         "title": title,
         "description": description,
@@ -353,4 +356,220 @@ def send_discord(title="", description="", thumbnail="", color=None, timestamp=N
     payload = {
         "embeds": [embed]
     }
-    requests.post(config.config_data['discord']["webhook"]["webhook_url"], json=payload)
+    requests.post(config.config_data['discord']["webhook"]["url"], json=payload)
+
+class BiomeAuraMonitor:
+    def __init__(self):
+        self.config = self.load_config()
+        self.auras = self.load_auras()
+        self.biomes = self.load_biomes()
+        
+        self.current_biome = None
+        self.last_notification = {biome: datetime.min for biome in self.biomes}
+        
+        self.session_start = None
+        self.saved_session_time = self.parse_time(self.config.get("session_time", "0:00:00"))
+        
+        self.last_log_position = 0
+        self.monitoring_active = False
+        self.monitoring_thread = None
+        self.lock = threading.Lock()
+        self.logs = self.get_log_files()
+        
+        self.start_monitoring()
+
+    def load_config(self):
+        config_path = os.path.join(os.path.dirname(__file__), "config.json")
+        if os.path.exists(config_path):
+            with open(config_path, "r") as file:
+                return json.load(file)
+        return {"session_time": "0:00:00"}
+
+    def load_auras(self):
+        auras_path = os.path.join(os.path.dirname(__file__), "auras.json")
+        if os.path.exists(auras_path):
+            with open(auras_path, "r") as file:
+                return json.load(file)
+        return {}
+
+    def load_biomes(self):
+        biomes_path = os.path.join(os.path.dirname(__file__), "biomes.json")
+        if os.path.exists(biomes_path):
+            with open(biomes_path, "r") as file:
+                return json.load(file)
+        return {}
+
+    def get_log_files(self):
+        logs_dir = os.path.join(os.getenv('LOCALAPPDATA'), 'Roblox', 'logs')
+        if os.path.exists(logs_dir):
+            return [os.path.join(logs_dir, f) for f in os.listdir(logs_dir) if f.endswith('.log')]
+        return []
+
+    def parse_time(self, time_str):
+        parts = time_str.split(":")
+        if len(parts) == 3:
+            hours, minutes, seconds = map(int, parts)
+            return hours * 3600 + minutes * 60 + seconds
+        return 0
+
+    def get_latest_log_file(self):
+        if self.logs:
+            return max(self.logs, key=os.path.getmtime)
+        return None
+
+    def read_log_file(self, log_file_path):
+        if not os.path.exists(log_file_path):
+            return []
+        with open(log_file_path, 'r', encoding='utf-8', errors='ignore') as file:
+            file.seek(self.last_log_position)
+            lines = file.readlines()
+            self.last_log_position = file.tell()
+            return lines
+
+    def start_monitoring(self):
+        if not self.monitoring_active:
+            self.monitoring_active = True
+            self.session_start = datetime.now()
+            self.monitoring_thread = threading.Thread(target=self.monitoring_loop, daemon=True)
+            self.monitoring_thread.start()
+            print("Monitoring started.")
+
+    def stop_monitoring(self):
+        if self.monitoring_active:
+            self.monitoring_active = False
+            elapsed_time = int((datetime.now() - self.session_start).total_seconds())
+            self.saved_session_time += elapsed_time
+            self.session_start = None
+            self.save_config()
+            print("Monitoring stopped.")
+
+    def monitoring_loop(self):
+        last_log_file = None
+        while self.monitoring_active:
+            try:
+                current_log_file = self.get_latest_log_file()
+                if current_log_file != last_log_file:
+                    self.last_log_position = 0
+                    last_log_file = current_log_file
+                
+                self.detect_biome()
+                self.detect_aura(current_log_file)
+                time.sleep(1.5)
+            except Exception as e:
+                print(f"Error in monitoring loop: {e}")
+
+    def detect_biome(self):
+        try:
+            log_file_path = self.get_latest_log_file()
+            log_lines = self.read_log_file(log_file_path)
+            for line in reversed(log_lines):
+                for biome in self.biomes:
+                    if biome in line:
+                        self.handle_biome_detection(biome)
+                        return
+        except Exception as e:
+            print(f"Error in detect_biome: {e}")
+
+    def handle_biome_detection(self, biome):
+        try:
+            if self.current_biome != biome:
+                biome_info = self.biomes[biome]
+                now = datetime.now()
+                print(f"Biome detected: {biome}, Color: {biome_info['color']}, Duration: {biome_info['duration']}")
+                self.current_biome = biome
+                self.last_notification[biome] = now
+                self.send_notification(f"Biome detected: {biome}")
+                send_discord(
+                    title="Biome Detected",
+                    description=f"Biome detected: {biome}",
+                    color=biome_info['color'],
+                    timestamp=now.isoformat(),
+                    footer="Biome Detection"
+                )
+        except Exception as e:
+            print(f"Error in handle_biome_detection: {e}")
+
+    def detect_aura(self, log_file_path):
+        try:
+            log_lines = self.read_log_file(log_file_path)
+            for line in reversed(log_lines):
+                match = re.search(r'"state":"Equipped \\"(.*?)\\"', line)
+                if match:
+                    aura = match.group(1)
+                    if aura in self.auras:
+                        aura_info = self.auras[aura]
+                        rarity = aura_info["rarity"]
+                        exclusive_biome, multiplier = aura_info["exclusive_biome"]
+                        if self.current_biome == "GLITCHED":
+                            rarity /= multiplier
+                        elif self.current_biome == exclusive_biome:
+                            rarity /= multiplier
+                        formatted_rarity = f"{int(rarity):,}"
+                        self.send_notification(f"Aura equipped: {aura} (Rarity: 1/{formatted_rarity})")
+                        send_discord(
+                            title="Aura Equipped",
+                            description=f"Aura equipped: {aura} (Rarity: 1/{formatted_rarity})",
+                            color=0x5865F2,
+                            timestamp=datetime.now().isoformat(),
+                            footer="Aura Detection"
+                        )
+                        return
+        except Exception as e:
+            print(f"Error in detect_aura: {e}")
+
+    def detect_aura(self, log_file_path):
+        try:
+            log_lines = self.read_log_file(log_file_path)
+            for line in reversed(log_lines):
+                match = re.search(r'"state":"Equipped \\"(.*?)\\"', line)
+                if match:
+                    aura = match.group(1)
+                    if aura in self.auras:
+                        aura_info = self.auras[aura]
+                        rarity = aura_info["rarity"]
+                        exclusive_biome, multiplier = aura_info["exclusive_biome"]
+                        if self.current_biome == "GLITCHED":
+                            rarity /= multiplier
+                        elif self.current_biome == exclusive_biome:
+                            rarity /= multiplier
+                        formatted_rarity = f"{int(rarity):,}"
+                        self.send_notification(f"Aura equipped: {aura} (Rarity: 1/{formatted_rarity})")
+                        return
+        except Exception as e:
+            print(f"Error in detect_aura: {e}")
+
+    def send_notification(self, message):
+        webhook_url = self.config.get("discord", {}).get("webhook", {}).get("url")
+        if not webhook_url:
+            print("Webhook URL is missing in the config.")
+            return
+        payload = {"content": message}
+        try:
+            response = requests.post(webhook_url, json=payload)
+            response.raise_for_status()
+            print(f"Notification sent: {message}")
+        except requests.exceptions.RequestException as e:
+            print(f"Failed to send notification: {e}")
+
+    def save_config(self):
+        config_path = os.path.join(os.path.dirname(__file__), "config.json")
+        config = {
+            "session_time": self.get_total_session_time(),
+            "discord": self.config.get("discord", {})
+        }
+        with open(config_path, "w") as file:
+            json.dump(config, file, indent=4)
+
+    def get_total_session_time(self):
+        if self.session_start:
+            elapsed_time = datetime.now() - self.session_start
+            total_seconds = int(elapsed_time.total_seconds()) + self.saved_session_time
+        else:
+            total_seconds = self.saved_session_time
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{hours:02}:{minutes:02}:{seconds:02}"
+
+if __name__ == "__main__":
+    monitor = BiomeAuraMonitor()
+    monitor.start_monitoring()

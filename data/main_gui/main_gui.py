@@ -60,6 +60,9 @@ class MainWindow(CTk):
 
         stop_button = CTkButton(master=buttons_frame, text="Stop - F2", command=self.stop, height=30, width=100)#, corner_radius=10, border_width=2)
         stop_button.grid(row=0, column=1, padx=4, pady=4)
+
+        restart_button = CTkButton(master=buttons_frame, text="Restart - F3", command=self.restart, height=30, width=100)#, corner_radius=10, border_width=2)
+        restart_button.grid(row=0, column=2, padx=4, pady=4)
         
         # TODO
         keyboard.add_hotkey("F1", self.start)
@@ -188,8 +191,8 @@ class MainWindow(CTk):
         biome_config = CTkFrame(master=extras_tab, fg_color=["gray81", "gray23"])
         biome_config.grid(row=0, column=1, stick="n", padx=(5, 0))
         biome_title = CTkLabel(master=biome_config, text="Biome Settings", font=h1).grid(row=0, column=0)
-        enable_biome = CTkCheckBox(state="disabled", master=biome_config, text="Enabled Biome Dectection").grid(row=2, column=0, padx=5, pady=5, stick="w")
-        set_region = CTkButton(state="disabled", master=biome_config, text="Set Biome Region").grid(row=3, column=0, padx=5, pady=5, stick="w")
+        enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
+        set_region = CTkButton(master=biome_config, text="Set Biome Region", command=self.set_biome_region).grid(row=3, column=0, padx=5, pady=5, stick="w")
 
     def auto_equip_window(self):
         self.auto_equip_window = CTkToplevel()
@@ -447,3 +450,15 @@ class MainWindow(CTk):
             del self.capture_window
 
         self.capture_window.bind("<Button-1>", on_click)
+
+    def set_biome_region(self):
+        self.biome_window = CTkToplevel()
+        self.biome_window.title("Select Biomes")
+        self.biome_window.geometry("300x400")
+        self.biome_window.resizable(False, False)
+        self.biome_window.attributes("-topmost", True)
+    
+        biomes = ["Windy", "Rainy", "Snowy", "Sandstorm", "Hell", "Starfall", "Corruption", "Null", "Glitched", "Dreamspace"]
+        for i, biome in enumerate(biomes):
+            state = "disabled" if biome in ["Glitched", "Dreamspace"] else "normal"
+            CTkCheckBox(master=self.biome_window, text=biome, state=state, variable=self.tk_var_list['biomes'][biome], onvalue="1", offvalue="0").grid(row=i, column=0, padx=5, pady=5, sticky="w")
