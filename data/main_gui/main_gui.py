@@ -2,7 +2,10 @@ from customtkinter import *
 import ctypes
 from pynput.mouse import Button, Controller
 import threading
+import webbrowser
 import keyboard
+from tkinter import messagebox
+import requests
 from data.main_loop import main_loop
 try:
     from data.lib import config
@@ -14,7 +17,7 @@ from ahk import AHK
 deactivate_automatic_dpi_awareness()
 
 VERSION = config.get_current_version()
-
+DEFAULT_FONT_BOLD = "Segoe UI Semibold"
 class MainWindow(CTk):
     def __init__(self, config_key=None):
         super().__init__()
@@ -32,36 +35,40 @@ class MainWindow(CTk):
         self.begin_y = None
         self.end_x = None
         self.end_y = None 
-        self.tab_control = CTkTabview(master=self, fg_color=["gray86", "gray17"], height=265)
+
+        set_default_color_theme(config.theme_path())
+        self.configure(fg_color=config.read_theme("CTk")["fg_color"])
+
+        self.tab_control = CTkTabview(master=self, height=265, fg_color=config.read_theme("CTkTabview")["fg_color"])
         main_tab = self.tab_control.add("Main")
         discord_tab = self.tab_control.add("Discord")
         crafting_tab = self.tab_control.add("Crafting")
         settings_tab = self.tab_control.add("Settings")
         extras_tab = self.tab_control.add("Extras")
         credits_tab = self.tab_control.add("Credits")
-
-        self.discord_tab_control = CTkTabview(master=discord_tab, fg_color=["gray86", "gray17"], height=100, corner_radius=10, border_width=2)
+        self.check_for_updates()
+        self.discord_tab_control = CTkTabview(master=discord_tab, height=100, corner_radius=10, border_width=2)
         webhook_subtab = self.discord_tab_control.add("Webhook")
         bot_subtab = self.discord_tab_control.add("Bot")
         self.discord_tab_control.grid(row=0, column=0, sticky="n", padx=10, pady=(5, 10))
-
-        self.tab_control.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
-        #self.tab_control.set("Credits")
+        
+        self.tab_control.grid(padx=10)
+        self.tab_control.set("Credits")
         self.tk_var_list = config.generate_tk_list()
 
         for button in self.tab_control._segmented_button._buttons_dict.values():
-            button.configure(width=1000, height=35, corner_radius=10, border_width=2, font=("Segoe UI", 15, "bold"))
+            button.configure(width=1000, height=35, corner_radius=10, border_width=2, font=CTkFont(DEFAULT_FONT_BOLD, size=15, weight="bold"))
         
         buttons_frame = CTkFrame(master=self)
         buttons_frame.grid(row=1, pady=(5, 8), padx=6, sticky="s")
 
-        start_button = CTkButton(master=buttons_frame, text="Start - F1", command=self.start, height=30, width=100)#, corner_radius=10, border_width=2)
+        start_button = CTkButton(master=buttons_frame, text="Start - F1", command=self.start, height=30, width=100, corner_radius=4)#, corner_radius=10, border_width=2)
         start_button.grid(row=0, column=0, padx=4, pady=4)
 
-        stop_button = CTkButton(master=buttons_frame, text="Stop - F2", command=self.stop, height=30, width=100)#, corner_radius=10, border_width=2)
+        stop_button = CTkButton(master=buttons_frame, text="Stop - F2", command=self.stop, height=30, width=100, corner_radius=4)#, corner_radius=10, border_width=2)
         stop_button.grid(row=0, column=1, padx=4, pady=4)
 
-        restart_button = CTkButton(master=buttons_frame, text="Restart - F3", command=self.restart, height=30, width=100)#, corner_radius=10, border_width=2)
+        restart_button = CTkButton(master=buttons_frame, text="Restart - F3", command=self.restart, height=30, width=100, corner_radius=4)#, corner_radius=10, border_width=2)
         restart_button.grid(row=0, column=2, padx=4, pady=4)
         
         # TODO
@@ -69,25 +76,28 @@ class MainWindow(CTk):
         keyboard.add_hotkey("F2", self.stop)
         keyboard.add_hotkey("F3", self.restart)
 
-        random_frame = CTkFrame(master=main_tab, fg_color=["gray81", "gray23"])
+        random_frame = CTkFrame(master=main_tab)
         random_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
         miscalance_title = CTkLabel(master=random_frame, text="Miscalances", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, column=1)
 
-        obby = CTkCheckBox(master=random_frame, text="Obby (30% Luck Boost Every loop or 4 Mins)", variable=self.tk_var_list['obby']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
-        chalice = CTkCheckBox(master=random_frame, text="Auto Chalice (Collected Biomes Items 30% Luck)", variable=self.tk_var_list['chalice']['enabled'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
+        obby = CTkCheckBox(master=random_frame, text="Do Obby (30% Luck Boost Every 2 Mins)", variable=self.tk_var_list['obby']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
+        chalice = CTkCheckBox(master=random_frame, text="Auto Chalice", variable=self.tk_var_list['chalice']['enabled'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
 
-        auto_equip = CTkFrame(master=main_tab, fg_color=["gray81", "gray23"])
+        auto_equip = CTkFrame(master=main_tab)
         auto_equip.grid(row=0, column=1, sticky="n", padx=(5, 0))
         auto_equip_title = CTkLabel(master=auto_equip, text="Auto Equip", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, column=1)
         enable_auto_equip = CTkCheckBox(master=auto_equip, text="Enable Auto Equip", variable=self.tk_var_list['auto_equip']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
-        auto_equip_gui = CTkButton(master=auto_equip, text="Configure Search", width=255 , command=self.auto_equip_window).grid(column=1, row=3, padx=5, pady=5)
+        auto_equip_gui = CTkButton(master=auto_equip, text="Configure Search", width=330 , command=self.auto_equip_window).grid(column=1, row=3, padx=5, pady=5)
 
-        item_collection_frame = CTkFrame(master=main_tab, fg_color=["gray81", "gray23"])
+        item_collection_frame = CTkFrame(master=main_tab)
         item_collection_frame.grid(row=1, pady=(6, 0), sticky="we", columnspan=2, column=0, padx=(1, 0))
         item_collection_title = CTkLabel(master=item_collection_frame, text="Collect Items", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, padx=5, columnspan=2)
+        assign_frame = CTkFrame(master=main_tab)
+
         enable_collect_items = CTkCheckBox(master=item_collection_frame, text="Enable Item Collection", variable=self.tk_var_list['item_collecting']['enabled'], onvalue="1", offvalue="0").grid(row=0, sticky="w", padx=5, pady=5)
         
-        spot_collection_frame = CTkFrame(master=item_collection_frame, fg_color=["gray65", "gray28"])
+        spot_collection_frame = CTkFrame(master=item_collection_frame)
+        #spot_title = CTkLabel(master=spot_collection_frame, text="Collect Spots From:", font=CTkFont(DEFAULT_FONT_BOLD, size=15, weight="bold")).grid(pady=5, padx=5)
         spot_collection_frame.grid(row=1, sticky="w", column=1, padx=(64, 1), pady=(5, 7), ipady=5, ipadx=1)
 
         CTkCheckBox(master=spot_collection_frame, text="1", width=45, variable=self.tk_var_list['item_collecting']['spot1'], onvalue='1', offvalue='0').grid(row=2, column=0, sticky='e', padx=(5, 0))
@@ -96,7 +106,7 @@ class MainWindow(CTk):
 
         assign_clicks = CTkButton(master=item_collection_frame, text="Assign Clicks", command=self.assign_clicks_gui).grid(row=1, sticky="w", padx=5, pady=5)
 
-        webhook_frame = CTkFrame(master=webhook_subtab, fg_color=["gray81", "gray23"])
+        webhook_frame = CTkFrame(master=webhook_subtab)
         webhook_frame.grid(row=0, column=0, sticky="news", padx=5, pady=5)
         
         webhook_title = CTkLabel(master=webhook_frame, text="Webhook", font=("Segoe UI Semibold", 20, "bold"))
@@ -116,10 +126,15 @@ class MainWindow(CTk):
             textvariable=self.tk_var_list['discord']['webhook']['ping_id'],
             placeholder_text="User/Role ID to ping")
         ping_id.grid(row=4, column=1, padx=5, pady=2)
+
+        ps_link_entry = CTkEntry(master=webhook_frame, width=250,
+            textvariable=self.tk_var_list['discord']['webhook']['ps_link'],
+            placeholder_text="Private Server Link")
+        ps_link_entry.grid(row=5, column=1, padx=5, pady=2)
         
         # Bot Frame
 
-        bot_frame = CTkFrame(master=bot_subtab, fg_color=["gray81", "gray23"])
+        bot_frame = CTkFrame(master=bot_subtab)
         bot_frame.grid(row=0, column=0, sticky="news", padx=5, pady=5)
         
         bot_title = CTkLabel(master=bot_frame, text="Bot", font=("Segoe UI Semibold", 20, "bold"))
@@ -135,6 +150,9 @@ class MainWindow(CTk):
 
         ping_id_label = CTkLabel(master=webhook_frame, text="User/Role ID to ping")
         ping_id_label.grid(row=4, column=0, padx=5, pady=2, sticky="w")
+
+        ps_link = CTkLabel(master=webhook_frame, text="Private Server Link:")
+        ps_link.grid(row=5, column=0, padx=5, pady=2, sticky="w")
 
         bot_token_label = CTkLabel(master=bot_frame, text="Bot Token")
         bot_token_label.grid(row=2, column=0, padx=5, pady=2, sticky="w")
@@ -152,7 +170,7 @@ class MainWindow(CTk):
             placeholder_text="Channel ID")
         channel_id.grid(row=3, column=1, padx=5, pady=2)
 
-        crafting_frame = CTkFrame(master=crafting_tab, fg_color=["gray81", "gray23"])
+        crafting_frame = CTkFrame(master=crafting_tab)
         crafting_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
         crafting_title = CTkLabel(master=crafting_frame, text="Crafting", font=h1).grid(row=0, column=1, columnspan=2)
         crafting_enabled = CTkCheckBox(state="disabled", master=crafting_frame, text="Enable Potion Crafting", variable=self.tk_var_list['potion_crafting']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
@@ -163,7 +181,7 @@ class MainWindow(CTk):
         auto_add = CTkSwitch(state="disabled", master=crafting_frame, text="Auto Add Swicher", variable=self.tk_var_list['potion_crafting']['temporary_auto_add'], onvalue="1", offvalue="0").grid(row=2, column=2, padx=5, pady=5, stick="w")
         crafting_clicks = CTkButton(state="disabled", master=crafting_frame, text="Assign Crafting").grid(row=5, column=2, padx=5, pady=5, stick="w")
     
-        settings_frame = CTkFrame(master=settings_tab, fg_color=["gray81", "gray23"])
+        settings_frame = CTkFrame(master=settings_tab)
         settings_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
         settings_title = CTkLabel(master=settings_frame, text="General", font=h1).grid(row=0, column=1, columnspan=2)
 
@@ -172,7 +190,7 @@ class MainWindow(CTk):
         azerty_layout = CTkCheckBox(master=settings_frame, text="Azerty Keyboard Layout", variable=self.tk_var_list['settings']['azerty_mode'], onvalue="1", offvalue="0").grid(row=4, column=1, padx=5, pady=5, stick="w")
         claim_quests = CTkCheckBox(state="disabled", master=settings_frame, text="Auto Claim Quest (30 mins)", variable=self.tk_var_list['claim_daily_quests'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
 
-        aura_settings = CTkFrame(master=settings_tab, fg_color=["gray81", "gray23"])
+        aura_settings = CTkFrame(master=settings_tab)
         aura_settings.grid(row=0, column=1, sticky="n", padx=(5, 0))
         aura_title = CTkLabel(master=aura_settings, text="Aura Detection", font=h1).grid(row=0, column=1, columnspan=2)
         enable_dectection = CTkCheckBox(master=aura_settings, text="Enable Aura Dectection", variable=self.tk_var_list['enabled_dectection'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
@@ -181,35 +199,72 @@ class MainWindow(CTk):
         pings_max = CTkLabel(master=aura_settings, text="Send Max:", justify="left").grid(row=4, column=1, padx=5, pady=5, stick="w")
         max_entry = CTkEntry(master=aura_settings, textvariable=self.tk_var_list['send_max'], width=80).grid(row=4, column=2, padx=5, pady=5, stick="w")
 
-        items_stuff = CTkFrame(master=extras_tab, fg_color=["gray81", "gray23"])
+        items_stuff = CTkFrame(master=extras_tab)
         items_stuff.grid(row=0, column=0, stick="n", padx=(5, 0))
         items_title = CTkLabel(master=items_stuff, text="Item Scheduler", font=h1).grid(row=0, padx=5)
         enable_items = CTkCheckBox(master=items_stuff, text="Enable Item Scheduler", variable=self.tk_var_list['enable_items'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
         scheduler_items = CTkOptionMenu(master=items_stuff, values=['None', 'Merchant Tracker', 'Fortune I', 'Fortune II', 'Fortune III', 'Speed Potion I', 'Speed Potion II', 'Speed Potion III', 'Lucky Potion I', 'Lucky Potion II', 'Lucky Potion III', 'Heavenly I', 'Heavenly II', 'Warp Potion'], width=230, variable=self.tk_var_list['item_scheduler_item']).grid(row=3, column=0, padx=5, pady=5, stick="w")
         quanity = CTkEntry(master=items_stuff, width=80, textvariable=self.tk_var_list['item_scheduler_quantity']).grid(row=4, column=0, padx=5, pady=5, stick="w")
 
-        biome_config = CTkFrame(master=extras_tab, fg_color=["gray81", "gray23"])
-        biome_config.grid(row=0, column=1, stick="n", padx=(5, 0))
+        biome_config = CTkFrame(master=extras_tab)
+        biome_config.grid(row=0, column=2, stick="n", padx=(5, 0))
         biome_title = CTkLabel(master=biome_config, text="Biome Settings", font=h1).grid(row=0, column=0)
         enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
         set_region = CTkButton(master=biome_config, text="Set Biome Region", command=self.set_biome_region).grid(row=3, column=0, padx=5, pady=5, stick="w")
 
+        themes_frame = CTkFrame(master=extras_tab)
+        themes_frame.grid(row=0, column=1, sticky="nw", padx=(5, 0))
+        themes_ttle = CTkLabel(master=themes_frame, text="Themes", font=h1).grid(row=0, columnspan=2)
+
+
+        themes = []
+        for theme in config.config_data["themes"]:
+            themes.append(theme)
+        themes.append("Custom Theme")
+
+        change_themes = CTkOptionMenu(master=themes_frame, values=themes, width=140, command=self.change_theme)
+        change_themes.grid(row=2, padx=5, pady=5, sticky="w", columnspan=2)
+
+        if not "/" in config.config_data["paths"]["theme"]:
+            change_themes.set(config.config_data["paths"]["theme"])
+        else:
+            change_themes.set("Custom Theme")
+
     def auto_equip_window(self):
         self.auto_equip_window = CTkToplevel()
         self.auto_equip_window.title("Auto Equip")
-        self.auto_equip_window.geometry("300x170")
+        self.auto_equip_window.geometry("250x140")
         self.auto_equip_window.resizable(False, False)
         self.auto_equip_window.attributes("-topmost", True)
-        CTkLabel(master=self.auto_equip_window, text="Enter aura name to be used for search.\nThe first result will be equipped so be specific.").grid(row=0, column=0, columnspan=2, padx=5, pady=5)
-        aura_entry = CTkEntry(master=self.auto_equip_window, textvariable=self.tk_var_list['auto_equip']['aura'])
+        set_default_color_theme(config.theme_path())
+        self.configure(fg_color=config.read_theme("CTk")["fg_color"])
+        frame = CTkFrame(master=self.auto_equip_window)
+        frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
+        CTkLabel(master=frame, text="Enter aura name to be used for search.\nThe first result will be equipped so be specific.").grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+        aura_entry = CTkEntry(master=frame, textvariable=self.tk_var_list['auto_equip']['aura'])
         aura_entry.grid(row=1, column=0, columnspan=2, padx=5, pady=5)
 
-        special_checkbox = CTkCheckBox(master=self.auto_equip_window, text="Search in Special Auras", variable=self.tk_var_list['auto_equip']['special_aura'], onvalue="1", offvalue="0")
+        special_checkbox = CTkCheckBox(master=frame, text="Search in Special Auras", variable=self.tk_var_list['auto_equip']['special_aura'], onvalue="1", offvalue="0")
         special_checkbox.grid()
 
         # submit 
-        submit_button = CTkButton(master=self.auto_equip_window, text="Submit", command=lambda: self.submit())
+        submit_button = CTkButton(master=frame, text="Submit", command=lambda: self.submit())
         submit_button.grid(pady=5)
+
+    def change_theme(self, choice):
+        if choice == "Custom Theme":
+            self.iconify()
+            filepath = filedialog.askopenfilename(initialdir = "/",
+                title = "Choose a theme",
+                filetypes = [("Json Theme File", "*.json*")]
+            )
+            config.config_data["paths"]["theme"] = filepath
+            config.save_config(config.config_data)
+        else:
+            self.tk_var_list["paths"]["theme"] = choice
+            config.save_tk_list(self.tk_var_list)
+
+        self.restart()
 
     def submit(self):
         config.save_tk_list(self.tk_var_list)
@@ -245,7 +300,7 @@ class MainWindow(CTk):
         self.assign_clicks_gui.geometry("400x540")
         self.assign_clicks_gui.resizable(False, False)
         self.assign_clicks_gui.attributes("-topmost", True)
-        aura_equip_frame = CTkFrame(master=self.assign_clicks_gui, fg_color=["gray81", "gray23"])
+        aura_equip_frame = CTkFrame(master=self.assign_clicks_gui)
         aura_equip_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
 
         aura_storage_label = CTkLabel(master=aura_equip_frame, text="Aura Storage:")
@@ -421,7 +476,7 @@ class MainWindow(CTk):
         self.crafting_clicks.title("Crafting")
         self.crafting_clicks.geometry("350x320")
         self.crafting_clicks.resizable(False, False)
-        crafting_frame = CTkFrame(master=self.crafting_clicks, fg_color=["gray81", "gray23"])
+        crafting_frame = CTkFrame(master=self.crafting_clicks)
         crafting_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
 
     def start_capture_thread(self, config_key, x_entry, y_entry):
@@ -462,3 +517,24 @@ class MainWindow(CTk):
         for i, biome in enumerate(biomes):
             state = "disabled" if biome in ["Glitched", "Dreamspace"] else "normal"
             CTkCheckBox(master=self.biome_window, text=biome, state=state, variable=self.tk_var_list['biomes'][biome], onvalue="1", offvalue="0").grid(row=i, column=0, padx=5, pady=5, sticky="w")
+
+    def check_for_updates(self):
+        current_version = config.get_current_version()
+        try:
+            response = requests.get('https://api.github.com/repos/steveonly2/Radiance-Macro/releases')
+            response.raise_for_status()
+            latest_releases = response.json()
+            if latest_releases:
+                latest_release = latest_releases[0]
+                latest_version = latest_release['tag_name']
+                if latest_version != current_version:
+                    update_response = messagebox.askyesno("New Update!", f"New Version of the macro {latest_version}, Would you like to update?")
+                    if update_response:
+                        webbrowser.open("https://github.com/Goldfish-cool/Goldens-Macro/releases/latest")
+                else:
+                    messagebox.showinfo("No Update Available", "You are running the latest version of this macro.")
+            else:
+                messagebox.showinfo("No Update Available", "No releases found for this macro.")
+        except Exception as e:
+            messagebox.showerror("Update Check Error", f"Failed to check for updates: {e}")
+            
