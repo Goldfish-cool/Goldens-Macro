@@ -80,8 +80,8 @@ class MainWindow(CTk):
         random_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
         miscalance_title = CTkLabel(master=random_frame, text="Miscalances", font=("Segoe UI Semibold", 20, "bold")).grid(row=0, column=1)
 
-        obby = CTkCheckBox(master=random_frame, text="Do Obby (30% Luck Boost Every 2 Mins)", variable=self.tk_var_list['obby']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
-        chalice = CTkCheckBox(master=random_frame, text="Auto Chalice", variable=self.tk_var_list['chalice']['enabled'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
+        obby = CTkCheckBox(state="disabled", master=random_frame, text="Do Obby (30% Luck Boost Every 2 Mins)", variable=self.tk_var_list['obby']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
+        chalice = CTkCheckBox(state="disabled", master=random_frame, text="Auto Chalice", variable=self.tk_var_list['chalice']['enabled'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
 
         auto_equip = CTkFrame(master=main_tab)
         auto_equip.grid(row=0, column=1, sticky="n", padx=(5, 0))
