@@ -16,9 +16,6 @@ except:
     sys.exit(1)
 import json
 import re
-import discord
-from discord.ext import commands
-import asyncio
 import pyautogui
 from ahk import AHK
 from tkinter.messagebox import showerror
@@ -380,229 +377,6 @@ biome_data = {
     "Dreamspace": {"color": 0xea9dda, "duration": 180}
 }
     
-def discord_bot():
-    intents = discord.Intents.default()
-    intents.typing = False
-    intents.presences = False
-    bot = commands.Bot(command_prefix='/', intents=intents)
-
-    def load_config():
-        with open('config.json') as f:
-            return json.load(f)
-
-    @bot.event
-    async def on_ready():
-        print(f'Logged in as {bot.user.name} (ID: {bot.user.id})')
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='/help for commands'))
-
-    @bot.command(name='help', aliases=['commands'])
-    async def help(ctx):
-        embed = discord.Embed(title='Macro Commands', color=0x5865F2)
-        embed.add_field(name='/start', value='Start the macro', inline=False)
-        embed.add_field(name='/stop', value='Stop the macro', inline=False)
-        embed.add_field(name='/status', value='Check macro status', inline=False)
-        embed.add_field(name='/ping', value='Shows your current ping', inline=False)
-        embed.add_field(name='/help', value='Show this help message', inline=False)
-        await ctx.send(embed=embed)
-
-    @bot.command()
-    async def start(ctx):
-        user_id = ctx.user.id
-
-        if not config.get("discord", {}).get("bot", {}).get("user_id"):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="No User ID is configured. Please set your User ID in the bot settings to use commands.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-
-        if str(user_id) != str(config.get("discord", {}).get("bot", {}).get("user_id")):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="You do not have permission to use this command. Ensure the correct User ID is set.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-        
-        try:
-            send_discord("Macro", "Starting Macro...", None, "0x5865F2", "Aurium Macro")
-            start()
-            await ctx.send('Macro started.')
-        except Exception as e:
-            await ctx.send(f'Error starting macro: {str(e)}')
-
-    @bot.command()
-    async def stop(ctx):
-        user_id = ctx.user.id
-
-        if not config.get("discord", {}).get("bot", {}).get("user_id"):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="No User ID is configured. Please set your User ID in the bot settings to use commands.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-
-        if str(user_id) != str(config.get("discord", {}).get("bot", {}).get("user_id")):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="You do not have permission to use this command. Ensure the correct User ID is set.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-
-        try:
-            send_discord("Macro", "Stopping Macro...", None, "0x5865F2", "Aurium Macro")
-            stop()
-            await ctx.send('Macro stopped.')
-        except Exception as e:
-            await ctx.send(f'Error stopping macro: {str(e)}')
-
-    @bot.command()
-    async def status(ctx):
-        user_id = ctx.user.id
-
-        if not config.get("discord", {}).get("bot", {}).get("user_id"):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="No User ID is configured. Please set your User ID in the bot settings to use commands.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-
-        if str(user_id) != str(config.get("discord", {}).get("bot", {}).get("user_id")):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="You do not have permission to use this command. Ensure the correct User ID is set.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-        
-        try:
-            status = load_config().get('session_time', 'Unknown')
-            await ctx.send(f'Macro status: {status}')
-        except Exception as e:
-            await ctx.send(f'Error getting status: {str(e)}')
-
-    @bot.command()
-    async def ping(ctx: discord.Interaction):
-        latency = round(bot.latency * 1000)
-    
-        if latency <= 100:
-            color = discord.Color.green()
-        elif 100 < latency < 300:
-            color = discord.Color.yellow()
-        else:
-            color = discord.Color.red()
-    
-        local_embed = discord.Embed(
-                title="Pong...",
-                description=f"Latency: {latency}ms", 
-                color=color
-        )
-        await ctx.response.send_message(embed=local_embed)
-
-    @bot.command()
-    async def chat(ctx: discord.Interaction, message: str):
-        user_id = ctx.user.id
-
-        if not config.get("dc_UserID"):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="No User ID is configured. Please set your User ID in the bot settings to use commands.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-
-        if str(user_id) != str(config.get("dc_UserID")):
-            local_embed = discord.Embed(
-                title="Warning",
-                description="You do not have permission to use this command. Ensure the correct User ID is set.", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-            return
-        
-        stop()
-        keyboard.press_and_release("/")
-        time.sleep(1)
-        keyboard.write(message)
-        time.sleep(1)
-        keyboard.press_and_release("enter")
-        start()
-        try:
-            os.makedirs("images", exist_ok=True)
-
-            screenshot_path = "../images/chat.png"
-            screenshot = pyautogui.screenshot(region=(0, 0, 600, 600))
-            screenshot.save(screenshot_path)
-
-            current_time = datetime.now().strftime("%H:%M:%S")
-            webhook_url = config.get("dc_WebhookLink")
-            
-            if webhook_url:
-                embeds = [{
-                    "title": "Message Sent",
-                    "description": f"[{current_time}] Message Sent: '{message}'",
-                    "color": 7289397,
-                    "image": {"url": f"attachment://{os.path.basename(screenshot_path)}"}
-                }]
-
-                with open(screenshot_path, "rb") as image_file:
-                    payload = {
-                        "payload_json": json.dumps({
-                            "embeds": embeds
-                        })
-                    }
-                    files = {"file": (os.path.basename(screenshot_path), image_file, "image/png")}
-                    webhook_response = requests.post(
-                        webhook_url,
-                        data=payload,
-                        files=files
-                    )
-
-                if webhook_response.status_code in [200, 204]:
-                    local_embed = discord.Embed(
-                        description=f"Message sent: '{message}'", 
-                        color=discord.Color.from_rgb(128, 128, 128)
-                    )
-                    await ctx.followup.send(embed=local_embed, ephemeral=True)
-                else:
-                    local_embed = discord.Embed(
-                        description=f"Failed to send screenshot. Status code: {webhook_response.status_code}", 
-                        color=discord.Color.from_rgb(128, 128, 128)
-                    )
-                    await ctx.followup.send(embed=local_embed, ephemeral=True)
-            else:
-                local_embed = discord.Embed(
-                    description="Webhook URL is not configured.", 
-                    color=discord.Color.from_rgb(128, 128, 128)
-                )
-                await ctx.followup.send(embed=local_embed, ephemeral=True)
-        except Exception as e:
-            local_embed = discord.Embed(
-                description=f"Discord Bot | /chat | Error taking screenshot: {e}", 
-                color=discord.Color.from_rgb(128, 128, 128)
-            )
-            await ctx.followup.send(embed=local_embed)
-
-    @bot.event
-    async def on_command_error(ctx, error):
-        if isinstance(error, commands.CommandNotFound):
-            await ctx.send('Invalid command. Use /help to see available commands.')
-        else:
-            await ctx.send(f'Error processing command: {str(error)}')
-
-    def run_bot(token):
-        bot.run(token)
 
 def send_discord(title="", description="", thumbnail="", color=None, timestamp=None, footer=""):
     if config.config_data['discord']['webhook']['enabled'] == "1":
@@ -684,7 +458,7 @@ def monitoring_loop():
                 last_log_file = current_log_file
 
             detect_biome()
-            detect_aura(current_log_file)
+            #detect_aura(current_log_file)
             sleep(1.5)
         except Exception as e:
             print(f"Error in monitoring loop: {e}")
@@ -743,6 +517,9 @@ def handle_biome_detection(biome):
 def detect_aura(log_file_path):
     global auras
     try:
+        if 'last_aura_found' not in locals():
+            last_aura_found = None
+            
         log_lines = read_full_log_file(log_file_path)
         for line in reversed(log_lines):
             match = re.search(r'"state":"Equipped \\"(.*?)\\"', line)
@@ -752,37 +529,32 @@ def detect_aura(log_file_path):
                     aura_info = auras[aura]
                     rarity = aura_info["rarity"]
                     exclusive_biome, multiplier = aura_info["exclusive_biome"]
-                    
-                    # Apply rarity modifiers based on biome
+
+                    # Ceck if the current biome is GLITCHED
                     if current_biome == "GLITCHED":
                         rarity /= multiplier
                         biome_message = "[From GLITCHED!]"
+
+                            # Check if the current biome is the aura's exclusive biome
                     elif current_biome == exclusive_biome:
                         rarity /= multiplier
                         biome_message = f"[From {exclusive_biome}!]"
+
                     else:
                         biome_message = ""
-                        
+
+                        # Format rarity 
                     formatted_rarity = f"{int(rarity):,}"
-                    print(f"Aura Detected: {aura}")
-                    
-                    # Track last aura found to detect changes
-                    if not hasattr(detect_aura, 'last_aura_name'):
-                        detect_aura.last_aura_name = None
-                    
-                    # Only send webhook if aura name has changed
-                    if aura != detect_aura.last_aura_name:
-                        send_message(f"<@{config.config_data['discord']['webhook']['ping_id']}>")
-                        send_discord(
-                            "Aura Detection",
-                            f"**Aura Equipped/Found: {aura} {biome_message} (rarity: 1/{formatted_rarity})**",
-                            color=0x2F3136,
-                            footer="Golden's Aura Detection"
-                        )
-                        detect_aura.last_aura_name = aura
+
+                    if aura != last_aura_found:
+                        send_discord(aura, formatted_rarity, biome_message)
+                        last_aura_found = aura
                     else:
-                        print(f"Same aura detected again: {aura}")
-                    return
+                        # Aura not found in auras_data (biomes_data.json)
+                        if aura != last_aura_found:
+                            send_discord("Aura Detection", aura)
+                            last_aura_found = aura
+                return
     except Exception as e:
         print(f"aura dection is broken: {e}")
 
