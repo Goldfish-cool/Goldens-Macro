@@ -93,7 +93,8 @@
         "bot": {
             "enabled": "0",
             "token": "",
-            "channel_id": ""
+            "channel_id": "",
+            "user_id": ""
         }
     },
     "enable_items": "1",
