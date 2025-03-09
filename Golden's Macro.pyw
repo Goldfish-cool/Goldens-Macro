@@ -21,6 +21,7 @@ def set_path():
     print(f"Directory path written to path.txt: {path}")
 
 def main():
+    
     set_path()
     from data.main_gui import main_gui
     gui = main_gui.MainWindow()
