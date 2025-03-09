@@ -13,6 +13,7 @@ except ImportError:
     ctypes.windll.user32.MessageBoxW(0, "Cant Open 'main_gui.py',\nPlease Use the Proper File", "Error", 0)
 from time import sleep 
 from ahk import AHK 
+from PIL import ImageGrab, Image, ImageTk
 
 deactivate_automatic_dpi_awareness()
 
@@ -23,6 +24,11 @@ class MainWindow(CTk):
         super().__init__()
         self.bind_all("<Button-1>", self.focus_widget)
         self.title(f"Golden's Sol's Macro v{VERSION}")
+
+        self.iconpath = ImageTk.PhotoImage(file=f"{config.parent_path()}/data/images/golden_pfp.ico")
+        self.wm_iconbitmap()
+        self.iconphoto(True, self.iconpath)
+
         self.geometry("630x315x200x200")
         self.resizable(False, False) # change back to false false when finished bugfixing
         self.grid_columnconfigure(0, weight=1)
@@ -46,7 +52,6 @@ class MainWindow(CTk):
         settings_tab = self.tab_control.add("Settings")
         extras_tab = self.tab_control.add("Extras")
         credits_tab = self.tab_control.add("Credits")
-        main_loop.discord_bot()
         self.check_for_updates()
         self.discord_tab_control = CTkTabview(master=discord_tab, height=100, corner_radius=10, border_width=2)
         webhook_subtab = self.discord_tab_control.add("Webhook")
@@ -230,6 +235,23 @@ class MainWindow(CTk):
             change_themes.set(config.config_data["paths"]["theme"])
         else:
             change_themes.set("Custom Theme")
+        
+        credits_frame = CTkFrame(master=credits_tab)
+        credits_frame.grid(row=0, column=0, padx=(1, 0))    
+        credits_title = CTkLabel(master=credits_frame, text="Credits Team", font=h1).grid(row=0, padx=5, columnspan=3)
+    
+        credits_text = """
+Founders (Aurium):   |   Developers:
+Golden | /x64/dumped  |  vexthecodern
+
+Special Thanks to:
+Radiant Team, (letting us use their saving)
+Kat (@Rammstein), (made server logo)
+
+"""
+        team_logo_image = CTkImage(dark_image=config.round_corners(Image.open(f"{config.parent_path()}/data/images/golden_chill.png"), 35), size=(150, 150))
+        credits_label = CTkLabel(master=credits_frame, text=credits_text).grid(row=1, column=1, rowspan=2, padx=56, pady=(17, 30), sticky="n")
+        team_image_label = CTkLabel(master=credits_frame, image=team_logo_image, text="").grid(row=1, column=0, padx=6, pady=(0, 6))
 
     def auto_equip_window(self):
         self.auto_equip_window = CTkToplevel()
