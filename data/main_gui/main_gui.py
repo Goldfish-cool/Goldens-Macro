@@ -46,6 +46,7 @@ class MainWindow(CTk):
         settings_tab = self.tab_control.add("Settings")
         extras_tab = self.tab_control.add("Extras")
         credits_tab = self.tab_control.add("Credits")
+        main_loop.discord_bot()
         self.check_for_updates()
         self.discord_tab_control = CTkTabview(master=discord_tab, height=100, corner_radius=10, border_width=2)
         webhook_subtab = self.discord_tab_control.add("Webhook")
