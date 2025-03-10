@@ -544,7 +544,7 @@ Kat (@Rammstein), (made server logo)
     def check_for_updates(self):
         current_version = config.get_current_version()
         try:
-            response = requests.get('https://api.github.com/repos/Goldfish-cool/Golden-s-Macro/releases')
+            response = requests.get('https://api.github.com/repos/Goldfish-cool/Goldens-Macro/releases')
             response.raise_for_status()
             latest_releases = response.json()
             if latest_releases:
