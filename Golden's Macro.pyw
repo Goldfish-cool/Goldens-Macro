@@ -15,11 +15,18 @@ def create_main_gui(gui):
     gui.mainloop()
 
 def set_path():
-    path = str(pathlib.Path(__file__).parent.resolve())
+    # This approach works for both regular Python scripts and compiled executables
+    if getattr(sys, 'frozen', False):
+        # If the application is frozen (compiled)
+        path = os.path.dirname(sys.executable)
+    else:
+        # If running as a normal Python script
+        path = str(pathlib.Path(__file__).parent.resolve())
+    
     with open("path.txt", "w") as file:
         file.write(path)
+    
     print(f"Directory path written to path.txt: {path}")
-
 def main():
     
     set_path()
