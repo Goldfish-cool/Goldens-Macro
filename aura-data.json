@@ -124,7 +124,7 @@
         "properties": {
             "base_chance": 512,
             "biome_amplifier": [
-                "SANDSTORM",
+                "SAND STORM",
                 4
             ]
         }
@@ -144,7 +144,7 @@
         "properties": {
             "base_chance": 777,
             "biome_amplifier": [
-                "SANDSTORM",
+                "SAND STORM",
                 4
             ]
         }
@@ -1014,7 +1014,7 @@
         "properties": {
             "base_chance": 360000000,
             "biome_amplifier": [
-                "SANDSTORM",
+                "SAND STORM",
                 4
             ]
         }
