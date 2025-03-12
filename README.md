@@ -1,4 +1,4 @@
-# 📜 README: Golden's Sol's RNG Macro
+# Golden's Sol's RNG Macro
 
 ## 🔗 Repository: [Goldens-Macro](https://github.com/Goldfish-cool/Goldens-Macro) 
 ## 🔒 License: [Apache v2](https://www.apache.org/licenses/LICENSE-2.0)  
