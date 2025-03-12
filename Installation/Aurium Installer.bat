@@ -278,16 +278,6 @@ if errorlevel 1 (
     echo:
     exit /b
 )
-pip install -q threading
-if errorlevel 0 (
-    echo Successfully Installed: threading
-    echo:
-)
-if errorlevel 1 (
-    echo Failed to install threading
-    echo:
-    exit /b
-)
 
 echo Installation complete!
 pause
