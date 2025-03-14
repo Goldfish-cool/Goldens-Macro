@@ -5,8 +5,6 @@ import json
 import ctypes
 import pathlib
 import threading
-import time
-from PyQt6.QtGui import QGuiApplication, QIcon
 
 sys.dont_write_bytecode = True
 sys.path.append(pathlib.Path(__file__).parent.resolve())
