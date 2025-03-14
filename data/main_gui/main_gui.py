@@ -125,17 +125,20 @@ class MainWindow(CTk):
         
         webhook_url = CTkEntry(master=webhook_frame, width=250,
             textvariable=self.tk_var_list['discord']['webhook']['url'],
-            placeholder_text="Webhook URL")
+            placeholder_text="Webhook URL",
+            show='*')
         webhook_url.grid(row=2, column=1, padx=5, pady=2)
         
         ping_id = CTkEntry(master=webhook_frame, width=250,
             textvariable=self.tk_var_list['discord']['webhook']['ping_id'],
-            placeholder_text="User/Role ID to ping")
+            placeholder_text="User/Role ID to ping",
+            show='*')
         ping_id.grid(row=4, column=1, padx=5, pady=2)
 
         ps_link_entry = CTkEntry(master=webhook_frame, width=250,
             textvariable=self.tk_var_list['discord']['webhook']['ps_link'],
-            placeholder_text="Private Server Link")
+            placeholder_text="Private Server Link",
+            show='*')
         ps_link_entry.grid(row=5, column=1, padx=5, pady=2)
         
         # Bot Frame
@@ -168,12 +171,14 @@ class MainWindow(CTk):
         
         bot_token = CTkEntry(master=bot_frame, width=250,
             textvariable=self.tk_var_list['discord']['bot']['token'],
-            placeholder_text="Bot Token")
+            placeholder_text="Bot Token",
+            show='*')
         bot_token.grid(row=2, column=1, padx=5, pady=2)
         
         channel_id = CTkEntry(master=bot_frame, width=250,
             textvariable=self.tk_var_list['discord']['bot']['channel_id'],
-            placeholder_text="Channel ID")
+            placeholder_text="Channel ID",
+            show='*')
         channel_id.grid(row=3, column=1, padx=5, pady=2)
 
         crafting_frame = CTkFrame(master=crafting_tab)
@@ -555,9 +560,11 @@ Kat (@Rammstein), (made server logo)
                     if update_response:
                         webbrowser.open("https://github.com/Goldfish-cool/Goldens-Macro/releases/latest")
                 else:
-                    messagebox.showinfo("No Update Available", "You are running the latest version of this macro.")
+                    pass
+                    #messagebox.showinfo("No Update Available", "You are running the latest version of this macro.")
             else:
-                messagebox.showinfo("No Update Available", "No releases found for this macro.")
+                pass
+                #messagebox.showinfo("No Update Available", "No releases found for this macro.")
         except Exception as e:
             messagebox.showerror("Update Check Error", f"Failed to check for updates: {e}")
             
