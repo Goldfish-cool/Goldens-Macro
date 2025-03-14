@@ -16,7 +16,7 @@ This project **complies with all open-source licensing terms**, including proper
 This project contains **code originally written by Noteab** under the **Apache v2 License**. The license permits **modifications, repackaging, and redistribution**, provided that credit is given.  
 
 ### 📢 Proper Credit  
-- **Original Macro Logic & Core Functions:** Developed by [**Noteab**](https://github.com/noteab/Noteab-Macro/tree/v1.5.4)
+- **Biome.json and Auras.json** Developed by [**Noteab**](https://github.com/noteab/Noteab-Macro/tree/v1.5.4)
 - **Additional Features, UI, and Modifications:** Developed by **Golden & Contributors**  
 - **Maintainer:** Golden  
 - **License:** Apache v2  
