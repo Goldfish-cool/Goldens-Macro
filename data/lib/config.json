@@ -5,7 +5,7 @@
     "send_max": "0",
     "enabled_dectection": "1",
     "paths": {
-        "theme": "Normal"
+        "theme": "Darkly"
     },
     "themes": {
         "Superhero": "/data/themes/superhero.json",
@@ -30,34 +30,34 @@
     },
     "claim_daily_quests": "0",
     "clicks": {
-        "AuraStorageX": "31",
-        "AuraStorageY": "302",
-        "RegularAuraTabX": "670",
-        "RegularAuraTabY": "251",
-        "SpecialAuraTabX": "905",
-        "SpecialAuraTabY": "250",
-        "AuraSearchBarX": "582",
-        "AuraSearchBarY": "272",
-        "FirstAuraSlotX": "582",
-        "FirstAuraSlotY": "323",
-        "EquipButtonX": "445",
-        "EquipButtonY": "462",
-        "AligmentX": "32",
-        "AligmentY": "350",
-        "ExitButtonX": "270",
-        "ExitButtonY": "128",
-        "InvoX": "31",
-        "InvoY": "397",
-        "ItemsTabX": "903",
-        "ItemsTabY": "251",
-        "ItemsBarX": "591",
-        "ItemsBarY": "272",
-        "ItemsSlotX": "593",
-        "ItemsSlotY": "325",
-        "QuanityBarX": "400",
-        "QuanityBarY": "424",
-        "UseX": "482",
-        "UseY": "422"
+        "AuraStorageX": "0",
+        "AuraStorageY": "0",
+        "RegularAuraTabX": "0",
+        "RegularAuraTabY": "0",
+        "SpecialAuraTabX": "0",
+        "SpecialAuraTabY": "0",
+        "AuraSearchBarX": "0",
+        "AuraSearchBarY": "0",
+        "FirstAuraSlotX": "0",
+        "FirstAuraSlotY": "0",
+        "EquipButtonX": "0",
+        "EquipButtonY": "0",
+        "AligmentX": "0",
+        "AligmentY": "0",
+        "ExitButtonX": "0",
+        "ExitButtonY": "0",
+        "InvoX": "0",
+        "InvoY": "0",
+        "ItemsTabX": "0",
+        "ItemsTabY": "0",
+        "ItemsBarX": "0",
+        "ItemsBarY": "0",
+        "ItemsSlotX": "0",
+        "ItemsSlotY": "0",
+        "QuanityBarX": "0",
+        "QuanityBarY": "0",
+        "UseX": "0",
+        "UseY": "0"
     },
     "item_collecting": {
         "enabled": "0",
@@ -100,7 +100,7 @@
     "discord": {
         "webhook": {
             "enabled": "1",
-            "url": "",
+            "url": "https://discord.com/api/webhooks/1335458879366107186/4XFy5QWbtj5-qaXPH4sGVF9aavpBsif7iXKSPN56muf3eT7WvbNX-CE4xdLH0zfK89fm",
             "ping_id": "",
             "ps_link": ""
         },
@@ -115,6 +115,7 @@
     "auto_buy_items": "1",
     "item_scheduler_item": "Merchant Tracker",
     "item_scheduler_quantity": "2",
+    "important_only": "0",
     "biome_detection": {
         "enabled": "1"
     },
