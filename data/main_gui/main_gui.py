@@ -4,6 +4,7 @@ from pynput.mouse import Button, Controller
 import threading
 import webbrowser
 import keyboard
+import subprocess
 from tkinter import messagebox
 import requests
 from data.main_loop import main_loop
@@ -14,7 +15,7 @@ except ImportError:
 from time import sleep 
 from ahk import AHK 
 from PIL import ImageGrab, Image, ImageTk
-
+ahk = AHK()
 deactivate_automatic_dpi_awareness()
 
 VERSION = config.get_current_version()
@@ -186,7 +187,7 @@ class MainWindow(CTk):
         crafting_title = CTkLabel(master=crafting_frame, text="Crafting", font=h1).grid(row=0, column=1, columnspan=2)
         crafting_enabled = CTkCheckBox(state="disabled", master=crafting_frame, text="Enable Potion Crafting", variable=self.tk_var_list['potion_crafting']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         list = ['None', 'Fortune I', 'Fortune II', 'Fortune III', 'Speed Potion I', 'Speed Potion II', 'Speed Potion III', 'Lucky Potion I', 'Lucky Potion II', 'Lucky Potion III', 'Heavenly I', 'Heavenly II', 'Warp Potion']
-        option1 = CTkOptionMenu(master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_1']).grid(row=3, column=1, padx=5, pady=5, stick="w")
+        option1 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_1']).grid(row=3, column=1, padx=5, pady=5, stick="w")
         option2 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_2']).grid(row=4, column=1, padx=5, pady=5, stick="w")
         option3 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_3']).grid(row=5, column=1, padx=5, pady=5, stick="w")
         auto_add = CTkSwitch(state="disabled", master=crafting_frame, text="Auto Add Swicher", variable=self.tk_var_list['potion_crafting']['temporary_auto_add'], onvalue="1", offvalue="0").grid(row=2, column=2, padx=5, pady=5, stick="w")
@@ -199,7 +200,7 @@ class MainWindow(CTk):
         vip_settings = CTkCheckBox(master=settings_frame, text="VIP Game Pass", variable=self.tk_var_list['settings']['vip_mode'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         vip_mode = CTkCheckBox(master=settings_frame, text="VIP+ Mode", variable=self.tk_var_list['settings']['vip+_mode'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
         azerty_layout = CTkCheckBox(master=settings_frame, text="Azerty Keyboard Layout", variable=self.tk_var_list['settings']['azerty_mode'], onvalue="1", offvalue="0").grid(row=4, column=1, padx=5, pady=5, stick="w")
-        claim_quests = CTkCheckBox(state="disabled", master=settings_frame, text="Auto Claim Quest (30 mins)", variable=self.tk_var_list['claim_daily_quests'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
+        claim_quests = CTkCheckBox(master=settings_frame, text="Important webhook only", variable=self.tk_var_list['important_only'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
 
         aura_settings = CTkFrame(master=settings_tab)
         aura_settings.grid(row=0, column=1, sticky="n", padx=(5, 0))
@@ -220,7 +221,7 @@ class MainWindow(CTk):
         biome_config = CTkFrame(master=extras_tab)
         biome_config.grid(row=0, column=2, stick="n", padx=(5, 0))
         biome_title = CTkLabel(master=biome_config, text="Biome Settings", font=h1).grid(row=0, column=0)
-        enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
+        enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", command=self.start_detection, variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
         set_region = CTkButton(master=biome_config, text="Set Biome Region", command=self.set_biome_region).grid(row=3, column=0, padx=5, pady=5, stick="w")
 
         themes_frame = CTkFrame(master=extras_tab)
@@ -247,11 +248,12 @@ class MainWindow(CTk):
     
         credits_text = """
 Founders (Aurium):   |   Developers:
-Golden | /x64/dumped  |  vexthecodern
+Golden | /x64/dumped  |  vexthecoder
 
 Special Thanks to:
 Radiant Team, (letting us use their saving)
 Kat (@Rammstein), (made server logo)
+Vex, for greatly helping me with the detection
 
 """
         team_logo_image = CTkImage(dark_image=config.round_corners(Image.open(f"{config.parent_path()}/data/images/golden_chill.png"), 35), size=(150, 150))
@@ -321,7 +323,16 @@ Kat (@Rammstein), (made server logo)
             event.widget.focus_set()
         except:
             pass
-        
+    
+    def start_detection(self):
+        response = messagebox.askyesno(title="Detection", message="Do you wish to start the detection?\nTo Close the detection press ctrl + c.")
+        if response:
+            subprocess.Popen(['python', 'Tracker.py'])
+        else:
+            return False
+    
+
+
     def assign_clicks_gui(self):
         self.assign_clicks_gui = CTkToplevel()
         self.assign_clicks_gui.title("Assign Clicks")
