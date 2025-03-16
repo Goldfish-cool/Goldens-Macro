@@ -20,7 +20,7 @@ This project contains **code originally written by Noteab** under the **Apache v
 - **Additional Features, UI, and Modifications:** Developed by **Golden & Contributors**  
 - **Maintainer:** Golden  
 - **License:** Apache v2 
-- **Thanks to** [**Vex**](https://github.com/vexthecoder/SolsBot)**for greatly helping me with detection**
+- **Thanks to** [**Vex**](https://github.com/vexthecoder/SolsBot) **for greatly helping me with detection**
 
 The original work by **Noteab** was properly credited within the code and now explicitly acknowledged in this README.
 
