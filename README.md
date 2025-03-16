@@ -19,7 +19,8 @@ This project contains **code originally written by Noteab** under the **Apache v
 - **Biome.json and Auras.json** Developed by [**Noteab**](https://github.com/noteab/Noteab-Macro/tree/v1.5.4)
 - **Additional Features, UI, and Modifications:** Developed by **Golden & Contributors**  
 - **Maintainer:** Golden  
-- **License:** Apache v2  
+- **License:** Apache v2 
+- **Thanks to** [**Vex**](https://github.com/vexthecoder/SolsBot)**for greatly helping me with detection**
 
 The original work by **Noteab** was properly credited within the code and now explicitly acknowledged in this README.
 
