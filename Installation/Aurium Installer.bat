@@ -279,6 +279,16 @@ if errorlevel 1 (
     exit /b
 )
 
+pip install -q pathlib
+if errorlevel 0 (
+    echo Installed pathlib
+    echo:
+)
+if errorlevel 1 (
+    echo Failed to install pathlib
+    echo:
+    exit /b
+)
 echo Installation complete!
 pause
 goto main_menu
