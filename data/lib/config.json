@@ -100,7 +100,7 @@
     "discord": {
         "webhook": {
             "enabled": "1",
-            "url": "https://discord.com/api/webhooks/1335458879366107186/4XFy5QWbtj5-qaXPH4sGVF9aavpBsif7iXKSPN56muf3eT7WvbNX-CE4xdLH0zfK89fm",
+            "url": "",
             "ping_id": "",
             "ps_link": ""
         },
