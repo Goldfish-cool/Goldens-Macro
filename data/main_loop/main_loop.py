@@ -1,5 +1,6 @@
 import multiprocessing
 from time import sleep
+import webbrowser
 import threading
 import requests
 import os
@@ -24,7 +25,6 @@ import ctypes
 from datetime import datetime, timedelta
 ahk = AHK()
 
-import re
 config.config_data = config.read_config()
 kc = keyboard.Controller()
 aura_storgeX = config.config_data['clicks']['AuraStorageX'] 
@@ -121,7 +121,6 @@ def stop():
 def macro_start():
     main_loop = MainLoop()
     asyncio.run(main_loop.start_macro())
-    return
 
 def show_error(title, message):
     """Safely show error message using messagebox"""
@@ -171,66 +170,68 @@ class MainLoop:
         self.private_server_link = config.config_data['discord']["webhook"]["ps_link"]
         self.lock = threading.Lock()
         self.last_quest = datetime.min
+        self.last_item = datetime.min
+        self.check_roblox_status = None
         ahk.set_send_mode("Event")
         ahk.set_coord_mode("Screen", "Mouse")
-
-    def start_macro(self):
-        self.auto_equip()
-        sleep(1)
-        self.align_cam()
-        sleep(1)
-        self.claim_quests()
-        sleep(1)
-        self.item_scheduler()
-        sleep(1)
-        self.item_collecting()
-        return
+       
+    async def start_macro(self):
+        while True:
+            await self.auto_equip()
+            await asyncio.sleep(1)
+            await self.align_cam()
+            await asyncio.sleep(1)
+            await self.claim_quests()
+            await asyncio.sleep(1)
+            await self.item_scheduler()
+            await asyncio.sleep(1)
+            await self.item_collecting()
+            await asyncio.sleep(1)  # Sleep for a bit before starting the loop again
     
-    def auto_equip(self):
+    async def auto_equip(self):
         if config.config_data['auto_equip']['enabled'] == "1":
             try:
                 send_discord("Equiping", f"Auto Equiping: {config.config_data['auto_equip']['aura']}", footer="Golden's Sol's Macro v0.0")
-                sleep(1.3)
+                await asyncio.sleep(1.3)
                 ahk.mouse_move(aura_storgeX, aura_storgeY)
-                sleep(0.45)
+                await asyncio.sleep(0.45)
                 ahk.click()
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 if config.config_data['auto_equip']['special_aura'] == "0":
                     ahk.mouse_move(regular_tabX, regular_taby)
-                    sleep(0.55)
+                    await asyncio.sleep(0.55)
                     ahk.click()
                 else:
                     ahk.mouse_move(special_tabX, special_tabY)
-                    sleep(0.55)
+                    await asyncio.sleep(0.55)
                     ahk.click()
                 ahk.mouse_move(aura_searchX, aura_searchY)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.click()
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.send_input(config.config_data['auto_equip']['aura'])
-                sleep(0.3)
+                await asyncio.sleep(0.3)
                 kc.tap(Key.enter)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.mouse_move(slot_1X, slot_1Y)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.click()
-                sleep(0.5)
+                await asyncio.sleep(0.5)
                 ahk.mouse_move(equip_buttonX, equip_buttonY)
-                sleep(0.2)
+                await asyncio.sleep(0.2)
                 ahk.click()
-                sleep(0.2)
+                await asyncio.sleep(0.2)
                 ahk.mouse_move(aura_searchX, aura_searchY)
-                sleep(0.3)
+                await asyncio.sleep(0.3)
                 ahk.click()
-                sleep(0.3)
+                await asyncio.sleep(0.3)
                 kc.tap(Key.enter)
                 ahk.mouse_move(aura_storgeX, aura_storgeY)
-                sleep(0.3)
+                await asyncio.sleep(0.3)
                 ahk.click()
-                sleep(0.4)
+                await asyncio.sleep(0.4)
             except Exception as e:
                 showerror("Auto Equip Error", str(e))
-
         else:
             return None
 
@@ -254,11 +255,10 @@ class MainLoop:
     def chalice(self):
         return None
 
-    # Not Working atm
-    def claim_quests(self):
+    async def claim_quests(self):
         return None
     
-    def item_collecting(self):
+    async def item_collecting(self):
         if config.config_data['item_collecting']['enabled'] == "1":
             send_discord("Collecting", "**Collecting Spot Around The Map**", footer="Golden's Macro v0.0")
             try:
@@ -268,75 +268,74 @@ class MainLoop:
         else:
             return None
 
-    # Not Working atm
-    def item_scheduler(self):
+    async def item_scheduler(self):
         if config.config_data['enable_items'] == "1":
             try:
                 ahk.mouse_move(invo_tabx, invo_taby)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.click()
-                sleep(0.3)
+                await asyncio.sleep(0.3)
                 ahk.mouse_move(items_tabx, items_taby)
-                sleep(0.33)
+                await asyncio.sleep(0.33)
                 ahk.click()
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.mouse_move(search_itemsx, search_itemsy)
-                sleep(0.33)
+                await asyncio.sleep(0.33)
                 ahk.click()
-                sleep(0.11)
+                await asyncio.sleep(0.11)
                 ahk.send_input(config.config_data['item_scheduler_item'])
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.send('{ENTER}')
-                sleep(0.43)
+                await asyncio.sleep(0.43)
                 ahk.mouse_move(first1x, first1y)
-                sleep(0.4)
+                await asyncio.sleep(0.4)
                 ahk.click()
-                sleep(0.33)
+                await asyncio.sleep(0.33)
                 ahk.mouse_move(items_quanx, items_quany)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.click()
-                sleep(0.1)
+                await asyncio.sleep(0.1)
                 ahk.click()
-                sleep(0.33)
+                await asyncio.sleep(0.33)
                 ahk.send_input(config.config_data['item_scheduler_quantity'])
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.send('{ENTER}')
-                sleep(0.43)
+                await asyncio.sleep(0.43)
                 ahk.mouse_move(usex, usey)
-                sleep(0.78)
+                await asyncio.sleep(0.78)
                 ahk.click()
-                sleep(0.33)
+                await asyncio.sleep(0.33)
                 ahk.mouse_move(invo_tabx, invo_taby)
-                sleep(0.55)
+                await asyncio.sleep(0.55)
                 ahk.click()
             except Exception as e:
                 show_error("Schelduer Error", str(e))
         else:
             return None
 
-    def align_cam(self):
+    async def align_cam(self):
         send_discord("Aligning", "Aligning Camera...")
         ahk.mouse_move(alignX, alignY)
-        sleep(0.55)
+        await asyncio.sleep(0.55)
         ahk.click()
-        sleep(0.3)
+        await asyncio.sleep(0.3)
         ahk.mouse_move(exit_buttonX, exit_buttonY)
-        sleep(0.3)
+        await asyncio.sleep(0.3)
         ahk.click()
-        sleep(0.75)
+        await asyncio.sleep(0.75)
         ahk.mouse_drag(exit_buttonX, exit_buttonX, from_position=(exit_buttonX, exit_buttonY), button='right', send_mode="Input")
-        sleep(0.33)
+        await asyncio.sleep(0.33)
         for i in range(50):
             ahk.click(button="WU")
-            sleep(0.01)
+            await asyncio.sleep(0.01)
         for i in range(15):
             ahk.click(button="WD")
-            sleep(0.01)
-        sleep(0.77)
+            await asyncio.sleep(0.01)
+        await asyncio.sleep(0.77)
         kc.tap(Key.esc)
-        sleep(0.33)
+        await asyncio.sleep(0.33)
         ahk.key_press("r")
-        sleep(0.55)
+        await asyncio.sleep(0.55)
         kc.tap(Key.enter)
 
     def reset(self):
@@ -356,3 +355,22 @@ class MainLoop:
         if get_quest and datetime.now() - self.last_quest >= claim_quest:
             self.claim_quests()
             self.last_quest = datetime.now()
+
+    def get_window(self, title=""):
+        import pywinctl as gw
+        windows = gw.getAllTitles(title=title)
+        if windows:
+            return windows[0]
+        else:
+            if config.config_data['reconnect'] == "True":
+                send_discord("Disconnected!", f"Your {title} Client has been disconnected!", footer=f"Reconnect feature: {config.config_data['reconnect']}")
+                self.private_server_link = config.config_data['discord']["webhook"]["ps_link"]
+                webbrowser.open(self.private_server_link)
+                while True:
+                    if gw.getAllTitles(title=title):
+                        return gw.getAllTitles(title=title)[0]
+                    sleep(1)  # Wait for the window to open
+            else:
+                send_discord("Disconnected!", f"Your {title} Client has been disconnected!", footer=f"Reconnect feature: {config.config_data['reconnect']}")
+                return None
+        return None
