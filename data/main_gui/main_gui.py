@@ -191,7 +191,7 @@ class MainWindow(CTk):
         option2 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_2']).grid(row=4, column=1, padx=5, pady=5, stick="w")
         option3 = CTkOptionMenu(state="disabled", master=crafting_frame, values=list, variable=self.tk_var_list['potion_crafting']['item_3']).grid(row=5, column=1, padx=5, pady=5, stick="w")
         auto_add = CTkSwitch(state="disabled", master=crafting_frame, text="Auto Add Swicher", variable=self.tk_var_list['potion_crafting']['temporary_auto_add'], onvalue="1", offvalue="0").grid(row=2, column=2, padx=5, pady=5, stick="w")
-        crafting_clicks = CTkButton(state="disabled", master=crafting_frame, text="Assign Crafting").grid(row=5, column=2, padx=5, pady=5, stick="w")
+        crafting_clicks = CTkButton(state="disabled", master=crafting_frame, text="Assign Crafting", command=self.crafting_clicks).grid(row=5, column=2, padx=5, pady=5, stick="w")
     
         settings_frame = CTkFrame(master=settings_tab)
         settings_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
@@ -200,7 +200,8 @@ class MainWindow(CTk):
         vip_settings = CTkCheckBox(master=settings_frame, text="VIP Game Pass", variable=self.tk_var_list['settings']['vip_mode'], onvalue="1", offvalue="0").grid(row=2, column=1, padx=5, pady=5, stick="w")
         vip_mode = CTkCheckBox(master=settings_frame, text="VIP+ Mode", variable=self.tk_var_list['settings']['vip+_mode'], onvalue="1", offvalue="0").grid(row=3, column=1, padx=5, pady=5, stick="w")
         azerty_layout = CTkCheckBox(master=settings_frame, text="Azerty Keyboard Layout", variable=self.tk_var_list['settings']['azerty_mode'], onvalue="1", offvalue="0").grid(row=4, column=1, padx=5, pady=5, stick="w")
-        claim_quests = CTkCheckBox(master=settings_frame, text="Important webhook only", variable=self.tk_var_list['important_only'], onvalue="1", offvalue="0").grid(row=5, column=1, padx=5, pady=5, stick="w")
+        claim_quests = CTkCheckBox(master=settings_frame, text="Important webhook only", variable=self.tk_var_list['important_only'], onvalue="1", offvalue="0").grid(row=2, column=2, padx=5, pady=5, stick="w")
+        auto_reconnect = CTkCheckBox(state="disabled", master=settings_frame, text="Auto Reconnect (BETA)", variable=self.tk_var_list['reconnect'], onvalue="True", offvalue="False").grid(row=3, column=2, padx=5, pady=5, stick="w")
 
         aura_settings = CTkFrame(master=settings_tab)
         aura_settings.grid(row=0, column=1, sticky="n", padx=(5, 0))
@@ -242,7 +243,7 @@ class MainWindow(CTk):
         else:
             change_themes.set("Custom Theme")
         
-        credits_frame = CTkFrame(master=credits_tab)
+        credits_frame = CTkScrollableFrame(master=credits_tab, width=570)
         credits_frame.grid(row=0, column=0, padx=(1, 0))    
         credits_title = CTkLabel(master=credits_frame, text="Credits Team", font=h1).grid(row=0, padx=5, columnspan=3)
     
@@ -251,9 +252,9 @@ Founders (Aurium):   |   Developers:
 Golden | /x64/dumped  |  vexthecoder
 
 Special Thanks to:
-Radiant Team, (letting us use their saving)
+Radiant Team, (letting us use their saving/LPS)
 Kat (@Rammstein), (made server logo)
-Vex, for greatly helping me with the detection
+Vex (@vex.rng), for greatly helping me with the detection
 
 """
         team_logo_image = CTkImage(dark_image=config.round_corners(Image.open(f"{config.parent_path()}/data/images/golden_chill.png"), 35), size=(150, 150))
@@ -513,10 +514,72 @@ Vex, for greatly helping me with the detection
     def crafting_clicks(self):
         self.crafting_clicks = CTkToplevel()
         self.crafting_clicks.title("Crafting")
-        self.crafting_clicks.geometry("350x320")
+        self.crafting_clicks.geometry("400x540")
         self.crafting_clicks.resizable(False, False)
+        
         crafting_frame = CTkFrame(master=self.crafting_clicks)
-        crafting_frame.grid(row=0, column=0, sticky="n", padx=(1, 1))
+        crafting_frame.pack(fill="both", expand=True)
+
+        for i in range(1, 6):
+            potion_search_bar_label = CTkLabel(master=crafting_frame, text=f"#{i} manual potion add box:")
+            potion_search_bar_label.grid(row=i, column=0, padx=5, pady=2, sticky="w")
+
+            potion_search_bar_x_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list[f'clicks'][f"{i}_potion_manual_x"], placeholder_text="X")
+            potion_search_bar_x_entry.grid(row=i, column=1, padx=5, pady=2)
+
+            potion_search_bar_y_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list[f'clicks'][f"{i}_potion_manual_y"], placeholder_text="Y")
+            potion_search_bar_y_entry.grid(row=i, column=2, padx=5, pady=2)
+
+            assign_potion_search_bar_click = CTkButton(master=crafting_frame, text="Assign Click!", command=lambda key=self.config_key, x_entry=potion_search_bar_x_entry, y_entry=potion_search_bar_y_entry: self.start_capture_thread(key, x_entry, y_entry))
+            assign_potion_search_bar_click.grid(row=i, column=3, padx=5, pady=2)
+
+        potion_search_bar_label = CTkLabel(master=crafting_frame, text="Potion Search Bar:")
+        potion_search_bar_label.grid(row=7, column=0, padx=5, pady=2, sticky="w")
+
+        potion_search_bar_x_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['PotionBarX'])
+        potion_search_bar_x_entry.grid(row=7, column=1, padx=5, pady=2)
+
+        potion_search_bar_y_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['PotionBarY'])
+        potion_search_bar_y_entry.grid(row=7, column=2, padx=5, pady=2)
+
+        assign_potion_search_bar_click = CTkButton(master=crafting_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, potion_search_bar_x_entry, potion_search_bar_y_entry))
+        assign_potion_search_bar_click.grid(row=7, column=3, padx=5, pady=2)
+
+        first_potion_slot_label = CTkLabel(master=crafting_frame, text="First Potion Slot:")
+        first_potion_slot_label.grid(row=8, column=0, padx=5, pady=2, sticky="w")
+
+        first_potion_slot_x_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['FirstSlotPotionX'])
+        first_potion_slot_x_entry.grid(row=8, column=1, padx=5, pady=2)
+
+        first_potion_slot_y_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['FirstSlotPotionY'])
+        first_potion_slot_y_entry.grid(row=8, column=2, padx=5, pady=2)
+
+        assign_first_potion_slot_click = CTkButton(master=crafting_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, first_potion_slot_x_entry, first_potion_slot_y_entry))
+        assign_first_potion_slot_click.grid(row=8, column=3, padx=5, pady=2)
+
+        craft_button_label = CTkLabel(master=crafting_frame, text="Craft Button:")
+        craft_button_label.grid(row=9, column=0, padx=5, pady=2, sticky="w")
+
+        craft_button_x_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['CraftButtonX'])
+        craft_button_x_entry.grid(row=9, column=1, padx=5, pady=2)
+
+        craft_button_y_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['CraftButtonY'])
+        craft_button_y_entry.grid(row=9, column=2, padx=5, pady=2)
+
+        assign_craft_button_click = CTkButton(master=crafting_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, craft_button_x_entry, craft_button_y_entry))
+        assign_craft_button_click.grid(row=9, column=3, padx=5, pady=2)
+
+        auto_button_label = CTkLabel(master=crafting_frame, text="Auto Button:")
+        auto_button_label.grid(row=10, column=0, padx=5, pady=2, sticky="w")
+
+        auto_button_x_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['AutoButtonX'])
+        auto_button_x_entry.grid(row=10, column=1, padx=5, pady=2)
+
+        auto_button_y_entry = CTkEntry(master=crafting_frame, width=60, textvariable=self.tk_var_list['clicks']['AutoButtonY'])
+        auto_button_y_entry.grid(row=10, column=2, padx=5, pady=2)
+
+        assign_auto_button_click = CTkButton(master=crafting_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, auto_button_x_entry, auto_button_y_entry))
+        assign_auto_button_click.grid(row=10, column=3, padx=5, pady=2)
 
     def start_capture_thread(self, config_key, x_entry, y_entry):
         capture_thread = threading.Thread(target=self.capture_mouse_position, args=(config_key, x_entry, y_entry))
@@ -531,7 +594,7 @@ Vex, for greatly helping me with the detection
         self.capture_window.title("Capture Window")
         self.capture_window.attributes("-fullscreen", True)
         self.capture_window.attributes("-alpha", 0.3)
-        self.capture_window.config(cursor="cross")
+        self.capture_window.config(cursor="dot")
 
         def on_click(event):
             x, y = event.x_root, event.y_root
