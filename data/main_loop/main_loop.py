@@ -355,22 +355,3 @@ class MainLoop:
         if get_quest and datetime.now() - self.last_quest >= claim_quest:
             self.claim_quests()
             self.last_quest = datetime.now()
-
-    def get_window(self, title=""):
-        import pywinctl as gw
-        windows = gw.getAllTitles(title=title)
-        if windows:
-            return windows[0]
-        else:
-            if config.config_data['reconnect'] == "True":
-                send_discord("Disconnected!", f"Your {title} Client has been disconnected!", footer=f"Reconnect feature: {config.config_data['reconnect']}")
-                self.private_server_link = config.config_data['discord']["webhook"]["ps_link"]
-                webbrowser.open(self.private_server_link)
-                while True:
-                    if gw.getAllTitles(title=title):
-                        return gw.getAllTitles(title=title)[0]
-                    sleep(1)  # Wait for the window to open
-            else:
-                send_discord("Disconnected!", f"Your {title} Client has been disconnected!", footer=f"Reconnect feature: {config.config_data['reconnect']}")
-                return None
-        return None
