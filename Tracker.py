@@ -3,11 +3,10 @@ import re
 import json
 import requests
 import logging
-from data.lib import config
 import asyncio
 from pathlib import Path
-from datetime import datetime, timedelta
-
+from datetime import datetime
+from data.lib import config
 config.config_data = config.read_config()
 
 class BiomeTracker:
@@ -142,14 +141,8 @@ class BiomeTracker:
 
     async def _process_log_entry(self, line):
         try:
-            if config.config_data['biome_detection']['enabled'] == "1":
-                self._detect_biome_change(line)
-            else:
-                return None
-            if config.config_data['enabled_dectection'] == "1":
-                self._check_aura_equipped(line)
-            else:
-                return None
+            self._detect_biome_change(line)
+            self._check_aura_equipped(line)
         except Exception as e:
             logging.error(f"Log processing error: {str(e)}")
 
@@ -180,7 +173,7 @@ class BiomeTracker:
 
                 if biome_name in ["GLITCHED", "DREAMSPACE"]:
                     self._send_webhook(
-                        title=f"**Biome Detected***",
+                        title=f"Biome Detected",
                         description=f"# - {biome_name}",
                         color=int(biome_data["visuals"]["primary_hex"], 16),
                         thumbnail=biome_data["visuals"]["preview_image"],
@@ -189,7 +182,7 @@ class BiomeTracker:
                     )
                 elif self.biome_alerts.get(biome_name, False):
                     self._send_webhook(
-                        title=f"**Biome Detected***",
+                        title=f"Biome Detected",
                         description=f"# - {biome_name}",
                         color=int(biome_data["visuals"]["primary_hex"], 16),
                         thumbnail=biome_data["visuals"]["preview_image"],
@@ -277,8 +270,8 @@ class BiomeTracker:
 
             if aura_name != self.last_sent_aura:
                 self._send_webhook(
-                    title=f"Aura Found/Equipped",
-                    description=f"{aura_name} has been equipped/found.",
+                    title=f"Aura Detection",
+                    description=f"{aura_name} has been equipped.",
                     color=color,
                     thumbnail=thumbnail,
                     is_aura=True,
@@ -408,11 +401,11 @@ if __name__ == "__main__":
             try:
                 current_time = datetime.now().isoformat()
                 embed = {
-                    "title": "SolsBot Crashed",
-                    "description": f"SolsBot Biome/Aura Detection has crashed due to: {str(e)}",
+                    "title": "Tacker Crashed",
+                    "description": f"Biome/Aura Detection has crashed due to: {str(e)}",
                     "color": 0xFF0000,
                     "timestamp": current_time,
-                    "footer": {"text": "SolsBot v1.1.0 Pre2"},
+                    "footer": {"text": "Goldens Sol's Macro"},
                     "fields": [{"name": "Private Server Link", "value": tracker.private_server_link}],
                 }
                 payload = {"content": "@everyone", "embeds": [embed]}
