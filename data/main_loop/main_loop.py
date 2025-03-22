@@ -27,34 +27,20 @@ ahk = AHK()
 
 config.config_data = config.read_config()
 kc = keyboard.Controller()
-aura_storgeX = config.config_data['clicks']['AuraStorageX'] 
-aura_storgeY = config.config_data['clicks']['AuraStorageY']
-regular_tabX = config.config_data['clicks']['RegularAuraTabX'] 
-regular_taby = config.config_data['clicks']['RegularAuraTabY']
-special_tabX = config.config_data['clicks']['SpecialAuraTabX']
-special_tabY = config.config_data['clicks']['SpecialAuraTabY']
-aura_searchX = config.config_data['clicks']['AuraSearchBarX'] 
-aura_searchY = config.config_data['clicks']['AuraSearchBarY']
-slot_1X = config.config_data['clicks']['FirstAuraSlotX']
-slot_1Y = config.config_data['clicks']['FirstAuraSlotY']
-equip_buttonX = config.config_data['clicks']['EquipButtonX']
-equip_buttonY = config.config_data['clicks']['EquipButtonY']
-alignX = config.config_data['clicks']['AligmentX']
-alignY = config.config_data['clicks']['AligmentY']
-exit_buttonX = config.config_data['clicks']['ExitButtonX']
-exit_buttonY = config.config_data['clicks']['ExitButtonY']
-invo_tabx = config.config_data['clicks']['InvoX']
-invo_taby = config.config_data['clicks']['InvoY']
-items_tabx = config.config_data['clicks']['ItemsTabX']
-items_taby = config.config_data['clicks']['ItemsTabY']
-search_itemsx = config.config_data['clicks']['ItemsBarX']
-search_itemsy = config.config_data['clicks']['ItemsBarY']
-first1x = config.config_data['clicks']['ItemsSlotX']
-first1y = config.config_data['clicks']['ItemsSlotY']
-items_quanx = config.config_data['clicks']['QuanityBarX']
-items_quany = config.config_data['clicks']['QuanityBarY']
-usex = config.config_data['clicks']['UseX']
-usey = config.config_data['clicks']['UseY']
+aura_storage = config.config_data['clicks']['aura_storage']
+regular_tab = config.config_data['clicks']['regular_tab']
+special_tab = config.config_data['clicks']['special_tab']
+search_bar = config.config_data['clicks']['search_bar']
+aura_first_slot = config.config_data['clicks']['aura_first_slot']
+equip_button = config.config_data['clicks']['equip_button']
+collection_menu = config.config_data['clicks']['collection_menu']
+exit_collection = config.config_data['clicks']['exit_collection']
+items_storage = config.config_data['clicks']['items_storage']
+items_tab = config.config_data['clicks']['items_tab']
+items_bar = config.config_data['clicks']['items_bar']
+item_value = config.config_data['clicks']['item_value']
+quanity_bar = config.config_data['clicks']['item_value']
+use_button = config.config_data['clicks']['use_button']
 
 session_start = None
 
@@ -172,11 +158,11 @@ class MainLoop:
         self.last_quest = datetime.min
         self.last_item = datetime.min
         self.check_roblox_status = None
-        ahk.set_send_mode("Event")
-        ahk.set_coord_mode("Screen", "Mouse")
+
        
     async def start_macro(self):
         while True:
+            self.activate_window(titles="Roblox")
             await self.auto_equip()
             await asyncio.sleep(1)
             await self.align_cam()
@@ -193,42 +179,28 @@ class MainLoop:
             try:
                 send_discord("Equiping", f"Auto Equiping: {config.config_data['auto_equip']['aura']}", footer="Golden's Sol's Macro v0.0")
                 await asyncio.sleep(1.3)
-                ahk.mouse_move(aura_storgeX, aura_storgeY)
-                await asyncio.sleep(0.45)
-                ahk.click()
+                ahk.click(aura_storage[0], aura_storage[1], coord_mode="Screen")
                 await asyncio.sleep(0.55)
                 if config.config_data['auto_equip']['special_aura'] == "0":
-                    ahk.mouse_move(regular_tabX, regular_taby)
+                    ahk.click(regular_tab[0], regular_tab[1], coord_mode="Screen")
                     await asyncio.sleep(0.55)
-                    ahk.click()
                 else:
-                    ahk.mouse_move(special_tabX, special_tabY)
+                    ahk.click(special_tab[0], special_tab[1], coord_mode="Screen")
                     await asyncio.sleep(0.55)
-                    ahk.click()
-                ahk.mouse_move(aura_searchX, aura_searchY)
-                await asyncio.sleep(0.55)
-                ahk.click()
+                ahk.click(search_bar[0], search_bar[1], coord_mode="Screen")
                 await asyncio.sleep(0.55)
                 ahk.send_input(config.config_data['auto_equip']['aura'])
                 await asyncio.sleep(0.3)
                 kc.tap(Key.enter)
                 await asyncio.sleep(0.55)
-                ahk.mouse_move(slot_1X, slot_1Y)
+                ahk.click(aura_first_slot[0], aura_first_slot[1], coord_mode="Screen")
                 await asyncio.sleep(0.55)
-                ahk.click()
-                await asyncio.sleep(0.5)
-                ahk.mouse_move(equip_buttonX, equip_buttonY)
+                ahk.click(equip_button[0], equip_button[1], coord_mode="Screen")
                 await asyncio.sleep(0.2)
-                ahk.click()
-                await asyncio.sleep(0.2)
-                ahk.mouse_move(aura_searchX, aura_searchY)
-                await asyncio.sleep(0.3)
-                ahk.click()
+                ahk.click(search_bar[0], search_bar[1], coord_mode="Screen")
                 await asyncio.sleep(0.3)
                 kc.tap(Key.enter)
-                ahk.mouse_move(aura_storgeX, aura_storgeY)
-                await asyncio.sleep(0.3)
-                ahk.click()
+                ahk.click(aura_storage[0], aura_storage[1], coord_mode="Screen")
                 await asyncio.sleep(0.4)
             except Exception as e:
                 showerror("Auto Equip Error", str(e))
@@ -271,29 +243,19 @@ class MainLoop:
     async def item_scheduler(self):
         if config.config_data['enable_items'] == "1":
             try:
-                ahk.mouse_move(invo_tabx, invo_taby)
+                ahk.click(items_storage[0], items_storage[1], coord_mode="Screen")
                 await asyncio.sleep(0.55)
-                ahk.click()
-                await asyncio.sleep(0.3)
-                ahk.mouse_move(items_tabx, items_taby)
+                ahk.click(items_tab[0], items_tab[1], coord_mode="Screen")
                 await asyncio.sleep(0.33)
-                ahk.click()
-                await asyncio.sleep(0.55)
-                ahk.mouse_move(search_itemsx, search_itemsy)
+                ahk.click(items_bar[0], items_bar[1], coord_mode="Screen")
                 await asyncio.sleep(0.33)
-                ahk.click()
-                await asyncio.sleep(0.11)
                 ahk.send_input(config.config_data['item_scheduler_item'])
                 await asyncio.sleep(0.55)
                 ahk.send('{ENTER}')
                 await asyncio.sleep(0.43)
-                ahk.mouse_move(first1x, first1y)
-                await asyncio.sleep(0.4)
-                ahk.click()
+                ahk.click(item_value[0], item_value[1], coord_mode="Screen")
                 await asyncio.sleep(0.33)
-                ahk.mouse_move(items_quanx, items_quany)
-                await asyncio.sleep(0.55)
-                ahk.click()
+                ahk.click(quanity_bar[0], quanity_bar[1], coord_mode="Screen")
                 await asyncio.sleep(0.1)
                 ahk.click()
                 await asyncio.sleep(0.33)
@@ -301,13 +263,9 @@ class MainLoop:
                 await asyncio.sleep(0.55)
                 ahk.send('{ENTER}')
                 await asyncio.sleep(0.43)
-                ahk.mouse_move(usex, usey)
+                ahk.click(use_button[0], use_button[1], coord_mode="Screen")
                 await asyncio.sleep(0.78)
-                ahk.click()
-                await asyncio.sleep(0.33)
-                ahk.mouse_move(invo_tabx, invo_taby)
-                await asyncio.sleep(0.55)
-                ahk.click()
+                ahk.click(items_storage[0], items_storage[1], coord_mode="Screen")
             except Exception as e:
                 show_error("Schelduer Error", str(e))
         else:
@@ -315,15 +273,11 @@ class MainLoop:
 
     async def align_cam(self):
         send_discord("Aligning", "Aligning Camera...")
-        ahk.mouse_move(alignX, alignY)
+        ahk.click(collection_menu[0], collection_menu[1], coord_mode="Screen")
         await asyncio.sleep(0.55)
-        ahk.click()
-        await asyncio.sleep(0.3)
-        ahk.mouse_move(exit_buttonX, exit_buttonY)
-        await asyncio.sleep(0.3)
-        ahk.click()
+        ahk.click(exit_collection[0], exit_collection[1], coord_mode="Screen")
         await asyncio.sleep(0.75)
-        ahk.mouse_drag(exit_buttonX, exit_buttonX, from_position=(exit_buttonX, exit_buttonY), button='right', send_mode="Input")
+        ahk.mouse_drag(exit_collection[0], exit_collection[0], from_position=(exit_collection[0], exit_collection[1]), button='right', coord_mode="Screen", send_mode="Input")
         await asyncio.sleep(0.33)
         for i in range(50):
             ahk.click(button="WU")
@@ -355,3 +309,22 @@ class MainLoop:
         if get_quest and datetime.now() - self.last_quest >= claim_quest:
             self.claim_quests()
             self.last_quest = datetime.now()
+    
+    def activate_window(self, titles=""):
+        try:
+            import pywinctl as pwc
+        except ImportError:
+            messagebox.showerror(title="Import Error", message=f"Failed to activate: {titles}")
+            return
+
+        windows = pwc.getAllTitles()
+        the_window = titles
+        if the_window not in windows:
+            messagebox.showerror(title="Error", message=f"No window found with title: {titles}")
+        else:
+            for window in windows:
+                if titles in window:
+                    pwc.getWindowsWithTitle(window)[0].activate()
+                    break
+            else:
+                messagebox.showerror(title="Error", message=f"No window found with title containing 'Roblox'")
