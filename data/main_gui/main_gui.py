@@ -328,11 +328,13 @@ Vex (@vex.rng), for greatly helping me with the detection
     def start_detection(self):
         response = messagebox.askyesno(title="Detection", message="Do you wish to start the detection?\nTo Close the detection press ctrl + c.")
         if response:
-            subprocess.Popen(['python', 'Tracker.py'])
+            if getattr(sys, 'frozen', False):
+                # If the application is frozen (compiled)
+                subprocess.Popen([sys.executable, 'Tracker.py'])
+            else:
+                os.system('python Tracker.py')
         else:
             return False
-    
-
 
     def assign_clicks_gui(self):
         self.assign_clicks_gui = CTkToplevel()
