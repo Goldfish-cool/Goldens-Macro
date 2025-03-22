@@ -346,169 +346,169 @@ Vex (@vex.rng), for greatly helping me with the detection
         aura_storage_label = CTkLabel(master=aura_equip_frame, text="Aura Storage:")
         aura_storage_label.grid(row=1, column=0, padx=5, pady=2, sticky="w")
 
-        aura_storage_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AuraStorageX'], placeholder_text="X")
+        aura_storage_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['aura_storage'][0], placeholder_text="X")
         aura_storage_x_entry.grid(row=1, column=1, padx=5, pady=2)
 
-        aura_storage_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AuraStorageY'], placeholder_text="Y")
+        aura_storage_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['aura_storage'][1], placeholder_text="Y")
         aura_storage_y_entry.grid(row=1, column=2, padx=5, pady=2)
 
-        assign_button1 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, aura_storage_x_entry, aura_storage_y_entry))
+        assign_button1 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('aura_storage', aura_storage_x_entry, aura_storage_y_entry))
         assign_button1.grid(row=1, column=3, padx=5, pady=2)
 
         regular_aura_tab_label = CTkLabel(master=aura_equip_frame, text="Regular Aura Tab:")
         regular_aura_tab_label.grid(row=2, column=0, padx=5, pady=2, sticky="w")
 
-        regular_aura_tab_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['RegularAuraTabX'], placeholder_text="X")
+        regular_aura_tab_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['regular_tab'][0], placeholder_text="X")
         regular_aura_tab_x_entry.grid(row=2, column=1, padx=5, pady=2)
 
-        regular_aura_tab_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['RegularAuraTabY'], placeholder_text="Y")
+        regular_aura_tab_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['regular_tab'][1], placeholder_text="Y")
         regular_aura_tab_y_entry.grid(row=2, column=2, padx=5, pady=2)
 
-        assign_button2 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, regular_aura_tab_x_entry, regular_aura_tab_y_entry))
+        assign_button2 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('regular_tab', regular_aura_tab_x_entry, regular_aura_tab_y_entry))
         assign_button2.grid(row=2, column=3, padx=5, pady=2)
 
         special_aura_tab_label = CTkLabel(master=aura_equip_frame, text="Special Aura Tab:")
         special_aura_tab_label.grid(row=3, column=0, padx=5, pady=2, sticky="w")
 
-        special_aura_tab_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['SpecialAuraTabX'], placeholder_text="X")
+        special_aura_tab_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['special_tab'][0], placeholder_text="X")
         special_aura_tab_x_entry.grid(row=3, column=1, padx=5, pady=2)
 
-        special_aura_tab_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['SpecialAuraTabY'], placeholder_text="Y")
+        special_aura_tab_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['special_tab'][1], placeholder_text="Y")
         special_aura_tab_y_entry.grid(row=3, column=2, padx=5, pady=2)
 
-        assign_button3 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, special_aura_tab_x_entry, special_aura_tab_y_entry))
+        assign_button3 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('special_tab', special_aura_tab_x_entry, special_aura_tab_y_entry))
         assign_button3.grid(row=3, column=3, padx=5, pady=2)
 
         aura_search_bar_label = CTkLabel(master=aura_equip_frame, text="Aura Search Bar:")
         aura_search_bar_label.grid(row=4, column=0, padx=5, pady=2, sticky="w")
 
-        aura_search_bar_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AuraSearchBarX'], placeholder_text="X")
+        aura_search_bar_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['search_bar'][0], placeholder_text="X")
         aura_search_bar_x_entry.grid(row=4, column=1, padx=5, pady=2)
 
-        aura_search_bar_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AuraSearchBarY'], placeholder_text="Y")
+        aura_search_bar_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['search_bar'][1], placeholder_text="Y")
         aura_search_bar_y_entry.grid(row=4, column=2, padx=5, pady=2)
 
-        assign_button4 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, aura_search_bar_x_entry, aura_search_bar_y_entry))
+        assign_button4 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('search_bar', aura_search_bar_x_entry, aura_search_bar_y_entry))
         assign_button4.grid(row=4, column=3, padx=5, pady=2)
 
         first_aura_slot_label = CTkLabel(master=aura_equip_frame, text="First Aura Slot:")
         first_aura_slot_label.grid(row=5, column=0, padx=5, pady=2, sticky="w")
 
-        first_aura_slot_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['FirstAuraSlotX'], placeholder_text="X")
+        first_aura_slot_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['aura_first_slot'][0], placeholder_text="X")
         first_aura_slot_x_entry.grid(row=5, column=1, padx=5, pady=2)
 
-        first_aura_slot_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['FirstAuraSlotY'], placeholder_text="Y")
+        first_aura_slot_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['aura_first_slot'][1], placeholder_text="Y")
         first_aura_slot_y_entry.grid(row=5, column=2, padx=5, pady=2)
 
-        assign_button5 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, first_aura_slot_x_entry, first_aura_slot_y_entry))
+        assign_button5 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('aura_first_slot', first_aura_slot_x_entry, first_aura_slot_y_entry))
         assign_button5.grid(row=5, column=3, padx=5, pady=2)
 
         equip_button_label = CTkLabel(master=aura_equip_frame, text="Equip Button:")
         equip_button_label.grid(row=6, column=0, padx=5, pady=2, sticky="w")
 
-        equip_button_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['EquipButtonX'], placeholder_text="X")
+        equip_button_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['equip_button'][0], placeholder_text="X")
         equip_button_x_entry.grid(row=6, column=1, padx=5, pady=2)
 
-        equip_button_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['EquipButtonY'])
+        equip_button_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['equip_button'][1], placeholder_text="Y")
         equip_button_y_entry.grid(row=6, column=2, padx=5, pady=2)
 
-        assign_button6 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, equip_button_x_entry, equip_button_y_entry))
+        assign_button6 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('equip_button', equip_button_x_entry, equip_button_y_entry))
         assign_button6.grid(row=6, column=3, padx=5, pady=2)
 
         alignment = CTkLabel(master=aura_equip_frame, text="Collection Menu:")
         alignment.grid(row=7, column=0, padx=5, pady=2, sticky="w")
 
-        alignment_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AligmentX'])
+        alignment_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['collection_menu'][0], placeholder_text="X")
         alignment_x_entry.grid(row=7, column=1, padx=5, pady=2)
 
-        alignmet_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['AligmentY'])
+        alignmet_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['collection_menu'][1], placeholder_text="Y")
         alignmet_y_entry.grid(row=7, column=2, padx=5, pady=2)
 
-        assign_button7 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, alignment_x_entry, alignmet_y_entry))
+        assign_button7 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('collection_menu', alignment_x_entry, alignmet_y_entry))
         assign_button7.grid(row=7, column=3, padx=5, pady=2)
 
         exit_alignment = CTkLabel(master=aura_equip_frame, text="Exit Collection:")
         exit_alignment.grid(row=8, column=0, padx=5, pady=2, sticky="w")
 
-        exit_alignment_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ExitButtonX'])
+        exit_alignment_x_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['exit_collection'][0], placeholder_text="X")
         exit_alignment_x_entry.grid(row=8, column=1, padx=5, pady=2)
 
-        exit_alignmet_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ExitButtonY'])
+        exit_alignmet_y_entry = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['exit_collection'][1], placeholder_text="Y")
         exit_alignmet_y_entry.grid(row=8, column=2, padx=5, pady=2)
 
-        assign_button8 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, exit_alignment_x_entry, exit_alignmet_y_entry))
+        assign_button8 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('exit_collection', exit_alignment_x_entry, exit_alignmet_y_entry))
         assign_button8.grid(row=8, column=3, padx=5, pady=2)
 
         invo_tab = CTkLabel(master=aura_equip_frame, text="Items Storage:")
         invo_tab.grid(row=9, column=0, padx=5, pady=2, sticky="w")
 
-        items_tabx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['InvoX'])
+        items_tabx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_storage'][0], placeholder_text="X")
         items_tabx.grid(row=9, column=1, padx=5, pady=2, sticky="w")
 
-        items_taby = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['InvoY'])
+        items_taby = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_storage'][1], placeholder_text="Y")
         items_taby.grid(row=9, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button9 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_tabx, items_taby))
+        assign_button9 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('items_storage', items_tabx, items_taby))
         assign_button9.grid(row=9, column=3, padx=5, pady=2)
 
         invo_storge = CTkLabel(master=aura_equip_frame, text="Items Tab:")
         invo_storge.grid(row=10, column=0, padx=5, pady=2, sticky="w")
 
-        items_barx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsTabX'])
+        items_barx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_tab'][0], placeholder_text="X")
         items_barx.grid(row=10, column=1, padx=5, pady=2, sticky="w")
 
-        items_bary = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsTabY'])
+        items_bary = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_tab'][1], placeholder_text="Y")
         items_bary.grid(row=10, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button10 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_barx, items_bary))
+        assign_button10 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('items_tab', items_barx, items_bary))
         assign_button10.grid(row=10, column=3, padx=5, pady=2)
 
         invo_bar = CTkLabel(master=aura_equip_frame, text="Items Search Bar:")
         invo_bar.grid(row=11, column=0, padx=5, pady=2, sticky="w")
 
-        items_searchx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsBarX'])
+        items_searchx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_bar'][0], placeholder_text="X")
         items_searchx.grid(row=11, column=1, padx=5, pady=2, sticky="w")
 
-        items_searchy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsBarY'])
+        items_searchy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['items_bar'][1], placeholder_text="Y")
         items_searchy.grid(row=11, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button11 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_searchx, items_searchy))
+        assign_button11 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('items_bar', items_searchx, items_searchy))
         assign_button11.grid(row=11, column=3, padx=5, pady=2)
 
         invo_bar = CTkLabel(master=aura_equip_frame, text="Items First Slot:")
         invo_bar.grid(row=12, column=0, padx=5, pady=2, sticky="w")
 
-        items_slotx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsSlotX'])
+        items_slotx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['item_first_slot'][0], placeholder_text="X")
         items_slotx.grid(row=12, column=1, padx=5, pady=2, sticky="w")
 
-        items_sloty = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['ItemsSlotY'])
+        items_sloty = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['item_first_slot'][1], placeholder_text="Y")
         items_sloty.grid(row=12, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button12 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, items_slotx, items_sloty))
+        assign_button12 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('item_first_slot', items_slotx, items_sloty))
         assign_button12.grid(row=12, column=3, padx=5, pady=2)
         
         invo_bar = CTkLabel(master=aura_equip_frame, text="Quanity Bar:")
         invo_bar.grid(row=13, column=0, padx=5, pady=2, sticky="w")
 
-        quanityx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuanityBarX'])
+        quanityx = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['item_value'][0], placeholder_text="X")
         quanityx.grid(row=13, column=1, padx=5, pady=2, sticky="w")
 
-        quanityy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['QuanityBarY'])
+        quanityy = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['item_value'][1], placeholder_text="Y")
         quanityy.grid(row=13, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button13 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, quanityx, quanityy))
+        assign_button13 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('item_value', quanityx, quanityy))
         assign_button13.grid(row=13, column=3, padx=5, pady=2)
 
         invo_button = CTkLabel(master=aura_equip_frame, text="Use Button:")
         invo_button.grid(row=14, column=0, padx=5, pady=2, sticky="w")
 
-        usex = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseX'])
+        usex = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['use_button'][0], placeholder_text="X")
         usex.grid(row=14, column=1, padx=5, pady=2, sticky="w")
 
-        usey = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['UseY'])
+        usey = CTkEntry(master=aura_equip_frame, width=60, textvariable=self.tk_var_list['clicks']['use_button'][1], placeholder_text="Y")
         usey.grid(row=14, column=2, padx=5, pady=2, sticky="w")
 
-        assign_button14 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda key=self.config_key: self.start_capture_thread(key, usex, usey))
+        assign_button14 = CTkButton(master=aura_equip_frame, text="Assign Click!", command=lambda: self.start_capture_thread('use_button', usex, usey))
         assign_button14.grid(row=14, column=3, padx=5, pady=2)
     
     def crafting_clicks(self):
@@ -582,32 +582,97 @@ Vex (@vex.rng), for greatly helping me with the detection
         assign_auto_button_click.grid(row=10, column=3, padx=5, pady=2)
 
     def start_capture_thread(self, config_key, x_entry, y_entry):
-        capture_thread = threading.Thread(target=self.capture_mouse_position, args=(config_key, x_entry, y_entry))
-        capture_thread.daemon = True
-        capture_thread.start()
+        self.snipping_window = CTkToplevel()
+        self.snipping_window.attributes("-fullscreen", True)
+        self.snipping_window.attributes("-alpha", 0.3)
+        self.snipping_window.config(cursor="cross")
+        self.canvas = CTkCanvas(self.snipping_window, bg="lightblue", highlightthickness=0)
+        self.canvas.pack(fill="both", expand=True)
+        
+        # Store the entry widgets and config key for later use
+        self.x_entry = x_entry
+        self.y_entry = y_entry
+        self.config_key = config_key
 
-    def capture_mouse_position(self, config_key, x_entry, y_entry):
-        if hasattr(self, "capture_window") and self.capture_window.winfo_exists():
-            return
+        self.snipping_window.bind("<Button-1>", self.on_click)
+        self.snipping_window.bind("<B1-Motion>", self.on_mouse_drag)
+        self.snipping_window.bind("<ButtonRelease-1>", self.on_mouse_release)
+        
+        # Add window close handler
+        self.snipping_window.protocol("WM_DELETE_WINDOW", self.on_window_close)
 
-        self.capture_window = CTkToplevel()
-        self.capture_window.title("Capture Window")
-        self.capture_window.attributes("-fullscreen", True)
-        self.capture_window.attributes("-alpha", 0.3)
-        self.capture_window.config(cursor="dot")
+    def on_window_close(self):
+        """Handle window closing"""
+        if hasattr(self, 'snipping_window'):
+            self.snipping_window.destroy()
 
-        def on_click(event):
-            x, y = event.x_root, event.y_root
-            x_entry.delete(0, END)
-            x_entry.insert(0, x)
-            y_entry.delete(0, END)
-            y_entry.insert(0, y)
-            print(f"Captured coordinates for {config_key}: ({x}, {y})")
-            self.capture_window.destroy()
-            del self.capture_window
+    def on_click(self, event):
+        try:
+            self.begin_x = event.x
+            self.begin_y = event.y
+            
+            if hasattr(self, 'canvas'):
+                self.canvas.delete("selection_rect")
+        except Exception as e:
+            print(f"Error in on_click: {e}")
 
-        self.capture_window.bind("<Button-1>", on_click)
+    def on_mouse_drag(self, event):
+        try:
+            self.end_x, self.end_y = event.x, event.y
+            
+            # Update the canvas with the current selection rectangle
+            if hasattr(self, 'canvas'):
+                self.canvas.delete("selection_rect")
+                self.canvas.create_rectangle(self.begin_x, self.begin_y, self.end_x, self.end_y,
+                                          outline="white", width=2, tag="selection_rect")
+            
+            # Update the entry widgets with the current coordinates
+            if hasattr(self, 'x_entry') and self.x_entry.winfo_exists():
+                self.x_entry.delete(0, 'end')
+                self.x_entry.insert(0, str(self.end_x))
+            
+            if hasattr(self, 'y_entry') and self.y_entry.winfo_exists():
+                self.y_entry.delete(0, 'end')
+                self.y_entry.insert(0, str(self.end_y))
+        except Exception as e:
+            print(f"Error in on_mouse_drag: {e}")
 
+    def on_mouse_release(self, event):
+        try:
+            self.end_x = event.x
+            self.end_y = event.y
+            
+            # Update the entry widgets with the final coordinates
+            if hasattr(self, 'x_entry') and self.x_entry.winfo_exists():
+                self.x_entry.delete(0, 'end')
+                self.x_entry.insert(0, str(self.end_x))
+            
+            if hasattr(self, 'y_entry') and self.y_entry.winfo_exists():
+                self.y_entry.delete(0, 'end')
+                self.y_entry.insert(0, str(self.end_y))
+            
+            # Update the config with new coordinates
+            if hasattr(self, 'config_key'):
+                config_key = self.config_key.lower().replace('x', '').replace('y', '')
+                config.config_data['clicks'][config_key] = [self.end_x, self.end_y]
+                config.save_config(config.config_data)
+            
+            # Close the snipping window
+            if hasattr(self, 'snipping_window'):
+                self.snipping_window.destroy()
+        except Exception as e:
+            print(f"Error in on_mouse_release: {e}")
+            if hasattr(self, 'snipping_window'):
+                self.snipping_window.destroy()
+
+    def capture_region(self, x1, y1, x2, y2):
+        if self.config_key:
+            region = [x1, y1, x2 - x1, y2 - y1]
+            print(f"Region for '{self.config_key}' set to {region}")
+            
+            if self.callback:
+                self.callback(region)
+        
     def set_biome_region(self):
         self.biome_window = CTkToplevel()
         self.biome_window.title("Select Biomes")
