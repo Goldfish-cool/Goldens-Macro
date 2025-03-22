@@ -28,6 +28,29 @@ if %errorlevel% neq 0 (
     )
     echo Python added to PATH successfully.
 )
+em Install AutoHotkey v1
+echo Installing AutoHotkey v1...
+curl -L -o autohotkey_1.1.33.00_setup.exe https://www.autohotkey.com/download/1.1.33.00/AutoHotkey_1.1.33.00_setup.exe
+if errorlevel 1 (
+    echo Failed to download AutoHotkey v1
+    pause
+    exit /b
+)
+start /wait autohotkey_1.1.33.00_setup.exe /S
+if errorlevel 1 (
+    echo Failed to install AutoHotkey v1
+    pause
+    exit /b
+)
+echo AutoHotkey v1 installed successfully.
+echo Adding AutoHotkey v1 to PATH...
+setx PATH "%PATH%;%USERPROFILE%\AppData\Local\Programs\AutoHotkey\" /m
+if errorlevel 1 (
+    echo Failed to add AutoHotkey v1 to PATH
+    pause
+    exit /b
+)
+echo AutoHotkey v1 added to PATH successfully.
 
 :main_menu
 cls
@@ -191,18 +214,6 @@ if errorlevel 1 (
     exit /b
 )
 
-rem Note: The user installed keyboard again below, mirroring the original script
-pip install -q keyboard
-if errorlevel 0 (
-    echo Successfully Installed: keyboard
-    echo:
-)
-if errorlevel 1 (
-    echo Failed to install keyboard
-    echo:
-    exit /b
-)
-
 pip install -q pywin32
 if errorlevel 0 (
     echo Successfully Installed: pywin32
@@ -214,13 +225,13 @@ if errorlevel 1 (
     exit /b
 )
 
-pip install -q requests
+pip install -q ctypes
 if errorlevel 0 (
-    echo Successfully Installed: requests
+    echo Installed ctypes
     echo:
 )
 if errorlevel 1 (
-    echo Failed to install requests
+    echo Failed to install ctypes
     echo:
     exit /b
 )
@@ -289,6 +300,28 @@ if errorlevel 1 (
     echo:
     exit /b
 )
+pip install asyncio
+if errorlevel 0 (
+    echo Installed asyncio
+    echo:
+)
+if errorlevel 1 (
+    echo Failed to install asyncio
+    echo:
+    exit /b
+)
+pip install pywinctl
+if errorlevel 0 (
+    echo Installed pywinctl
+    echo:
+)
+if errorlevel 1 (
+    echo Failed to install pywinctl
+    echo:
+    exit /b
+)
+
+
 echo Installation complete!
 pause
 goto main_menu
