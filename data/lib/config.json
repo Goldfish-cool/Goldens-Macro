@@ -152,9 +152,9 @@
     "discord": {
         "webhook": {
             "enabled": "1",
-            "url": "https://discord.com/api/webhooks/1342163546393284701/TyO0mxsLRoSoMqDRe0LA9_eoQThFdOnfj6oLC8qxfr8Z4RgX3D_avIOdaOnsS_nVEp34",
+            "url": "",
             "ping_id": "",
-            "ps_link": "https://www.roblox.com/games/15532962292/Sols-RNG?privateServerLinkCode=82075625588211926019920574609701"
+            "ps_link": ""
         },
         "bot": {
             "enabled": "0",
