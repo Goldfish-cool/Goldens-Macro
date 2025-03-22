@@ -1,11 +1,11 @@
 {
-    "current_version": "1.0.1.patch.2",
+    "current_version": "1.1",
     "ui_key": "\\",
     "send_min": "0",
     "send_max": "0",
     "enabled_dectection": "1",
     "paths": {
-        "theme": "Normal"
+        "theme": "Monodim"
     },
     "themes": {
         "Superhero": "/data/themes/superhero.json",
@@ -30,34 +30,62 @@
     },
     "claim_daily_quests": "0",
     "clicks": {
-        "AuraStorageX": "30",
-        "AuraStorageY": "303",
-        "RegularAuraTabX": "665",
-        "RegularAuraTabY": "252",
-        "SpecialAuraTabX": "905",
-        "SpecialAuraTabY": "253",
-        "AuraSearchBarX": "590",
-        "AuraSearchBarY": "275",
-        "FirstAuraSlotX": "582",
-        "FirstAuraSlotY": "327",
-        "EquipButtonX": "442",
-        "EquipButtonY": "465",
-        "AligmentX": "29",
-        "AligmentY": "349",
-        "ExitButtonX": "271",
-        "ExitButtonY": "130",
-        "InvoX": "0",
-        "InvoY": "0",
-        "ItemsTabX": "0",
-        "ItemsTabY": "0",
-        "ItemsBarX": "0",
-        "ItemsBarY": "0",
-        "ItemsSlotX": "0",
-        "ItemsSlotY": "0",
-        "QuanityBarX": "0",
-        "QuanityBarY": "0",
-        "UseX": "0",
-        "UseY": "0",
+        "aura_storage": [
+            "30",
+            "300"
+        ],
+        "regular_tab": [
+            "671",
+            "250"
+        ],
+        "special_tab": [
+            "905",
+            "250"
+        ],
+        "search_bar": [
+            "589",
+            "273"
+        ],
+        "aura_first_slot": [
+            "583",
+            "322"
+        ],
+        "equip_button": [
+            "443",
+            "465"
+        ],
+        "collection_menu": [
+            "30",
+            "350"
+        ],
+        "exit_collection": [
+            "271",
+            "128"
+        ],
+        "items_storage": [
+            "30",
+            "397"
+        ],
+        "items_tab": [
+            "901",
+            "249"
+        ],
+        "items_bar": [
+            "596",
+            "273"
+        ],
+        "item_first_slot": [
+            "596",
+            "326"
+        ],
+        "item_value": [
+            "402",
+            "422"
+        ],
+        "use_button": [
+            "484",
+            "423"
+        ],
         "PotionBarX": "668",
         "PotionBarY": "306",
         "FirstSlotPotionX": "840",
@@ -77,7 +105,11 @@
         "5_potion_manual_x": "561",
         "5_potion_manual_y": "160",
         "6_potion_manual_x": "0",
-        "6_potion_manual_y": "0"
+        "6_potion_manual_y": "0",
+        "eit_collection": [
+            "636",
+            "161"
+        ]
     },
     "item_collecting": {
         "enabled": "0",
@@ -120,9 +152,9 @@
     "discord": {
         "webhook": {
             "enabled": "1",
-            "url": "",
+            "url": "https://discord.com/api/webhooks/1342163546393284701/TyO0mxsLRoSoMqDRe0LA9_eoQThFdOnfj6oLC8qxfr8Z4RgX3D_avIOdaOnsS_nVEp34",
             "ping_id": "",
-            "ps_link": ""
+            "ps_link": "https://www.roblox.com/games/15532962292/Sols-RNG?privateServerLinkCode=82075625588211926019920574609701"
         },
         "bot": {
             "enabled": "0",
@@ -136,9 +168,9 @@
     "auto_buy_items": "1",
     "item_scheduler_item": "Merchant Tracker",
     "item_scheduler_quantity": "2",
-    "important_only": "0",
+    "important_only": "1",
     "biome_detection": {
-        "enabled": "0"
+        "enabled": "1"
     },
     "biomes": {
         "Windy": "1",
