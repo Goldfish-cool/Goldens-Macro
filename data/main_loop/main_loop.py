@@ -92,8 +92,10 @@ def start():
         return
     else:
         running = True
-    main_process = multiprocessing.Process(target=macro_start)
-    main_process.start()
+    if __name__ == '__main__':
+        multiprocessing.freeze_support()
+        main_process = multiprocessing.Process(target=macro_start)
+        main_process.start()
 
 def stop():
     global running, main_process
@@ -102,7 +104,9 @@ def stop():
     else:
         messagebox.showinfo(title="Info", message="Macro Already Stopped")
         return
-    main_process.terminate()
+    if __name__ == '__main__':
+        multiprocessing.freeze_support()
+        main_process.terminate()
 
 def macro_start():
     main_loop = MainLoop()
