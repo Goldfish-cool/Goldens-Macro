@@ -597,8 +597,8 @@ Vex (@vex.rng), for greatly helping me with the detection
         self.config_key = config_key
 
         self.snipping_window.bind("<Button-1>", self.on_click)
-        self.snipping_window.bind("<B1-Motion>", self.on_mouse_drag)
-        self.snipping_window.bind("<ButtonRelease-1>", self.on_mouse_release)
+        self.snipping_window.bind("<B1-Motion>", self.mouse_drag)
+        self.snipping_window.bind("<ButtonRelease-1>", self.mouse_release)
         
         # Add window close handler
         self.snipping_window.protocol("WM_DELETE_WINDOW", self.on_window_close)
@@ -618,7 +618,7 @@ Vex (@vex.rng), for greatly helping me with the detection
         except Exception as e:
             print(f"Error in on_click: {e}")
 
-    def on_mouse_drag(self, event):
+    def mouse_drag(self, event):
         try:
             self.end_x, self.end_y = event.x, event.y
             
@@ -639,7 +639,7 @@ Vex (@vex.rng), for greatly helping me with the detection
         except Exception as e:
             print(f"Error in on_mouse_drag: {e}")
 
-    def on_mouse_release(self, event):
+    def mouse_release(self, event):
         try:
             self.end_x = event.x
             self.end_y = event.y
@@ -666,14 +666,6 @@ Vex (@vex.rng), for greatly helping me with the detection
             print(f"Error in on_mouse_release: {e}")
             if hasattr(self, 'snipping_window'):
                 self.snipping_window.destroy()
-
-    def capture_region(self, x1, y1, x2, y2):
-        if self.config_key:
-            region = [x1, y1, x2 - x1, y2 - y1]
-            print(f"Region for '{self.config_key}' set to {region}")
-            
-            if self.callback:
-                self.callback(region)
         
     def set_biome_region(self):
         self.biome_window = CTkToplevel()
