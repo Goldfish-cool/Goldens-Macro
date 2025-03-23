@@ -11,6 +11,7 @@ import logging
 from pynput.keyboard import Key
 from pynput import keyboard
 from tkinter import messagebox
+from data.main_loop.Tracker import BiomeTracker
 import sys
 try:
     from data.lib import config
@@ -162,22 +163,168 @@ class MainLoop:
         self.last_quest = datetime.min
         self.last_item = datetime.min
         self.check_roblox_status = None
+        self.running = threading.Event()
+        self.thread = None
+        self.biome_detection_running = threading.Event()
+        self.biome_detection_thread = None
+        self.biome_detection = BiomeTracker()
+        # Set up keyboard listener for F2
+        # keyboard.add_hotkey("F2", lambda _: self.stop())
 
-       
-    async def start_macro(self):
-        while True:
-            self.activate_window(titles="Roblox")
-            await self.auto_equip()
-            await asyncio.sleep(1)
-            await self.align_cam()
-            await asyncio.sleep(1)
-            await self.claim_quests()
-            await asyncio.sleep(1)
-            await self.item_scheduler()
-            await asyncio.sleep(1)
-            await self.item_collecting()
-            await asyncio.sleep(1)  # Sleep for a bit before starting the loop again
-    
+    def start(self):
+        if not self.running.is_set():
+            print("Starting Macro!")
+            self.running.set()
+            self.thread = threading.Thread(target=lambda: asyncio.run(self.loop_process()))
+            self.thread.start()
+
+        if config.config_data['biome_detection']['enabled'] == "1":
+            if not self.biome_detection_running.is_set():
+                self.biome_detection_running.set()
+                self.biome_detection_thread = threading.Thread(target=lambda: asyncio.run(self.run_biome_detection()))
+                self.biome_detection_thread.start()
+
+    def stop(self):
+        print("Stopping the whole process...")
+        # Clear both running flags
+        self.running.clear()
+        self.biome_detection_running.clear()
+        
+        # Stop the main loop thread
+        if self.thread is not None:
+            try:
+                self.thread.join(timeout=2)
+            except Exception as e:
+                print(f"Error stopping main thread: {e}")
+            finally:
+                self.thread = None
+
+        # Stop the biome detection thread
+        if self.biome_detection_thread is not None:
+            try:
+                self.biome_detection_thread.join(timeout=2)
+            except Exception as e:
+                print(f"Error stopping biome detection thread: {e}")
+            finally:
+                self.biome_detection_thread = None
+        
+        print("All processes stopped successfully")
+
+    async def run_biome_detection(self):
+        print("Starting biome detection...")
+        try:
+            # Create logs directory if it doesn't exist
+            log_dir = Path("logs")
+            log_dir.mkdir(exist_ok=True)
+
+            # Set up logging
+            timestamp = datetime.now().strftime("%m-%d-%Y %H-%M-%S")
+            log_filename = log_dir / f"{timestamp} biome_tracker.log"
+
+            logging.basicConfig(
+                level=logging.INFO,
+                format="%(asctime)s - %(levelname)s - %(message)s",
+                handlers=[logging.FileHandler(log_filename), logging.StreamHandler()],
+                force=True,
+            )
+
+            # Send startup webhook if URL exists
+            if self.biome_detection.webhook_url:
+                try:
+                    current_time = datetime.now().isoformat()
+                    embed = {
+                        "title": "Tracker Started",
+                        "description": "Biome/Aura Detection has started.",
+                        "color": 0x00FF00,
+                        "timestamp": current_time,
+                        "footer": {"text": "Goldens Sol's Macro"},
+                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
+                    }
+                    payload = {"content": None, "embeds": [embed]}
+                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
+                    response.raise_for_status()
+                    logging.info("Startup webhook sent successfully.")
+                except Exception as e:
+                    logging.error(f"Failed to send startup webhook: {str(e)}")
+
+            # Main monitoring loop
+            while self.biome_detection_running.is_set():
+                try:
+                    if not self.biome_detection_running.is_set():
+                        break
+                    await self.biome_detection.monitor_logs()
+                    await asyncio.sleep(1)
+                except Exception as e:
+                    print(f"Error in biome detection: {e}")
+                    if not self.biome_detection_running.is_set():
+                        break
+                    await asyncio.sleep(5)
+
+            # Send shutdown webhook
+            if self.biome_detection.webhook_url:
+                try:
+                    current_time = datetime.now().isoformat()
+                    embed = {
+                        "title": "Tracker Stopped",
+                        "description": "Biome/Aura Detection has stopped.",
+                        "color": 0xFF0000,
+                        "timestamp": current_time,
+                        "footer": {"text": "Goldens Sol's Macro"},
+                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
+                    }
+                    payload = {"content": None, "embeds": [embed]}
+                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
+                    response.raise_for_status()
+                    logging.info("Shutdown webhook sent successfully.")
+                except Exception as e:
+                    logging.error(f"Failed to send shutdown webhook: {str(e)}")
+
+        except Exception as e:
+            logging.critical(f"Critical failure in biome detection: {str(e)}")
+            if self.biome_detection.webhook_url:
+                try:
+                    current_time = datetime.now().isoformat()
+                    embed = {
+                        "title": "Tracker Crashed",
+                        "description": f"Biome/Aura Detection has crashed due to: {str(e)}",
+                        "color": 0xFF0000,
+                        "timestamp": current_time,
+                        "footer": {"text": "Goldens Sol's Macro"},
+                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
+                    }
+                    payload = {"content": "@everyone", "embeds": [embed]}
+                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
+                    response.raise_for_status()
+                    logging.info("Crash webhook sent successfully.")
+                except Exception as e:
+                    logging.error(f"Failed to send crash webhook: {str(e)}")
+
+        print("Biome detection stopped")
+
+    async def loop_process(self):
+        print("Starting main loop process...")
+        while self.running.is_set():
+            try:
+                if not self.running.is_set():
+                    break
+                self.activate_window(titles="Roblox")
+                await self.auto_equip()
+                await asyncio.sleep(1)
+                await self.align_cam()
+                await asyncio.sleep(1)
+                await self.claim_quests()
+                await asyncio.sleep(1)
+                await self.item_scheduler()
+                await asyncio.sleep(1)
+                await self.item_collecting()
+                await asyncio.sleep(1)
+            except Exception as e:
+                print(f"Error in main loop: {e}")
+                if not self.running.is_set():
+                    break
+                await asyncio.sleep(5)
+        print("Main loop process stopped")
+
     async def auto_equip(self):
         if config.config_data['auto_equip']['enabled'] == "1":
             try:
