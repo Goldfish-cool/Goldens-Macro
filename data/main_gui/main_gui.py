@@ -7,7 +7,7 @@ import keyboard
 import subprocess
 from tkinter import messagebox
 import requests
-from data.main_loop import main_loop
+from data.main_loop.main_loop import MainLoop
 try:
     from data.lib import config
 except ImportError:
@@ -42,6 +42,7 @@ class MainWindow(CTk):
         self.begin_y = None
         self.end_x = None
         self.end_y = None 
+        self.main_loop = MainLoop()
 
         set_default_color_theme(config.theme_path())
         self.configure(fg_color=config.read_theme("CTk")["fg_color"])
@@ -222,7 +223,7 @@ class MainWindow(CTk):
         biome_config = CTkFrame(master=extras_tab)
         biome_config.grid(row=0, column=2, stick="n", padx=(5, 0))
         biome_title = CTkLabel(master=biome_config, text="Biome Settings", font=h1).grid(row=0, column=0)
-        enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", command=self.start_detection, variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
+        enable_biome = CTkCheckBox(master=biome_config, text="Enable Biome Detection", variable=self.tk_var_list['biome_detection']['enabled'], onvalue="1", offvalue="0").grid(row=2, column=0, padx=5, pady=5, stick="w")
         set_region = CTkButton(master=biome_config, text="Set Biome Region", command=self.set_biome_region).grid(row=3, column=0, padx=5, pady=5, stick="w")
 
         themes_frame = CTkFrame(master=extras_tab)
@@ -305,18 +306,18 @@ Vex (@vex.rng), for greatly helping me with the detection
     def start(self):
         config.save_tk_list(self.tk_var_list)
         config.save_config(config.config_data)
-        if main_loop.running == False:
-            self.iconify()
-        main_loop.start()
+        self.iconify()  # Hide the window
+        self.main_loop.start()
     
     def stop(self):
         config.save_tk_list(self.tk_var_list)
         config.save_config(config.config_data)
-        if main_loop.running == False:
-            self.deiconify()
-        main_loop.stop()
+        self.deiconify()  # Show the window
+        self.main_loop.stop()
+        self.lift()  # Bring window to front
 
     def restart(self):
+        self.stop()  # Stop before restart
         os.execv(sys.executable, ['python', f'"{sys.argv[0]}"'])
 
     def focus_widget(self, event):
@@ -324,17 +325,6 @@ Vex (@vex.rng), for greatly helping me with the detection
             event.widget.focus_set()
         except:
             pass
-    
-    def start_detection(self):
-        response = messagebox.askyesno(title="Detection", message="Do you wish to start the detection?\nTo Close the detection press ctrl + c.")
-        if response:
-            if getattr(sys, 'frozen', False):
-                # If the application is frozen (compiled)
-                subprocess.Popen([sys.executable, 'Tracker.py'])
-            else:
-                os.system('python Tracker.py')
-        else:
-            return False
 
     def assign_clicks_gui(self):
         self.assign_clicks_gui = CTkToplevel()
@@ -637,7 +627,7 @@ Vex (@vex.rng), for greatly helping me with the detection
                 self.y_entry.delete(0, 'end')
                 self.y_entry.insert(0, str(self.end_y))
         except Exception as e:
-            print(f"Error in on_mouse_drag: {e}")
+            print(f"Error in mouse_drag: {e}")
 
     def mouse_release(self, event):
         try:
