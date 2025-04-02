@@ -1,4 +1,9 @@
 {
+    "NORMAL": {
+        "color": "0xFFFFFF",
+        "duration": 120,
+        "thumbnail_url": "https://static.wikia.nocookie.net/sol-rng/images/f/f9/Normal_biome.png/revision/latest"
+    },
     "WINDY": {
         "color": "0x9ae5ff",
         "duration": 120,
