@@ -1,46 +1,68 @@
 import ctypes
 import json
-
+import os
 from customtkinter import *
 from PIL import Image, ImageDraw
-
 import requests
+import sys
 
+# Get the absolute path to the executable's directory
+if getattr(sys, 'frozen', False):
+    # If the application is run as a bundle (compiled)
+    application_path = os.path.dirname(sys.executable)
+else:
+    # If the application is run as a script
+    application_path = os.path.dirname(os.path.abspath(__file__))
 
-with open("path.txt", "r") as file:
-    config_path = f"{file.read()}\\data\\lib\\config.json"
+# Construct absolute paths
+config_path = os.path.join(application_path, "config.json")
 config_data = None
 
 def get_current_version():
     return read_config()["current_version"]
 
 def read_config(key=""):
-    # try:
-    with open(config_path) as config_file:
-        config_data = config_file.read()
-        config_data = json.loads(config_data)
-        if len(config_data) == 0:
-            ctypes.windll.user32.MessageBoxW(0, "CONFIG DATA NOT FOUND", "Error", 0)
-            exit(1)
-        if not key == "":
-            return config_data[key]
-        return config_data
-    # except:
-    #     ctypes.windll.user32.MessageBoxW(0, "CONFIG DATA ERROR!", "Error", 0)
+    try:
+        with open(config_path) as config_file:
+            config_data = config_file.read()
+            config_data = json.loads(config_data)
+            if len(config_data) == 0:
+                ctypes.windll.user32.MessageBoxW(0, "CONFIG DATA NOT FOUND", "Error", 0)
+                exit(1)
+            if not key == "":
+                return config_data[key]
+            return config_data
+    except Exception as e:
+        # If config doesn't exist, create it with default values
+        default_config = {
+            "current_version": "1.0.0",
+            "clicks": {},
+            "settings": {},
+            "paths": {},
+            "themes": {}
+        }
+        save_config(default_config)
+        return default_config
 
 def save_config(config_data_p):
     global config_data
-    with open(config_path, 'w') as config_file:
-        json.dump(config_data_p, config_file, indent=4)
-    config_data = read_config()
+    try:
+        # Ensure the directory exists
+        os.makedirs(os.path.dirname(config_path), exist_ok=True)
+        with open(config_path, 'w') as config_file:
+            json.dump(config_data_p, config_file, indent=4)
+        config_data = read_config()
+    except Exception as e:
+        print(f"Error saving config: {e}")
+        ctypes.windll.user32.MessageBoxW(0, f"Error saving config: {e}", "Error", 0)
 
 def iterate_generate_list(json_object, var_list):
     for i in range(len(json_object)):
         if type(json_object[i]) == dict:
-            var_list[i] = {}
+            var_list.append({})
             iterate_generate_dict(json_object[i], var_list[i])
         elif type(json_object[i]) == list:
-            var_list[i] = []
+            var_list.append([])
             iterate_generate_list(json_object[i], var_list[i])
         else:
             var_list.append(StringVar(value=json_object[i]))
