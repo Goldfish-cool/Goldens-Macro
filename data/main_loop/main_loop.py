@@ -1,47 +1,56 @@
 import multiprocessing
 from time import sleep
-import webbrowser
+import json
+import re
 import threading
 import requests
 import os
 import keyboard
 from pathlib import Path
+import time
 import asyncio
-import logging
 from pynput.keyboard import Key
 from pynput import keyboard
 from tkinter import messagebox
-from data.main_loop.Tracker import BiomeTracker
 import sys
 try:
     from data.lib import config
 except:
     ctypes.windll.user32.MessageBoxW(0, "Cant open this folder, also who the fuck told you to?", 0)
     sys.exit(1)
-import json
-import re
+
 from ahk import AHK
-from tkinter.messagebox import showerror
 import ctypes
 from datetime import datetime, timedelta
 ahk = AHK()
 
 config.config_data = config.read_config()
 kc = keyboard.Controller()
+# AURA STORAGE
 aura_storage = config.config_data['clicks']['aura_storage']
 regular_tab = config.config_data['clicks']['regular_tab']
 special_tab = config.config_data['clicks']['special_tab']
 search_bar = config.config_data['clicks']['search_bar']
 aura_first_slot = config.config_data['clicks']['aura_first_slot']
 equip_button = config.config_data['clicks']['equip_button']
+# ALIGNMENT MENU
 collection_menu = config.config_data['clicks']['collection_menu']
 exit_collection = config.config_data['clicks']['exit_collection']
+# ITEM SCHELDUAR
 items_storage = config.config_data['clicks']['items_storage']
 items_tab = config.config_data['clicks']['items_tab']
 items_bar = config.config_data['clicks']['items_bar']
-item_value = config.config_data['clicks']['item_value']
+item_value = config.config_data['clicks']['item_first_slot']
 quanity_bar = config.config_data['clicks']['item_value']
 use_button = config.config_data['clicks']['use_button']
+# MERCHANT
+merchant_name = config.config_data['clicks']['merchant_name']
+merchant_hold_button = config.config_data['clicks']['merchant_hold_button']
+merchant_open_button = config.config_data['clicks']['merchant_open_button']
+merchant_item_name = config.config_data['clicks']['merchant_item_name']
+merchant_first_slot = config.config_data['clicks']['merchant_slot_1']
+merchant_amount_box = config.config_data['clicks']['merchant_amount_box']
+merchant_purchase_button = config.config_data['clicks']['merchant_buy_button']
 
 session_start = None
 
@@ -58,7 +67,7 @@ with open("path.txt", "r") as file:
 
 def get_action(file):
     with open("path.txt") as path_file:
-        with open(f'{path_file.read()}\\paths\\{file}.py') as file:
+        with open(f'{path_file.read()}\\data\\lib\\{file}.py') as file:
             return file.read()
         
 def walk_time_conversion(d):
@@ -93,10 +102,8 @@ def start():
         return
     else:
         running = True
-    if __name__ == '__main__':
-        multiprocessing.freeze_support()
-        main_process = multiprocessing.Process(target=macro_start)
-        main_process.start()
+    main_process = multiprocessing.Process(target=macro_start)
+    main_process.start()
 
 def stop():
     global running, main_process
@@ -105,13 +112,12 @@ def stop():
     else:
         messagebox.showinfo(title="Info", message="Macro Already Stopped")
         return
-    if __name__ == '__main__':
-        multiprocessing.freeze_support()
-        main_process.terminate()
+
+    main_process.terminate()
 
 def macro_start():
     main_loop = MainLoop()
-    asyncio.run(main_loop.start_macro())
+    asyncio.run(main_loop.start())
 
 def show_error(title, message):
     """Safely show error message using messagebox"""
@@ -157,6 +163,16 @@ def send_discord(title="", description="", thumbnail="", color=None, timestamp=N
     
 class MainLoop:
     def __init__(self):
+        self.config = self._load_config()
+        self.biomes = self._load_biome_data()
+        self.auras = self._load_aura_data()
+        self.current_biome = None
+        self.biome_counts = {b["name"]: 0 for b in self.biomes.values()}
+        self.last_aura = None
+        self.last_processed_position = 0
+        self.last_sent_biome = None
+        self.last_sent_aura = None
+        self.biome_alerts = self.config.get("biome_alerts", {})
         self.webhook_url = config.config_data['discord']["webhook"]["url"]
         self.private_server_link = config.config_data['discord']["webhook"]["ps_link"]
         self.lock = threading.Lock()
@@ -167,12 +183,99 @@ class MainLoop:
         self.thread = None
         self.biome_detection_running = threading.Event()
         self.biome_detection_thread = None
-        self.biome_detection = BiomeTracker()
-        # Set up keyboard listener for F2
-        # keyboard.add_hotkey("F2", lambda _: self.stop())
+        self.biome_detection = None
+        self.merchant_items = None 
+        self.merchant_webhook = None
+
+    def _create_default_config(self):
+        config_path = Path("settings.cfg")
+        if not config_path.exists():
+            try:
+                with open(config_path, "w") as f:
+                    json.dump(
+                        {
+                            "_comment": "highly recommended to keep logging_enabled enabled in case you run into an error, so you can report it to the devs",
+                            "logging_enabled": True,
+                            "webhook_url": "",
+                            "current_version": "1.0",
+                            "private_server_link": "No Private Server Link specified in the config.",
+                            "biome_alerts": {
+                                "WINDY": True,
+                                "RAINY": True,
+                                "SNOWY": True,
+                                "SAND STORM": True,
+                                "HELL": True,
+                                "STARFALL": True,
+                                "CORRUPTION": True,
+                                "NULL": True,
+                            },
+                        },
+                        f,
+                        indent=2,
+                    )
+                print("Created default config file")
+            except Exception as e:
+                print(f"Failed to create config: {str(e)}")
+
+    def _load_config(self):
+        try:
+            with open("settings.cfg") as f:
+                config = json.load(f)
+                for biome in self._load_biome_data():
+                    if biome not in config.get("biome_alerts", {}):
+                        config["biome_alerts"][biome] = False
+                return config
+        except Exception as e:
+            print(f"Config load error: {str(e)}")
+            return {
+                "_comment": "highly recommended to keep logging_enabled enabled in case you run into an error, so you can report it to the devs",
+                "logging_enabled": True,
+                "webhook_url": "",
+                "private_server_link": "No Private Server Link specified in the config.",
+                "biome_alerts": {
+                    "WINDY": True,
+                    "RAINY": True,
+                    "SNOWY": True,
+                    "SAND STORM": True,
+                    "HELL": True,
+                    "STARFALL": True,
+                    "CORRUPTION": True,
+                    "NULL": True,
+                },
+            }
+
+    def _load_biome_data(self):
+        try:
+            response = requests.get("https://raw.githubusercontent.com/Goldfish-cool/Goldens-Macro/refs/heads/data/biome-data.json")
+            response.raise_for_status()
+            biome_list = response.json()
+            print(f"Loaded biome data from {response.url}")
+            return {biome["name"]: biome for biome in biome_list}
+        except Exception as e:
+            print(f"Failed to load biome data: {str(e)}")
+            return {}
+
+    def _load_aura_data(self):
+        try:
+            response = requests.get("https://raw.githubusercontent.com/Goldfish-cool/Goldens-Macro/refs/heads/data/aura-data.json")
+            response.raise_for_status()
+            aura_list = response.json()
+            print(f"Loaded aura data from {response.url}")
+            return {aura["identifier"]: aura for aura in aura_list}
+        except Exception as e:
+            print(f"Failed to load aura data: {str(e)}")
+            return {}
 
     def start(self):
         if not self.running.is_set():
+            self._send_webhook(
+                title=f"{time.strftime('[%H:%M:%S]')} Starting",
+                description="",
+                color=0x64ff5e,
+                thumbnail=None,
+                urgent=False,
+                is_aura=False
+            )
             print("Starting Macro!")
             self.running.set()
             self.thread = threading.Thread(target=lambda: asyncio.run(self.loop_process()))
@@ -181,10 +284,18 @@ class MainLoop:
         if config.config_data['biome_detection']['enabled'] == "1":
             if not self.biome_detection_running.is_set():
                 self.biome_detection_running.set()
-                self.biome_detection_thread = threading.Thread(target=lambda: asyncio.run(self.run_biome_detection()))
+                self.biome_detection_thread = threading.Thread(target=lambda: asyncio.run(self.monitor_logs()))
                 self.biome_detection_thread.start()
 
     def stop(self):
+        self._send_webhook(
+            title=f"{time.strftime('[%H:%M:%S]')} Stopped",
+            description="",
+            color=0xff0000,
+            thumbnail=None,
+            urgent=False,
+            is_aura=False
+        )
         print("Stopping the whole process...")
         # Clear both running flags
         self.running.clear()
@@ -210,97 +321,6 @@ class MainLoop:
         
         print("All processes stopped successfully")
 
-    async def run_biome_detection(self):
-        print("Starting biome detection...")
-        try:
-            # Create logs directory if it doesn't exist
-            log_dir = Path("logs")
-            log_dir.mkdir(exist_ok=True)
-
-            # Set up logging
-            timestamp = datetime.now().strftime("%m-%d-%Y %H-%M-%S")
-            log_filename = log_dir / f"{timestamp} biome_tracker.log"
-
-            logging.basicConfig(
-                level=logging.INFO,
-                format="%(asctime)s - %(levelname)s - %(message)s",
-                handlers=[logging.FileHandler(log_filename), logging.StreamHandler()],
-                force=True,
-            )
-
-            # Send startup webhook if URL exists
-            if self.biome_detection.webhook_url:
-                try:
-                    current_time = datetime.now().isoformat()
-                    embed = {
-                        "title": "Tracker Started",
-                        "description": "Biome/Aura Detection has started.",
-                        "color": 0x00FF00,
-                        "timestamp": current_time,
-                        "footer": {"text": "Goldens Sol's Macro"},
-                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
-                    }
-                    payload = {"content": None, "embeds": [embed]}
-                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
-                    response.raise_for_status()
-                    logging.info("Startup webhook sent successfully.")
-                except Exception as e:
-                    logging.error(f"Failed to send startup webhook: {str(e)}")
-
-            # Main monitoring loop
-            while self.biome_detection_running.is_set():
-                try:
-                    if not self.biome_detection_running.is_set():
-                        break
-                    await self.biome_detection.monitor_logs()
-                    await asyncio.sleep(1)
-                except Exception as e:
-                    print(f"Error in biome detection: {e}")
-                    if not self.biome_detection_running.is_set():
-                        break
-                    await asyncio.sleep(5)
-
-            # Send shutdown webhook
-            if self.biome_detection.webhook_url:
-                try:
-                    current_time = datetime.now().isoformat()
-                    embed = {
-                        "title": "Tracker Stopped",
-                        "description": "Biome/Aura Detection has stopped.",
-                        "color": 0xFF0000,
-                        "timestamp": current_time,
-                        "footer": {"text": "Goldens Sol's Macro"},
-                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
-                    }
-                    payload = {"content": None, "embeds": [embed]}
-                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
-                    response.raise_for_status()
-                    logging.info("Shutdown webhook sent successfully.")
-                except Exception as e:
-                    logging.error(f"Failed to send shutdown webhook: {str(e)}")
-
-        except Exception as e:
-            logging.critical(f"Critical failure in biome detection: {str(e)}")
-            if self.biome_detection.webhook_url:
-                try:
-                    current_time = datetime.now().isoformat()
-                    embed = {
-                        "title": "Tracker Crashed",
-                        "description": f"Biome/Aura Detection has crashed due to: {str(e)}",
-                        "color": 0xFF0000,
-                        "timestamp": current_time,
-                        "footer": {"text": "Goldens Sol's Macro"},
-                        "fields": [{"name": "Private Server Link", "value": self.biome_detection.private_server_link}],
-                    }
-                    payload = {"content": "@everyone", "embeds": [embed]}
-                    response = requests.post(self.biome_detection.webhook_url, json=payload, timeout=5)
-                    response.raise_for_status()
-                    logging.info("Crash webhook sent successfully.")
-                except Exception as e:
-                    logging.error(f"Failed to send crash webhook: {str(e)}")
-
-        print("Biome detection stopped")
-
     async def loop_process(self):
         print("Starting main loop process...")
         while self.running.is_set():
@@ -308,13 +328,12 @@ class MainLoop:
                 if not self.running.is_set():
                     break
                 self.activate_window(titles="Roblox")
+                await asyncio.sleep(1)
                 await self.auto_equip()
                 await asyncio.sleep(1)
                 await self.align_cam()
                 await asyncio.sleep(1)
                 await self.claim_quests()
-                await asyncio.sleep(1)
-                await self.item_scheduler()
                 await asyncio.sleep(1)
                 await self.item_collecting()
                 await asyncio.sleep(1)
@@ -324,10 +343,11 @@ class MainLoop:
                     break
                 await asyncio.sleep(5)
         print("Main loop process stopped")
-
+    
     async def auto_equip(self):
         if config.config_data['auto_equip']['enabled'] == "1":
             try:
+
                 send_discord("Equiping", f"Auto Equiping: {config.config_data['auto_equip']['aura']}", footer="Golden's Sol's Macro v0.0")
                 await asyncio.sleep(1.3)
                 ahk.click(aura_storage[0], aura_storage[1], coord_mode="Screen")
@@ -354,28 +374,28 @@ class MainLoop:
                 ahk.click(aura_storage[0], aura_storage[1], coord_mode="Screen")
                 await asyncio.sleep(0.4)
             except Exception as e:
-                showerror("Auto Equip Error", str(e))
+                messagebox.showerror("Auto Equip Error", str(e))
         else:
             return None
 
-    def do_obby(self):
+    async def do_obby(self):
         pass
 
-    def do_crafting(self):
+    async def do_crafting(self):
         if config.config_data['potion_crafting']['enabled'] == "1":
             send_discord("Crafting", "Going To Craft Potions", footer="Golden's Sol's Macro v0.0")
             try:
                 exec(f'{get_action("potion_path")}')
             except Exception as e:
-                show_error("Crafting Error", str(e))
+                messagebox.showerror(title="Crafting Error", message=f"{str(e)}")
 
-    def crafting(self):
+    async def crafting(self):
         try:
             pass
         except:
             pass
 
-    def chalice(self):
+    async def chalice(self):
         return None
 
     async def claim_quests(self):
@@ -387,38 +407,7 @@ class MainLoop:
             try:
                 exec(f'{get_action("item_collect")}')
             except Exception as e:
-                show_error("Item Collecting Error", str(e))
-        else:
-            return None
-
-    async def item_scheduler(self):
-        if config.config_data['enable_items'] == "1":
-            try:
-                ahk.click(items_storage[0], items_storage[1], coord_mode="Screen")
-                await asyncio.sleep(0.55)
-                ahk.click(items_tab[0], items_tab[1], coord_mode="Screen")
-                await asyncio.sleep(0.33)
-                ahk.click(items_bar[0], items_bar[1], coord_mode="Screen")
-                await asyncio.sleep(0.33)
-                ahk.send_input(config.config_data['item_scheduler_item'])
-                await asyncio.sleep(0.55)
-                ahk.send('{ENTER}')
-                await asyncio.sleep(0.43)
-                ahk.click(item_value[0], item_value[1], coord_mode="Screen")
-                await asyncio.sleep(0.33)
-                ahk.click(quanity_bar[0], quanity_bar[1], coord_mode="Screen")
-                await asyncio.sleep(0.1)
-                ahk.click()
-                await asyncio.sleep(0.33)
-                ahk.send_input(config.config_data['item_scheduler_quantity'])
-                await asyncio.sleep(0.55)
-                ahk.send('{ENTER}')
-                await asyncio.sleep(0.43)
-                ahk.click(use_button[0], use_button[1], coord_mode="Screen")
-                await asyncio.sleep(0.78)
-                ahk.click(items_storage[0], items_storage[1], coord_mode="Screen")
-            except Exception as e:
-                show_error("Schelduer Error", str(e))
+                messagebox.showerror(title="Item Collecting Error", message=f"{str(e)}")
         else:
             return None
 
@@ -450,17 +439,6 @@ class MainLoop:
         sleep(0.55)
         kc.tap(Key.enter)
 
-    def auto_loop_stuff(self):
-        get_quest = config.config_data['claim_daily_quests'] == "1"
-        try:
-            claim_quest = timedelta(minutes=30)
-        except ValueError:
-            claim_quest = timedelta(minutes=30)
-        
-        if get_quest and datetime.now() - self.last_quest >= claim_quest:
-            self.claim_quests()
-            self.last_quest = datetime.now()
-    
     def activate_window(self, titles=""):
         try:
             import pywinctl as pwc
@@ -479,3 +457,246 @@ class MainLoop:
                     break
             else:
                 messagebox.showerror(title="Error", message=f"No window found with title containing 'Roblox'")
+    
+    def auto_loop_stuff(self):
+        get_quest = config.config_data['settings']['claim_quest'] == "1"
+        try:
+            claim_quest = timedelta(minutes=30)
+        except ValueError:
+            claim_quest = timedelta(minutes=30)
+        
+        if get_quest and datetime.now() - self.last_quest_time >= claim_quest:
+            self.claim_quests()
+            self.last_quest_time = datetime.now()
+            
+    async def monitor_logs(self):
+        log_dir = Path(os.getenv("LOCALAPPDATA")) / "Roblox" / "logs"
+
+        latest_log = max(log_dir.glob("*.log"), key=os.path.getmtime, default=None)
+        if latest_log:
+            self.last_processed_position = latest_log.stat().st_size
+        else:
+            self.last_processed_position = 0
+
+        while True:
+            try:
+                latest_log = max(
+                    log_dir.glob("*.log"), key=os.path.getmtime, default=None
+                )
+                if not latest_log:
+                    await asyncio.sleep(5)
+                    continue
+
+                with open(latest_log, "r", errors="ignore") as f:
+                    if latest_log.stat().st_size < self.last_processed_position:
+                        self.last_processed_position = 0
+
+                    f.seek(self.last_processed_position)
+                    lines = f.readlines()
+                    self.last_processed_position = f.tell()
+
+                    for line in lines:
+                        await self._process_log_entry(line)
+
+                await asyncio.sleep(1)
+
+            except Exception as e:
+                print(f"Log monitoring error: {str(e)}")
+                await asyncio.sleep(5)
+
+    async def _process_log_entry(self, line):
+        try:
+            self._detect_biome_change(line)
+            self._check_aura_equipped(line)
+        except Exception as e:
+            print(f"Log processing error: {str(e)}")
+
+    def _detect_biome_change(self, line):
+        if "[BloxstrapRPC]" not in line:
+            return
+
+        try:
+            json_str = line.split("[BloxstrapRPC] ")[1]
+            data = json.loads(json_str)
+            hover_text = data.get("data", {}).get("largeImage", {}).get("hoverText", "")
+
+            if hover_text in self.biomes and self.current_biome != hover_text:
+                self._handle_new_biome(hover_text)
+        except (IndexError, json.JSONDecodeError):
+            pass
+        except Exception as e:
+            print(f"Biome detection error: {str(e)}")
+
+    def _handle_new_biome(self, biome_name):
+        try:
+            self.current_biome = biome_name
+            self.biome_counts[biome_name] += 1
+            print(f"Biome detected: {biome_name}")
+
+            if biome_name != self.last_sent_biome:
+                biome_data = self.biomes[biome_name]
+
+                if biome_name in ["GLITCHED", "DREAMSPACE"]:
+                    self._send_webhook(
+                        title=f"Biome Detected",
+                        description=f"# - {biome_name}",
+                        color=int(biome_data["visuals"]["primary_hex"], 16),
+                        thumbnail=biome_data["visuals"]["preview_image"],
+                        urgent=True,
+                        is_aura=False,
+                    )
+                else:
+                    self._send_webhook(
+                        title=f"Biome Detected",
+                        description=f"# - {biome_name}",
+                        color=int(biome_data["visuals"]["primary_hex"], 16),
+                        thumbnail=biome_data["visuals"]["preview_image"],
+                        urgent=False,
+                        is_aura=False,
+                    )
+                self.last_sent_biome = biome_name
+
+        except KeyError:
+            print(f"Received unknown biome: {biome_name}")
+        except Exception as e:
+            print(f"Biome handling error: {str(e)}")
+
+    def _check_aura_equipped(self, line):
+        if "[BloxstrapRPC]" not in line:
+            return
+
+        try:
+            json_str = line.split("[BloxstrapRPC] ")[1]
+            data = json.loads(json_str)
+            state = data.get("data", {}).get("state", "")
+
+            match = re.search(r'Equipped "(.*?)"', state)
+            if match and (aura_name := match.group(1)) in self.auras:
+                self._process_aura(aura_name)
+        except (IndexError, json.JSONDecodeError):
+            pass
+        except Exception as e:
+            print(f"Aura check error: {str(e)}")
+
+    def _process_aura(self, aura_name):
+        try:
+            aura = self.auras[aura_name]
+            aura_data = aura["properties"]
+            visuals = aura.get("visuals", {})
+            thumbnail = visuals.get("preview_image")
+
+            base_chance = aura_data["base_chance"]
+            rarity = base_chance
+            obtained_biome = None
+
+            biome_amplifier = aura_data.get("biome_amplifier", ["None", 1])
+            
+            if biome_amplifier[0] != "None" and (
+                self.current_biome == biome_amplifier[0] 
+                or self.current_biome == "GLITCHED"
+                or self.current_biome == "DREAMSPACE"
+            ):
+                rarity /= biome_amplifier[1]
+                obtained_biome = self.current_biome
+
+            rarity = int(rarity)
+
+            if aura_data.get("rank") == "challenged":
+                color = 0x808080      # Grey (challenged)
+            else:
+                if rarity <= 999:
+                    color = 0xFFFFFF  # White (basic)
+                elif rarity <= 9999:
+                    color = 0xFFC0CB  # Very light pink (epic)
+                elif rarity <= 99998:
+                    color = 0xFFA500  # Orangeish/brown (unique)
+                elif rarity <= 999999:
+                    color = 0xFFFF00  # Yellow (legendary)
+                elif rarity <= 9999999:
+                    color = 0xFF1493  # Pink (mythic)
+                elif rarity <= 99999998:
+                    color = 0x00008B  # Darkish blue (exalted)
+                elif rarity <= 999999999:
+                    color = 0x8B0000  # Blood red (glorious)
+                else:
+                    color = 0x00FFFF  # Cyan (transcendent)
+
+            fields = []
+            if base_chance == 0:
+                rarity_str = "Unobtainable"
+            else:
+                rarity_str = f"1 in {rarity:,}"
+            fields.append({"name": "Rarity", "value": rarity_str, "inline": True})
+            
+            if obtained_biome:
+                fields.append({"name": "Obtained From", "value": obtained_biome, "inline": True})
+
+            print(f"Aura equipped: {aura_name} (1 in {rarity:,})")
+
+            if aura_name != self.last_sent_aura:
+                self._send_webhook(
+                    title=f"Aura Detection",
+                    description=f"{aura_name} has been equipped.",
+                    color=color,
+                    thumbnail=thumbnail,
+                    is_aura=True,
+                    fields=fields
+                )
+                self.last_sent_aura = aura_name
+            
+
+        except KeyError as e:
+            print(f"Missing aura property: {str(e)}")
+        except ZeroDivisionError:
+            print("Invalid biome amplifier value (division by zero)")
+        except Exception as e:
+            print(f"Aura processing error: {str(e)}")
+
+    def _send_webhook(
+        self, title, description, color, thumbnail=None, urgent=False, is_aura=False, fields=None
+    ):
+        if not self.webhook_url:
+            print(f"Please specify a Webhook URL in the config")
+            return
+
+        try:
+            current_time = datetime.now().isoformat()
+
+            embed = {
+                "title": title,
+                "description": description,
+                "color": color,
+                "timestamp": current_time,
+                "footer": {"text": "Goldens Sol's Macro"},
+            }
+
+            if fields is not None:
+                embed["fields"] = fields
+            else:
+                if not is_aura:
+                    ps_link = self.private_server_link
+                    if not ps_link or ps_link.strip() == "":
+                        ps_link = "No Private Server Link (nice on buddy :skull:)."
+                    embed["fields"] = [{"name": "Private Server Link", "value": ps_link}]
+
+            if thumbnail:
+                embed["thumbnail"] = {"url": thumbnail}
+
+            payload = {"content": "@everyone" if urgent else None, "embeds": [embed]}
+            print(f"Attempting to send webhook: {payload}")
+
+            # Use requests directly instead of asyncio
+            try:
+                response = requests.post(self.webhook_url, json=payload, timeout=5)
+                if response.status_code == 429:
+                    retry_after = response.json().get("retry_after", 5)
+                    print(f"Rate limited - retrying in {retry_after}s")
+                    time.sleep(retry_after)
+                    response = requests.post(self.webhook_url, json=payload, timeout=5)
+                response.raise_for_status()
+            except Exception as e:
+                print(f"Webhook failed: {str(e)}")
+
+        except Exception as e:
+            print(f"Webhook creation error: {str(e)}")
+
