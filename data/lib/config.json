@@ -1,11 +1,11 @@
 {
-    "current_version": "1.1",
+    "current_version": "1.2",
     "ui_key": "\\",
     "send_min": "0",
     "send_max": "0",
     "enabled_dectection": "1",
     "paths": {
-        "theme": "Monodim"
+        "theme": "Aurium"
     },
     "themes": {
         "Superhero": "/data/themes/superhero.json",
@@ -15,7 +15,8 @@
         "Monodim": "/data/themes/monodim.json",
         "Vapors": "/data/themes/vapors.json",
         "Normal": "/data/themes/theme.json",
-        "Azure": "/data/themes/azure.json"
+        "Sun Valley": "/data/themes/azure.json",
+        "Aurium": "/data/themes/aurium.json"
     },
     "obby": {
         "enabled": "0"
@@ -31,85 +32,186 @@
     "claim_daily_quests": "0",
     "clicks": {
         "aura_storage": [
-            "30",
-            "300"
+            "29",
+            "285"
         ],
         "regular_tab": [
-            "671",
-            "250"
+            "677",
+            "251"
         ],
         "special_tab": [
-            "905",
-            "250"
+            "901",
+            "252"
         ],
         "search_bar": [
-            "589",
+            "588",
             "273"
         ],
         "aura_first_slot": [
-            "583",
-            "322"
+            "582",
+            "323"
         ],
         "equip_button": [
             "443",
-            "465"
+            "464"
         ],
         "collection_menu": [
-            "30",
-            "350"
+            "28",
+            "332"
         ],
         "exit_collection": [
             "271",
             "128"
         ],
         "items_storage": [
-            "30",
-            "397"
+            "29",
+            "374"
         ],
         "items_tab": [
-            "901",
-            "249"
+            "902",
+            "251"
         ],
         "items_bar": [
-            "596",
-            "273"
+            "591",
+            "274"
         ],
         "item_first_slot": [
-            "596",
+            "597",
             "326"
         ],
         "item_value": [
-            "402",
-            "422"
-        ],
-        "use_button": [
-            "484",
+            "401",
             "423"
         ],
-        "PotionBarX": "668",
-        "PotionBarY": "306",
-        "FirstSlotPotionX": "840",
-        "FirstSlotPotionY": "315",
-        "CraftButtonX": "837",
-        "CraftButtonY": "346",
-        "AutoButtonX": "988",
-        "AutoButtonY": "385",
-        "1_potion_manual_x": "540",
-        "1_potion_manual_y": "110",
-        "2_potion_manual_x": "520",
-        "2_potion_manual_y": "103",
-        "3_potion_manual_x": "545",
-        "3_potion_manual_y": "143",
-        "4_potion_manual_x": "583",
-        "4_potion_manual_y": "166",
-        "5_potion_manual_x": "561",
-        "5_potion_manual_y": "160",
-        "6_potion_manual_x": "0",
-        "6_potion_manual_y": "0",
-        "eit_collection": [
-            "636",
-            "161"
+        "use_button": [
+            "482",
+            "422"
+        ],
+        "potion_bar": [
+            "863",
+            "116"
+        ],
+        "potion_first_slot": [
+            "80",
+            "120"
+        ],
+        "auto_button": [
+            "0",
+            "0"
+        ],
+        "craft_button": [
+            "0",
+            "0"
+        ],
+        "1_manual_potion": [
+            "0",
+            "0"
+        ],
+        "2_manual_potion": [
+            "0",
+            "0"
+        ],
+        "3_manual_potion": [
+            "0",
+            "0"
+        ],
+        "4_manual_potion": [
+            "0",
+            "0"
+        ],
+        "5_manual_potion": [
+            "0",
+            "0"
+        ],
+        "6_manual_potion": [
+            "0",
+            "0"
+        ],
+        "merchant_name": [
+            "527",
+            "493",
+            "100",
+            "38"
+        ],
+        "merchant_hold_button": [
+            "667",
+            "575"
+        ],
+        "merchant_open_button": [
+            "469",
+            "677"
+        ],
+        "jester_open_button": [
+            "0",
+            "0"
+        ],
+        "merchant_item_name": [
+            "819",
+            "312",
+            "336",
+            "25"
+        ],
+        "merchant_slot_1": [
+            "278",
+            "461"
+        ],
+        "merchant_amount_box": [
+            "0",
+            "0"
+        ],
+        "merchant_buy_button": [
+            "416",
+            "276"
+        ],
+        "mercant_name": [
+            "180",
+            "162",
+            "239",
+            "197"
+        ],
+        "mercant_item_name": [
+            "909",
+            "214",
+            "342",
+            "17"
         ]
+    },
+    "merchant_items": {
+        "enabled": "0",
+        "ping_if_mari": "0",
+        "mari_id": "",
+        "Void Coin": "1",
+        "Lucky Penny": "1",
+        "Mixed Potion": "1",
+        "Lucky Potion": "1",
+        "Lucky Potion L": "1",
+        "Lucky Potion XL": "1",
+        "Speed Potion": "1",
+        "Speed Potion L": "1",
+        "Speed Potion XL": "1",
+        "Gear A": "1",
+        "Gear B": "1"
+    },
+    "jester_items": {
+        "enable": "0",
+        "ping_if_jester": "0",
+        "jester_id": "",
+        "Oblivion Potion": "1",
+        "Heavenly Potion": "1",
+        "Rune of Everything": "1",
+        "Rune of Dust": "1",
+        "Rune of Nothing": "1",
+        "Rune Of Corruption": "1",
+        "Rune Of Hell": "1",
+        "Rune of Galaxy": "1",
+        "Rune of Rainstorm": "1",
+        "Rune of Frost": "1",
+        "Rune of Wind": "1",
+        "Strange Potion": "1",
+        "Lucky Potion": "1",
+        "Stella's Candle": "1",
+        "Merchant Tracker": "1",
+        "Random Potion Sack": "1"
     },
     "item_collecting": {
         "enabled": "0",
@@ -136,7 +238,7 @@
     },
     "settings": {
         "vip_mode": "0",
-        "vip+_mode": "0",
+        "vip+_mode": "1",
         "azerty_mode": "0",
         "sleep": "0.05"
     },
@@ -164,6 +266,7 @@
     },
     "reconnect": "False",
     "enable_items": "0",
+    "use_mc_teleporter": "0",
     "quantity": "10",
     "auto_buy_items": "1",
     "item_scheduler_item": "Merchant Tracker",
