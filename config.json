@@ -1,0 +1,178 @@
+{
+    "current_version": "1.4",
+    "do_obby": "0",
+    "do_chalice": "0",
+    "KeyBinds": {
+        "Start": "F1",
+        "Pause": "F2",
+        "Restart": "F3"
+    },
+    "settings": {
+        "vip_mode": "0",
+        "vip+_mode": "1",
+        "azerty_mode": "0",
+        "claim_quest": "0",
+        "reconnect": "0",
+        "enable_detection": "1",
+        "send_max": "",
+        "send_min": ""
+    },
+    "discord": {
+        "webhook_url": "",
+        "enabled": "1",
+        "user_id": "",
+        "ps_link": "",
+        "important_webhook": "1"
+    },
+    "auto_equip": {
+        "enabled": "0",
+        "aura_name": "ok",
+        "special_aura": "1"
+    },
+    "item_collect": {
+        "enabled": "0",
+        "spot1": "1",
+        "spot2": "1",
+        "spot3": "1",
+        "spot4": "1",
+        "spot5": "1",
+        "spot6": "1",
+        "spot7": "1",
+        "spot8": "1"
+    },
+    "biome_alerts": {
+        "enabled": "1",
+        "WINDY": "1",
+        "RAINY": "1",
+        "SNOWY": "1",
+        "SANDSTORM": "1",
+        "CURRUPTION": "1",
+        "HELL": "1",
+        "NULL": "1",
+        "DREAMSPACE": "1",
+        "GLITCHED": "1"
+    },
+    "crafting": {
+        "enabled": "0",
+        "auto_add": "0",
+        "time": "30",
+        "crafting_1": "None",
+        "crafting_2": "None",
+        "crafting_3": "None",
+        "crafting_4": "None",
+        "crafting_5": "None",
+        "crafting_6": "None"
+    },
+    "aura_storage": [
+        "30",
+        "287"
+    ],
+    "regluar_tab": [
+        "667",
+        "251"
+    ],
+    "special_tab": [
+        "905",
+        "249"
+    ],
+    "aura_search_bar": [
+        "584",
+        "273"
+    ],
+    "aura_first_slot": [
+        "584",
+        "322"
+    ],
+    "equip_button": [
+        "442",
+        "462"
+    ],
+    "collection_menu": [
+        "29",
+        "331"
+    ],
+    "exit_collection": [
+        "270",
+        "129"
+    ],
+    "quest_menu": [
+        "29",
+        "443"
+    ],
+    "daily_tab": [
+        "902",
+        "251"
+    ],
+    "first_slot": [
+        "575",
+        "399"
+    ],
+    "claim_button": [
+        "435",
+        "561"
+    ],
+    "items_storage": [
+        "29",
+        "398"
+    ],
+    "items_tab": [
+        "901",
+        "251"
+    ],
+    "items_search_bar": [
+        "593",
+        "275"
+    ],
+    "items_slot_1": [
+        "595",
+        "327"
+    ],
+    "items_value": [
+        "403",
+        "422"
+    ],
+    "use_item": [
+        "484",
+        "422"
+    ],
+    "potion_bar": [
+        "0",
+        "0"
+    ],
+    "potion_first_slot": [
+        "0",
+        "0"
+    ],
+    "auto_add": [
+        "0",
+        "0"
+    ],
+    "craft_button": [
+        "0",
+        "0"
+    ],
+    "1_manual_potion": [
+        "0",
+        "0"
+    ],
+    "2_manual_potion": [
+        "0",
+        "0"
+    ],
+    "3_manual_potion": [
+        "0",
+        "0"
+    ],
+    "4_manual_potion": [
+        "0",
+        "0"
+    ],
+    "5_manual_potion": [
+        "0",
+        "0"
+    ],
+    "6_manual_potion": [
+        "0",
+        "0"
+    ]
+}
