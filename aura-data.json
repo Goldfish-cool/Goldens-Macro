@@ -375,7 +375,7 @@
             "base_chance": 50000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -405,7 +405,7 @@
             "base_chance": 50000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -505,7 +505,7 @@
             "base_chance": 120000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -630,6 +630,16 @@
         }
     },
     {
+        "identifier": "Cosmos",
+        "properties": {
+            "base_chance": 1520000,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
         "identifier": "Gravitational",
         "properties": {
             "base_chance": 2000000,
@@ -705,7 +715,7 @@
             "base_chance": 5000000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -770,6 +780,16 @@
         }
     },
     {
+        "identifier": "Velocity",
+        "properties": {
+            "base_chance": 7630000,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
         "identifier": "Nihility",
         "properties": {
             "base_chance": 9000000,
@@ -780,12 +800,22 @@
         }
     },
     {
+        "identifier": "Helios",
+        "properties": {
+            "base_chance": 9000000,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
         "identifier": "Starscourge",
         "properties": {
             "base_chance": 10000000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -815,7 +845,7 @@
             "base_chance": 14000000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -935,7 +965,7 @@
             "base_chance": 100000000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -1035,7 +1065,7 @@
             "base_chance": 430000000,
             "biome_amplifier": [
                 "STARFALL",
-                10
+                5
             ]
         }
     },
@@ -1090,9 +1120,29 @@
         }
     },
     {
+        "identifier": "Ruins_Withered",
+        "properties": {
+            "base_chance": 800000000,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
         "identifier": "Aegis",
         "properties": {
             "base_chance": 825000000,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
+        "identifier": "PIXELATION",
+        "properties": {
+            "base_chance": 1073741824,
             "biome_amplifier": [
                 "None",
                 1
@@ -1110,62 +1160,102 @@
         }
     },
     {
+        "identifier": "pukeko",
+        "properties": {
+            "base_chance": 0,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
+        "identifier": ":Flushed:_Troll",
+        "properties": {
+            "base_chance": 0,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
+        "identifier": "Origin_Onion",
+        "properties": {
+            "base_chance": 0,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
+        "identifier": "Glock_shieldofthesky",
+        "properties": {
+            "base_chance": 0,
+            "biome_amplifier": [
+                "None",
+                1
+            ]
+        }
+    },
+    {
         "identifier": "Wonderland",
         "properties": {
-            "base_chance": 12000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
     {
         "identifier": "Santa Frost",
         "properties": {
-            "base_chance": 45000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
     {
         "identifier": "WinterFantasy",
         "properties": {
-            "base_chance": 72000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
     {
         "identifier": "Express",
         "properties": {
-            "base_chance": 90000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
     {
         "identifier": "ABOMITABLE",
         "properties": {
-            "base_chance": 120000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
     {
         "identifier": "Atlas_Yuletide",
         "properties": {
-            "base_chance": 510000000,
+            "base_chance": 0,
             "biome_amplifier": [
-                "SNOWY",
-                3
+                "None",
+                1
             ]
         }
     },
@@ -1230,47 +1320,7 @@
         }
     },
     {
-        "identifier": "im peach",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "impeach",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "Impeached_im peach",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "Im Peach",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "im peach",
+        "identifier": "Impeached_impeach",
         "properties": {
             "base_chance": 0,
             "biome_amplifier": [
@@ -1380,7 +1430,7 @@
         }
     },
     {
-        "identifier": "Pump",
+        "identifier": "PUMP",
         "properties": {
             "base_chance": 0,
             "biome_amplifier": [
@@ -1471,56 +1521,6 @@
     },
     {
         "identifier": "APOSTOLOS_VEIL",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "apostolos_veil",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "Apostolos_Veil",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "APOSTOLOSVEIL",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "apostolosveil",
-        "properties": {
-            "base_chance": 0,
-            "biome_amplifier": [
-                "None",
-                1
-            ]
-        }
-    },
-    {
-        "identifier": "ApostolosVeil",
         "properties": {
             "base_chance": 0,
             "biome_amplifier": [
