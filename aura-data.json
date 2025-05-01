@@ -1653,7 +1653,7 @@
         }
     },
     {
-        "identifier": "★",
+        "identifier": "⭐",
         "properties": {
             "base_chance": 100,
             "biome_amplifier": [
@@ -1664,7 +1664,7 @@
         }
     },
     {
-        "identifier": "★★",
+        "identifier": "⭐⭐",
         "properties": {
             "base_chance": 1000,
             "biome_amplifier": [
@@ -1675,7 +1675,7 @@
         }
     },
     {
-        "identifier": "★★★",
+        "identifier": "⭐⭐⭐",
         "properties": {
             "base_chance": 10000,
             "biome_amplifier": [
