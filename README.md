@@ -16,14 +16,10 @@ This project **complies with all open-source licensing terms**, including proper
 This project contains **code originally written by Noteab** under the **Apache v2 License**. The license permits **modifications, repackaging, and redistribution**, provided that credit is given.  
 
 ### 📢 Proper Credit  
-- **Biome.json and Auras.json** Developed by [**Noteab**](https://github.com/noteab/Noteab-Macro/tree/v1.5.4)
-- **Additional Features, UI, and Modifications:** Developed by **Golden & Contributors**  
+- **Development:** Developed by **Golden & Vex**  
 - **Maintainer:** Golden  
 - **License:** Apache v2 
 - **Thanks to** [**Vex**](https://github.com/vexthecoder/SolsBot) **for greatly helping me with detection**
-
-The original work by **Noteab** was properly credited within the code and now explicitly acknowledged in this README.
-
 ---
 
 ## 📌 Important Notes  
