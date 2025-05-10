@@ -6,7 +6,7 @@
 ---
 
 ## 📖 About  
-Golden's Sol's RNG Macro is a **free and open-source macro** designed for automating Sol's rng. The macro was developed by **Golden** with **modifications and additions**, while some portions were **reused under open-source licenses (Apache v2)**.  
+Golden's Sol's RNG Macro is a **free and open-source macro** designed for automating Sol's rng. The macro was developed by **Golden**.  
 
 This project **complies with all open-source licensing terms**, including proper attribution to original contributors.
 
