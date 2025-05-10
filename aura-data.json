@@ -7,7 +7,11 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/ef/Common_Aura.gif/revision/latest?cb=20240709184120"
         }
+        
     },
     {
         "identifier": "Uncommon",
@@ -17,6 +21,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/b7/UncommonIngameNew.gif/revision/latest?cb=20250320014908"
         }
     },
     {
@@ -27,6 +34,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/3/3c/GoodAura.gif/revision/latest?cb=20240218214412"
         }
     },
     {
@@ -37,6 +47,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/9/91/NaturalAura.gif/revision/latest?cb=20240117182459"
         }
     },
     {
@@ -47,6 +60,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/2c/Rare_Aura.gif/revision/latest?cb=20240117215614"
         }
     },
     {
@@ -57,6 +73,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/10/DivinusAura.gif/revision/latest?cb=20240118185547"
         }
     },
     {
@@ -67,6 +86,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/48/CrystalAura.gif/revision/latest?cb=20240118191715"
         }
     },
     {
@@ -77,6 +99,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/5/5f/RageAura.gif/revision/latest?cb=20240118204702"
         }
     },
     {
@@ -87,6 +112,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/3/35/TopazCollection.gif/revision/latest?cb=20240405220031"
         }
     },
     {
@@ -317,6 +345,9 @@
                 "HELL",
                 6
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/eb/UndeadAura.gif"
         }
     },
     {
@@ -327,6 +358,9 @@
                 "CORRUPTION",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/9/94/Corrosive.gif"
         }
     },
     {
@@ -337,6 +371,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/14/RageHeatedAura.gif"
         }
     },
     {
@@ -347,6 +384,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -357,6 +397,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/9/9a/Powered.gif"
         }
     },
     {
@@ -367,6 +410,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/a/a9/AquaticAura.gif"
         }
     },
     {
@@ -377,6 +423,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/22/StarlightCollection.gif"
         }
     },
     {
@@ -387,6 +436,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/b2/LunarAura.gif"
         }
     },
     {
@@ -397,6 +449,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/41/SolarAuraNight.gif"
         }
     },
     {
@@ -407,6 +462,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/fb/Star_Rider_In_Collection.png"
         }
     },
     {
@@ -417,6 +475,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/f6/FlushedLobotomyAura.gif"
         }
     },
     {
@@ -427,6 +488,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/e2/NautilusAuraNight.gif"
         }
     },
     {
@@ -437,6 +501,9 @@
                 "CORRUPTION",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/c1/Hazard_Rays.gif"
         }
     },
     {
@@ -447,6 +514,9 @@
                 "SNOWY",
                 3
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/1e/PermafrostAura.gif"
         }
     },
     {
@@ -457,6 +527,9 @@
                 "WINDY",
                 3
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/6/65/Stormal_Collection_E7.gif"
         }
     },
     {
@@ -467,6 +540,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/7/71/ExoticAura150x150.gif"
         }
     },
     {
@@ -477,6 +553,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/8/89/DiaboliVoidRework-Collection.gif"
         }
     },
     {
@@ -487,6 +566,9 @@
                 "HELL",
                 6
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/7/73/UndeadDevilCollectionEon1.gif/revision/latest?cb=20241209024717"
         }
     },
     {
@@ -497,6 +579,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/ed/SpectreCollection.gif/revision/latest?cb=20250303152755"
         }
     },
     {
@@ -507,6 +592,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/21/CometAura.gif"
         }
     },
     {
@@ -517,6 +605,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/0/06/JadeInCollection.gif"
         }
     },
     {
@@ -527,6 +618,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/2d/JazzCollectionBetter.gif/revision/latest?cb=20250322170259"
         }
     },
     {
@@ -537,6 +631,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/9/91/AetherCollection.gif"
         }
     },
     {
@@ -547,6 +644,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/5/52/BoundedAuraNight.gif"
         }
     },
     {
@@ -557,6 +657,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/6/60/CelestialAura.gif"
         }
     },
     {
@@ -567,6 +670,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/b4/TwilightInCollection.gif"
         }
     },
     {
@@ -577,6 +683,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/3/3b/Kyawthuite_Collection.gif"
         }
     },
     {
@@ -587,6 +696,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/8/86/Arcane_Gif_25Fps.gif"
         }
     },
     {
@@ -597,6 +709,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/c2/MagneticReversePolarityCollection.gif"
         }
     },
     {
@@ -607,6 +722,9 @@
                 "NULL",
                 1000
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/b0/Undefined_Collection1.gif/revision/latest?cb=20240417213730"
         }
     },
     {
@@ -617,6 +735,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/0/0b/BrawlerCollection.gif/revision/latest?cb=20241111085711"
         }
     },
     {
@@ -627,6 +748,9 @@
                 "CORRUPTION",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/ca/Astral_gif.gif"
         }
     },
     {
@@ -637,6 +761,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/4c/CosmosCollection.gif/revision/latest?cb=20250401153726"
         }
     },
     {
@@ -647,6 +774,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/6/62/Gravitationalgif.gif"
         }
     },
     {
@@ -657,6 +787,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/6/65/Unbound_E7_Collection2.gif"
         }
     },
     {
@@ -667,6 +800,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/8/88/VirtualReworkCollection.gif"
         }
     },
     {
@@ -677,6 +813,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/a/a4/Savior_Collection.gif/revision/latest?cb=20250401045832"
         }
     },
     {
@@ -687,6 +826,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/7/7f/Aqua_flame_new_gif.gif"
         }
     },
     {
@@ -697,6 +839,9 @@
                 "RAINY",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/db/PosEra7.gif"
         }
     },
     {
@@ -707,6 +852,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/41/Zeus_GIF.gif"
         }
     },
     {
@@ -717,6 +865,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/f8/Galaxy_Aura.gif"
         }
     },
     {
@@ -727,6 +878,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/40/LunarFMReworkCollection.gif"
         }
     },
     {
@@ -737,6 +891,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/1c/SolarSolsticeG.gif"
         }
     },
     {
@@ -747,6 +904,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/6/6c/OriginCollectionEon1.gif/revision/latest?cb=20241119111112"
         }
     },
     {
@@ -757,6 +917,9 @@
                 "HELL",
                 6
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/8/85/HadesCollection.gif"
         }
     },
     {
@@ -767,6 +930,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/c4/CelestialDivineCollection.gif"
         }
     },
     {
@@ -777,6 +943,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/d4/HpVl.gif"
         }
     },
     {
@@ -787,6 +956,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/5/54/Velocitygif.gif/revision/latest?cb=20250405064701"
         }
     },
     {
@@ -797,6 +969,9 @@
                 "SAND STORM",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/a/a7/AnubisC.gif/revision/latest?cb=20250419133630"
         }
     },
     {
@@ -837,6 +1012,9 @@
                 "RAINY",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/e2/SailorCollectionEra7.gif"
         }
     },
     {
@@ -847,6 +1025,9 @@
                 "WINDY",
                 3
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/23/Hurricane_Collection_Quality_Max.gif"
         }
     },
     {
@@ -857,6 +1038,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/c2/Siriusincollection.gif"
         }
     },
     {
@@ -867,6 +1051,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/3/34/ArcaneLegacyAura.gif"
         }
     },
     {
@@ -887,6 +1074,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/d6/Chromatic_GIF.gif"
         }
     },
     {
@@ -897,6 +1087,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/4/43/Aviator_Collection.gif"
         }
     },
     {
@@ -907,6 +1100,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/10/Arcane-dark-collection-era9.gif"
         }
     },
     {
@@ -917,6 +1113,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/bc/Etherealpretrans.gif"
         }
     },
     {
@@ -927,6 +1126,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -937,6 +1139,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/0/09/Exotic_Apex_Collection_E7.gif"
         }
     },
     {
@@ -947,6 +1152,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/b0/MatrixCollections.gif"
         }
     },
     {
@@ -957,6 +1165,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/fc/Twilight_-_Iridescent_Memory_Collection.gif"
         }
     },
     {
@@ -967,6 +1178,9 @@
                 "RAINY",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/3/39/CollectionFdRework.gif"
         }
     },
     {
@@ -977,6 +1191,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/7/72/Genesis-Collection.gif"
         }
     },
     {
@@ -987,6 +1204,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/1/16/Starscourge_Radiant_Gif2.gif"
         }
     },
     {
@@ -997,6 +1217,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/e/e8/Overture_Collection.gif"
         }
     },
     {
@@ -1007,6 +1230,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/f6/Symphony_Collection.gif"
         }
     },
     {
@@ -1017,6 +1243,9 @@
                 "CORRUPTION",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/2/2f/Impeached_Collectiongifv2.gif"
         }
     },
     {
@@ -1027,6 +1256,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/b/bb/Archangel_GIF.gif"
         }
     },
     {
@@ -1037,6 +1269,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1047,6 +1282,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/d3/Overture_-_History_GIF.gif"
         }
     },
     {
@@ -1057,6 +1295,9 @@
                 "HELL",
                 6
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/f/f9/BloodlustInCollection.gif"
         }
     },
     {
@@ -1067,6 +1308,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1077,6 +1321,9 @@
                 "SAND STORM",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1087,6 +1334,9 @@
                 "RAINY",
                 4
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/c/ce/Abyssal_Hunter_Collection2.gif"
         }
     },
     {
@@ -1097,6 +1347,9 @@
                 "STARFALL",
                 5
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/de/GargantuaCollection.gif"
         }
     },
     {
@@ -1107,6 +1360,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1117,6 +1373,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/7/74/Ruins.collection.gif"
         }
     },
     {
@@ -1127,6 +1386,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1137,6 +1399,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1147,6 +1412,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1157,6 +1425,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1167,6 +1438,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1177,6 +1451,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1187,6 +1464,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1197,6 +1477,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1207,6 +1490,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1217,6 +1503,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1227,6 +1516,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1237,6 +1529,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1247,6 +1542,9 @@
                 "None",
                 1
             ]
+        }, 
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1257,6 +1555,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1267,6 +1568,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1277,6 +1581,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
@@ -1287,6 +1594,9 @@
                 "None",
                 1
             ]
+        },
+        "visuals": {
+            "preview_image": ""
         }
     },
     {
