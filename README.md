@@ -12,8 +12,7 @@ This project **complies with all open-source licensing terms**, including proper
 
 ---
 
-## 🔍 Credits & Attribution  
-This project contains **code originally written by Noteab** under the **Apache v2 License**. The license permits **modifications, repackaging, and redistribution**, provided that credit is given.  
+## 🔍 Credits & Attribution   
 
 ### 📢 Proper Credit  
 - **Development:** Developed by **Golden & Vex**  
