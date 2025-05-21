@@ -1,0 +1,18 @@
+[
+    {
+        "identifier": "[Merchant]: Mari has arrived on the island...",
+        "name": "Mari",
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/df/Mari_cropped.png/revision/latest?cb=20241015111527"
+        },
+        "color": "0xDADADA"
+    },
+    {
+        "identifier": "[Merchant]: Jester has arrived on the island...",
+        "name": "Jester",
+        "visuals": {
+            "preview_image": "https://static.wikia.nocookie.net/sol-rng/images/d/db/Headshot_of_Jester.png/revision/latest?cb=20240630142936"
+        },
+        "color": "0xB031FF"
+    }
+]
